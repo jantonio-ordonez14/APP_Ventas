@@ -48,16 +48,20 @@ public class MainActivity extends AppCompatActivity {
 
                         switch (menuItem.getItemId()) {
                             case R.id.menu_customers_import:
-                                
+                                fragment = new CustomersImportFragment();
+                                fragmentTransaction = true;
                                 break;
                             case R.id.menus_products_import:
-
+                                fragment = new ProductsImportFragment();
+                                fragmentTransaction = true;
                                 break;
                             case R.id.menu_make_sale:
-
+                                fragment = new MakeSaleFragment();
+                                fragmentTransaction = true;
                                 break;
                             case R.id.menu_export:
-
+                                fragment = new ExportFragment();
+                                fragmentTransaction = true;
                                 break;
                         }
                         //iniciar fragments
@@ -80,10 +84,11 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Menu opciones
+     *
      * @param menu
      * @return
      */
-       @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
