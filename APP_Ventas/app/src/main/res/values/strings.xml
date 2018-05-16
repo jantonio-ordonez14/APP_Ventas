@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">APP_Ventas</string>
+    <string name="app_name">AppInvent</string>
+
+    <string name="customers_import">Importar Clientes</string>
+    <string name="products_import">Importar Productos</string>
+    <string name="make_sale">Realizar Venta</string>
+    <string name="export">Exportar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

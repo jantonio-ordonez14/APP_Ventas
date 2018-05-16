@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_customers_import"
+            android:title="@string/customers_import"
+            android:icon="@drawable/ic_menu"/>
+        <item
+            android:id="@+id/menus_products_import"
+            android:title="@string/products_import"
+            android:icon="@drawable/ic_menu"/>
+        <item
+            android:id="@+id/menu_make_sale"
+            android:title="@string/make_sale"
+            android:icon="@drawable/ic_menu"/>
+        <item
+            android:id="@+id/menu_export"
+            android:title="@string/export"
+            android:icon="@drawable/ic_menu"/>
+    </group>
+
+</menu>
