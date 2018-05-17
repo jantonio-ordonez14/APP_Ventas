@@ -6,9 +6,9 @@
     tools:context=".fragments.ProductsImportFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Importar productos" />
 
+    <ListView
+        android:id="@+id/lv_products_import"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

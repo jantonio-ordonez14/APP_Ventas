@@ -1,7 +1,6 @@
 package com.example.esmail.app_ventas.modelos;
 
 public class Articulo {
-    private String id;
     private String cod_articulo;
     private String cod_barras;
     private String descripcion;
@@ -9,22 +8,13 @@ public class Articulo {
     private String precio;
     private String importe;
 
-    public Articulo(String id, String cod_articulo, String cod_barras, String descripcion, String unidades, String precio, String importe) {
-        this.id = id;
+    public Articulo(String cod_articulo, String cod_barras, String descripcion, String unidades, String precio, String importe) {
         this.cod_articulo = cod_articulo;
         this.cod_barras = cod_barras;
         this.descripcion = descripcion;
         this.unidades = unidades;
         this.precio = precio;
         this.importe = importe;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getCod_articulo() {

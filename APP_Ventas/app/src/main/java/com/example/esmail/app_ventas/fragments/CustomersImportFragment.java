@@ -17,7 +17,6 @@ import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.util.ArrayList;
 
-
 public class CustomersImportFragment extends Fragment {
 
     private ListView lv;
@@ -32,7 +31,9 @@ public class CustomersImportFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_customers_import, container, false);
-        lv = v.findViewById(R.id.lv_customers_import);
+
+
+        lv =v.findViewById(R.id.lv_customers_import);
 
         action("clientes.csv",v.getContext());
 
@@ -43,23 +44,30 @@ public class CustomersImportFragment extends Fragment {
     public void action(String nombreDocumento, Context context) {
         CustomersImport customersImport = new CustomersImport(nombreDocumento, context);
 
-        ArrayList<Cliente> al = null;
+        ArrayList<Cliente> al = new ArrayList<>();
 
         if (customersImport.actionImport()) {
             DatabaseOperations db = DatabaseOperations.obtenerInstancia(context);
-            Cursor c = db.obtenerArticulos();
+            Cursor c = db.obtenerClientes();
             if (c.moveToFirst()) {
                 do {
-                    String codArticulo = c.getString(0);
-                    String nombreCli = c.getString(1);
+                    String codArticulo = c.getString(1);
+                    String nombreCli = c.getString(2);
 
                     al.add(new Cliente(codArticulo, nombreCli));
+
                 } while (c.moveToNext());
             }
+            System.out.println("inicio");
+            for (Cliente al2 :
+                    al) {
+                System.out.println(al2.getCod_articulo()+"\t"+al2.getNombre());
+            }
+            System.out.println("fin");
 
-            AdapterCustomersImport adapter = new AdapterCustomersImport(getActivity(), al);
-            lv.setAdapter(adapter);
         }
+        AdapterCustomersImport adapter = new AdapterCustomersImport(getActivity(), al);
+        lv.setAdapter(adapter);
     }
 
 

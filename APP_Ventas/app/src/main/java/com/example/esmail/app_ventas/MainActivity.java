@@ -14,7 +14,6 @@ import android.view.View;
 
 import com.example.esmail.app_ventas.fragments.CustomersImportFragment;
 import com.example.esmail.app_ventas.fragments.ExportFragment;
-import com.example.esmail.app_ventas.fragments.MakeSaleFragment;
 import com.example.esmail.app_ventas.fragments.ProductsImportFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
                                 fragmentTransaction = true;
                                 break;
                             case R.id.menu_make_sale:
-                                fragment = new MakeSaleFragment();
-                                fragmentTransaction = true;
+
                                 break;
                             case R.id.menu_export:
                                 fragment = new ExportFragment();

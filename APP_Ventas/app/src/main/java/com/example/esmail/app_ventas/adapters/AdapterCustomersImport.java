@@ -13,14 +13,9 @@ import com.example.esmail.app_ventas.modelos.Cliente;
 
 import java.util.ArrayList;
 
-public class AdapterCustomersImport extends BaseAdapter{
+public class AdapterCustomersImport extends BaseAdapter {
     protected Activity activity;
     protected ArrayList<Cliente> items;
-
-    public AdapterCustomersImport() {
-        super();
-    }
-
 
     public AdapterCustomersImport(Activity activity, ArrayList<Cliente> items) {
         this.activity = activity;
@@ -28,12 +23,11 @@ public class AdapterCustomersImport extends BaseAdapter{
     }
 
 
-
-    public void clear(){
+    public void clear() {
         items.clear();
     }
 
-    public void addAll(ArrayList<Cliente> lista){
+    public void addAll(ArrayList<Cliente> lista) {
         for (int i = 0; i < lista.size(); i++) {
             items.add(lista.get(i));
         }
@@ -60,17 +54,17 @@ public class AdapterCustomersImport extends BaseAdapter{
 
         View v = convertView;
 
-        if (convertView == null){
-            LayoutInflater inf=(LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (convertView == null) {
+            LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inf.inflate(R.layout.estructure_lv_customers, null);
         }
 
         Cliente dir = items.get(position);
 
         TextView codigo = (TextView) v.findViewById(R.id.txt_titulo);
-        codigo.setText(dir.getFk_cod_articulo());
+        codigo.setText(dir.getCod_articulo());
 
-        TextView nombre=(TextView) v.findViewById(R.id.txt_subtitulo);
+        TextView nombre = (TextView) v.findViewById(R.id.txt_subtitulo);
         nombre.setText(dir.getNombre());
 
 

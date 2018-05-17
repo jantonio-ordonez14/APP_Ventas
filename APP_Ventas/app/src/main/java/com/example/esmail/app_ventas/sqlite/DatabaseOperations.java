@@ -101,7 +101,7 @@ public final class DatabaseOperations {
 
         ContentValues valores = new ContentValues();
         valores.put(Sales.Clientes.NOMBRE, cliente.getNombre());
-        valores.put(Sales.Clientes.FK_CODIGO_ARTICULO, cliente.getFk_cod_articulo());
+        valores.put(Sales.Clientes.FK_CODIGO_ARTICULO, cliente.getCod_articulo());
 
         return db.insertOrThrow(DataBasesSales.Tablas.CLIENTE, null, valores) > 0 ? idCliente : null;
     }
