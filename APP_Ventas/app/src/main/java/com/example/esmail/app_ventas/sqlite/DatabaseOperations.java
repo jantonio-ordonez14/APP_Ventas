@@ -100,21 +100,20 @@ public final class DatabaseOperations {
         String idCliente = Sales.Clientes.generarIdCliente();
 
         ContentValues valores = new ContentValues();
-        valores.put(Sales.Clientes.ID, idCliente);
         valores.put(Sales.Clientes.NOMBRE, cliente.getNombre());
         valores.put(Sales.Clientes.FK_CODIGO_ARTICULO, cliente.getFk_cod_articulo());
 
         return db.insertOrThrow(DataBasesSales.Tablas.CLIENTE, null, valores) > 0 ? idCliente : null;
     }
 
-    public boolean actualizarCliente(Cliente cliente) {
+    public boolean actualizarCliente(Cliente cliente, String id) {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
         ContentValues valores = new ContentValues();
         valores.put(Sales.Clientes.NOMBRE, cliente.getNombre());
 
         String whereClause = String.format("%s=?", Sales.Clientes.ID);
-        final String[] whereArgs = {cliente.getId()};
+        final String[] whereArgs = {id};
 
         int resultado = db.update(DataBasesSales.Tablas.CLIENTE, valores, whereClause, whereArgs);
 

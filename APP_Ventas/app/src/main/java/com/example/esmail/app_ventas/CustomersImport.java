@@ -16,18 +16,21 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class CustomersImport {
-    private final static String NOMBRE_DOCUMENTO = "productos.csv";
+    private String NOMBRE_DOCUMENTO;
     private File f;
     private Context context;
-    ;
 
+    public CustomersImport(String NOMBRE_DOCUMENTO, Context context) {
+        this.NOMBRE_DOCUMENTO = NOMBRE_DOCUMENTO;
+        this.context = context;
+    }
 
     /**
      * Metodo que lee el fichero y
      * si esta  correcto rellena
      * la bbdd y la muestra en un listView
      */
-    public void actionImport() {
+    public boolean actionImport() {
         try {
             f = leerFichero(NOMBRE_DOCUMENTO);
 
@@ -51,13 +54,14 @@ public class CustomersImport {
 
             }
             reader.close();
-
+            return true;
 
         } catch (Exception ex) {
             Toast.makeText(context, "Error al leer fichero", Toast.LENGTH_LONG).show();
             Log.e("Ficheros", ex.getMessage());
         }
 
+        return false;
     }
 
 

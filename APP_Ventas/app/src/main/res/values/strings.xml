@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppInvent</string>
+    <string name="app_name">AppVentas</string>
 
     <string name="customers_import">Importar Clientes</string>
     <string name="products_import">Importar Productos</string>
