@@ -11,7 +11,7 @@ import android.view.View;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment2;
 
-public class MakeSale extends AppCompatActivity implements View.OnClickListener {
+public class MakeSale extends AppCompatActivity  {
 
     private String TAG = "MakeSale";
 
@@ -39,12 +39,5 @@ public class MakeSale extends AppCompatActivity implements View.OnClickListener 
 
     }
 
-    @Override
-    public void onClick(View v) {
-        MakeSaleFragment2 fragment2 = new MakeSaleFragment2();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame_make, fragment2, TAG)
-                            .addToBackStack(null);
-        fragmentTransaction.commit();
-    }
+
 }
