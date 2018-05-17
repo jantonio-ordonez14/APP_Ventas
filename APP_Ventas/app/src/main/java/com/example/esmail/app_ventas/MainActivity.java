@@ -2,6 +2,7 @@ package com.example.esmail.app_ventas;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                                 fragmentTransaction = true;
                                 break;
                             case R.id.menu_make_sale:
+                                startActivity(new Intent(getApplicationContext(),MakeSale.class));
 
                                 break;
                             case R.id.menu_export:
