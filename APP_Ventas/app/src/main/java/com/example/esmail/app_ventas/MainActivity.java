@@ -12,6 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.esmail.app_ventas.fragments.CustomersImportFragment;
+import com.example.esmail.app_ventas.fragments.ExportFragment;
+import com.example.esmail.app_ventas.fragments.MakeSaleFragment;
+import com.example.esmail.app_ventas.fragments.ProductsImportFragment;
+
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar appbar;
