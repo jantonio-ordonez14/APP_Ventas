@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="48dp"
-            android:text="FECHA"
+            android:text="@string/lbl_fecha"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="64dp"
-            android:text="CAJA"
+            android:text="@string/lbl_caja"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lbl_fecha" />
 
@@ -56,7 +56,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="80dp"
             android:layout_weight="1"
-            android:text="CLIENTE"
+            android:text="@string/lbl_cliente"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lbl_caja" />
 
@@ -67,7 +67,7 @@
             android:layout_marginEnd="32dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="86dp"
-            android:text="SIGUIENTE"
+            android:text="@string/btn_siguiente"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner" />
