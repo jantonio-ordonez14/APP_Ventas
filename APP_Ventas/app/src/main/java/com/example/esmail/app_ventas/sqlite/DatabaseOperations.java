@@ -47,9 +47,10 @@ public final class DatabaseOperations {
         ContentValues valores = new ContentValues();
         // Generar Pk
         String idcabecera= Sales.CabecerasPedido.generarIdCabeceraPedido();
+        valores.put(Sales.CabecerasPedido.FK_ID_CLIENTE, cabeceraPedido.getFk_id_cliente());
         valores.put(Sales.CabecerasPedido.FECHA, cabeceraPedido.getFecha());
         valores.put(Sales.CabecerasPedido.CAJA, cabeceraPedido.getCaja());
-        valores.put(Sales.CabecerasPedido.FK_ID_CLIENTE, cabeceraPedido.getFk_id_cliente());
+
 
         db.insertOrThrow(DataBasesSales.Tablas.CABECERA_PEDIDO, null, valores);
 
@@ -156,8 +157,8 @@ public final class DatabaseOperations {
         ContentValues valores = new ContentValues();
         valores.put(Sales.Clientes.FK_CODIGO_ERP, cliente.getCod_articulo());
         valores.put(Sales.Clientes.NOMBRE, cliente.getNombre());
-
-        return db.insertOrThrow(DataBasesSales.Tablas.CLIENTE, null, valores) > 0 ? idCliente : null;
+        db.insertOrThrow(DataBasesSales.Tablas.CLIENTE, null, valores);
+        return idCliente;
     }
 
     public boolean actualizarCliente(Cliente cliente, String id) {

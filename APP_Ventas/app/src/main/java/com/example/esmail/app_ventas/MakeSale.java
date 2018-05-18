@@ -43,7 +43,7 @@ public class MakeSale extends AppCompatActivity{
 
     public void setParametersToFragment(String fecha, String caja, String cliente){
         DatabaseOperations operations=DatabaseOperations.obtenerInstancia(this);
-        operations.insertarCabecera(new CabeceraPedido(fecha,caja,cliente));
+        operations.insertarCabecera(new CabeceraPedido(cliente,fecha,caja));
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         MakeSaleFragment2 fragment = new MakeSaleFragment2();

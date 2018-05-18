@@ -5,10 +5,10 @@ public class CabeceraPedido {
     private String caja;
     private String fk_id_cliente;
 
-    public CabeceraPedido(String fecha, String caja, String fk_id_cliente) {
+    public CabeceraPedido(String fk_id_cliente,String fecha, String caja) {
+        this.fk_id_cliente = fk_id_cliente;
         this.fecha = fecha;
         this.caja = caja;
-        this.fk_id_cliente = fk_id_cliente;
     }
 
 
