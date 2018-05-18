@@ -174,6 +174,9 @@ public class MakeSale extends AppCompatActivity {
      */
     @SuppressLint("ValidFragment")
     public static class MakeSaleFragment2 extends Fragment {
+        private ListView lv;
+        private ArrayList<String> al = new ArrayList<>();
+
         public MakeSaleFragment2() {
         }
 
@@ -181,11 +184,29 @@ public class MakeSale extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_make_sale_2, container, false);
+            Log.e("Fragment", "onCreateView");
 
 
-            Button btnScan = v.findViewById(R.id.btn_scan);
-            Button btnFinalizar = v.findViewById(R.id.btn_finalizar);
-            ListView lv = v.findViewById(R.id.lv_make_sale);
+            return v;
+        }
+
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            Log.e("Fragment", "onCreate");
+
+
+        }
+
+        @Override
+        public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            Log.e("Fragment", "onActivityCreated");
+
+            Button btnScan = getActivity().findViewById(R.id.btn_scan);
+            Button btnFinalizar = getActivity().findViewById(R.id.btn_finalizar);
+            lv = getActivity().findViewById(R.id.lv_make_sale);
+
 
             btnScan.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -195,17 +216,16 @@ public class MakeSale extends AppCompatActivity {
                 }
             });
 
-            return v;
-        }
-
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
             String c_barras = getArguments().getString("c-barras");
             if (c_barras != null) {
                 System.out.println("cod barras -> " + c_barras);
+
+                al.add(c_barras);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, al);
+                lv.setAdapter(adapter);
+
             }
+
         }
     }
 

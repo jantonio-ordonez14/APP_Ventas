@@ -45,12 +45,13 @@ public class CustomersImportFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ArrayList<Cliente> al = new ArrayList<>();
 
         lv =getActivity().findViewById(R.id.lv_customers_import);
-
+        AdapterCustomersImport adapter = new AdapterCustomersImport(getActivity(), al);
+        lv.setAdapter(adapter);
         CustomersImport customersImport = new CustomersImport("clientes.csv",getActivity());
 
-        ArrayList<Cliente> al = new ArrayList<>();
 
         if (customersImport.actionImport()) {
         DatabaseOperations db = DatabaseOperations.obtenerInstancia(getActivity());
@@ -72,8 +73,6 @@ public class CustomersImportFragment extends Fragment {
         System.out.println("fin");
 
         }
-        AdapterCustomersImport adapter = new AdapterCustomersImport(getActivity(), al);
 
-        lv.setAdapter(adapter);
     }
 }
