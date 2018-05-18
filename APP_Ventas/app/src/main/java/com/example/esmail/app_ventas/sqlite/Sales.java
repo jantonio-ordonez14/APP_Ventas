@@ -19,13 +19,13 @@ public class Sales {
         String TIPO = "tipo";
         String CAJA = "caja";
         String FK_ID_CLIENTE = "fk_id_cliente";
-        String FK_CODIGO_ARTICULO = "fk_codigo_articulo";
+        String FK_CODIGO_BARRAS = "fk_codigo_barras";
         String UNIDADES = "unidades";
     }
 
     interface ColumnasArticulo {
         String ID = "id";
-        String COD_ARTICULO = "cod_articulo";
+        String COD_ERP = "cod_erp";
         String COD_BARRAS = "cod_barras";
         String DESCRIPCION = "descripcion";
         String UNIDADES = "unidades";
@@ -35,7 +35,7 @@ public class Sales {
 
     interface ColumnasCliente {
         String ID = "id";
-        String FK_CODIGO_ARTICULO = "fk_codigo_articulo";
+        String FK_CODIGO_ERP = "fk_codigo_erp";
         String NOMBRE = "nombre";
     }
 

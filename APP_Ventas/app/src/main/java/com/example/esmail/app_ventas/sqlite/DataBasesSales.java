@@ -7,7 +7,7 @@ import android.os.Build;
 import android.provider.BaseColumns;
 
 public class DataBasesSales extends SQLiteOpenHelper{
-    private static final String NOMBRE_BASE_DATOS = "db_sales1.db";
+    private static final String NOMBRE_BASE_DATOS = "db_sales4.db";
 
     private static final int VERSION_ACTUAL = 1;
 
@@ -23,11 +23,11 @@ public class DataBasesSales extends SQLiteOpenHelper{
     interface Referencias {
 
 
-        String ID_ARTICULO = String.format("REFERENCES %s(%s)",
-                Tablas.ARTICULOS, Sales.Articulos.COD_ARTICULO);
+        String COD_ERP = String.format("REFERENCES %s(%s)",
+                Tablas.ARTICULOS, Sales.Articulos.COD_ERP);
+        String COD_BARRAS = String.format("REFERENCES %s(%s)",
+                Tablas.ARTICULOS, Sales.Articulos.COD_BARRAS);
 
-        String ID_CLIENTE = String.format("REFERENCES %s(%s)",
-                Tablas.CLIENTE, Sales.Clientes.ID);
     }
 
     public DataBasesSales(Context contexto) {
@@ -53,26 +53,26 @@ public class DataBasesSales extends SQLiteOpenHelper{
                         "%s DATETIME NOT NULL,%s TEXT," +
                         "%s TEXT NOT NULL %s)",
                 Tablas.CABECERA_PEDIDO, BaseColumns._ID, Sales.CabecerasPedido.FECHA,
-                Sales.CabecerasPedido.CAJA,Sales.CabecerasPedido.FK_ID_CLIENTE, Referencias.ID_CLIENTE));
+                Sales.CabecerasPedido.CAJA,Sales.CabecerasPedido.FK_ID_CLIENTE, Referencias.COD_ERP));
 
         db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "%s TEXT, %s TEXT, %s REAL, %s TEXT NOT NULL %s,%s TEXT NOT NULL %s)",
                 Tablas.DETALLE_PEDIDO, BaseColumns._ID,
                 Sales.DetallesPedido.TIPO, Sales.DetallesPedido.CAJA,
-                Sales.DetallesPedido.UNIDADES,Sales.DetallesPedido.FK_ID_CLIENTE, Referencias.ID_CLIENTE,
-                Sales.DetallesPedido.FK_CODIGO_ARTICULO, Referencias.ID_ARTICULO));
+                Sales.DetallesPedido.UNIDADES,Sales.DetallesPedido.FK_ID_CLIENTE, Referencias.COD_ERP,
+                Sales.DetallesPedido.FK_CODIGO_BARRAS, Referencias.COD_BARRAS));
 
         db.execSQL(String.format("CREATE TABLE %s ( %s INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "%s TEXT NOT NULL,%s TEXT NOT NULL,%s TEXT,%s REAL," +
                         "%s REAL,%s REAL)",
                 Tablas.ARTICULOS, BaseColumns._ID,
-                Sales.Articulos.COD_ARTICULO, Sales.Articulos.COD_BARRAS, Sales.Articulos.DESCRIPCION,
+                Sales.Articulos.COD_ERP, Sales.Articulos.COD_BARRAS, Sales.Articulos.DESCRIPCION,
                 Sales.Articulos.UNIDADES,Sales.Articulos.PRECIO,Sales.Articulos.IMPORTE));
 
         db.execSQL(String.format("CREATE TABLE %s ( %s INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "%s TEXT NOT NULL,%s TEXT NOT NULL)",
                 Tablas.CLIENTE, BaseColumns._ID,
-                Sales.Clientes.FK_CODIGO_ARTICULO,Sales.Clientes.NOMBRE));
+                Sales.Clientes.FK_CODIGO_ERP,Sales.Clientes.NOMBRE));
 
 
     }

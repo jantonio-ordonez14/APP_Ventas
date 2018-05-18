@@ -52,7 +52,7 @@ public class CustomersImportFragment extends Fragment {
 
         ArrayList<Cliente> al = new ArrayList<>();
 
-        //if (customersImport.actionImport()) {
+        if (customersImport.actionImport()) {
         DatabaseOperations db = DatabaseOperations.obtenerInstancia(getActivity());
         Cursor c = db.obtenerClientes();
         if (c.moveToFirst()) {
@@ -71,7 +71,7 @@ public class CustomersImportFragment extends Fragment {
         }
         System.out.println("fin");
 
-        //}
+        }
         AdapterCustomersImport adapter = new AdapterCustomersImport(getActivity(), al);
 
         lv.setAdapter(adapter);

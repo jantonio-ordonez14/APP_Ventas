@@ -99,7 +99,7 @@ public final class DatabaseOperations {
         ContentValues valores = new ContentValues();
         // Generar Pk
         String idarticulo = Sales.Articulos.generarIdArticulo();
-        valores.put(Sales.Articulos.COD_ARTICULO, articulo.getCod_articulo());
+        valores.put(Sales.Articulos.COD_ERP, articulo.getCod_articulo());
         valores.put(Sales.Articulos.COD_BARRAS, articulo.getCod_barras());
         valores.put(Sales.Articulos.DESCRIPCION, articulo.getDescripcion());
         valores.put(Sales.Articulos.UNIDADES, articulo.getUnidades());
@@ -154,8 +154,8 @@ public final class DatabaseOperations {
         String idCliente = Sales.Clientes.generarIdCliente();
 
         ContentValues valores = new ContentValues();
+        valores.put(Sales.Clientes.FK_CODIGO_ERP, cliente.getCod_articulo());
         valores.put(Sales.Clientes.NOMBRE, cliente.getNombre());
-        valores.put(Sales.Clientes.FK_CODIGO_ARTICULO, cliente.getCod_articulo());
 
         return db.insertOrThrow(DataBasesSales.Tablas.CLIENTE, null, valores) > 0 ? idCliente : null;
     }
