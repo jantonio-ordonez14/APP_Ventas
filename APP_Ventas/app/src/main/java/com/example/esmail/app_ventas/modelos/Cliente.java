@@ -14,15 +14,8 @@ public class Cliente {
         return cod_articulo;
     }
 
-    public void setCod_articulo(String cod_articulo) {
-        this.cod_articulo = cod_articulo;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 }

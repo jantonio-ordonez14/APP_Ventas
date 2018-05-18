@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import com.example.esmail.app_ventas.ProductsImport;
 import com.example.esmail.app_ventas.R;
-import com.example.esmail.app_ventas.adapters.AdapterProductsImport;
+import com.example.esmail.app_ventas.AdapterProductsImport;
 import com.example.esmail.app_ventas.modelos.Articulo;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 

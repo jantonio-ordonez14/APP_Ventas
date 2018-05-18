@@ -1,4 +1,4 @@
-package com.example.esmail.app_ventas.adapters;
+package com.example.esmail.app_ventas;
 
 import android.app.Activity;
 import android.content.Context;
