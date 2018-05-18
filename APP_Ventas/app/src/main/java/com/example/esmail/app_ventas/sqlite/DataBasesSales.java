@@ -7,7 +7,7 @@ import android.os.Build;
 import android.provider.BaseColumns;
 
 public class DataBasesSales extends SQLiteOpenHelper{
-    private static final String NOMBRE_BASE_DATOS = "db_sales8.db";
+    private static final String NOMBRE_BASE_DATOS = "db_sales9.db";
 
     private static final int VERSION_ACTUAL = 1;
 

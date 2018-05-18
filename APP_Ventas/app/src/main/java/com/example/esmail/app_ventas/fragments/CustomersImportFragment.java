@@ -9,15 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import com.example.esmail.app_ventas.AdapterCustomersImport;
 import com.example.esmail.app_ventas.CustomersImport;
 import com.example.esmail.app_ventas.R;
-import com.example.esmail.app_ventas.adapters.RecyclerViewAdapter;
+import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers;
 import com.example.esmail.app_ventas.modelos.Cliente;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
@@ -26,7 +21,7 @@ import java.util.List;
 
 public class CustomersImportFragment extends Fragment {
 
-    RecyclerViewAdapter adapter;
+    RecyclerViewAdapterCustomers adapter;
     RecyclerView recyclerView;
     private static List<Cliente> clientes;
 
@@ -42,8 +37,6 @@ public class CustomersImportFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_customers_import, container, false);
 
 
-
-
         return v;
 
     }
@@ -51,32 +44,32 @@ public class CustomersImportFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        clientes=new ArrayList<>();
+        clientes = new ArrayList<>();
 
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-        CustomersImport customersImport = new CustomersImport("clientes.csv",getActivity());
-        adapter = new RecyclerViewAdapter(clientes);
+        CustomersImport customersImport = new CustomersImport("clientes.csv", getActivity());
+        adapter = new RecyclerViewAdapterCustomers(clientes);
         recyclerView.setAdapter(adapter);
 
-        //if (customersImport.actionImport()) {
-        DatabaseOperations db = DatabaseOperations.obtenerInstancia(getActivity());
-        Cursor c = db.obtenerClientes();
-        if (c.moveToFirst()) {
-            do {
-                String codArticulo = c.getString(1);
-                String nombreCli = c.getString(2);
+        if (customersImport.actionImport()) {
+            DatabaseOperations db = DatabaseOperations.obtenerInstancia(getActivity());
+            Cursor c = db.obtenerClientes();
+            if (c.moveToFirst()) {
+                do {
+                    String codArticulo = c.getString(1);
+                    String nombreCli = c.getString(2);
 
-                clientes.add(new Cliente(codArticulo, nombreCli));
+                    clientes.add(new Cliente(codArticulo, nombreCli));
 
-            } while (c.moveToNext());
+                } while (c.moveToNext());
+            }
+            adapter.notifyDataSetChanged();
+
         }
-        adapter.notifyDataSetChanged();
-
-        //}
 
     }
 }

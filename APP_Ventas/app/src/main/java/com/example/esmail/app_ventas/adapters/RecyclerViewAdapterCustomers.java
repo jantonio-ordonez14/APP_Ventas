@@ -12,14 +12,14 @@ import com.example.esmail.app_ventas.modelos.Cliente;
 
 import java.util.List;
 
-public class RecyclerViewAdapter
+public class RecyclerViewAdapterCustomers
         extends RecyclerView.Adapter
-        <RecyclerViewAdapter.ListItemViewHolder> {
+        <RecyclerViewAdapterCustomers.ListItemViewHolder> {
 
     private List<Cliente> items;
     private SparseBooleanArray selectedItems;
 
-    public RecyclerViewAdapter(List<Cliente> modelData) {
+    public RecyclerViewAdapterCustomers(List<Cliente> modelData) {
         if (modelData == null) {
             throw new IllegalArgumentException("modelData must not be null");
         }
