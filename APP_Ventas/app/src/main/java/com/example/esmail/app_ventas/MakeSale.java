@@ -9,8 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment;
+import com.example.esmail.app_ventas.fragments.MakeSaleFragment2;
 
-public class MakeSale extends AppCompatActivity{
+public class MakeSale extends AppCompatActivity  {
 
     private String TAG = "MakeSale";
 
@@ -37,5 +38,6 @@ public class MakeSale extends AppCompatActivity{
         fragmentTransaction.commit();
 
     }
+
 
 }
