@@ -4,6 +4,8 @@ import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +17,18 @@ import android.widget.ListView;
 import com.example.esmail.app_ventas.AdapterCustomersImport;
 import com.example.esmail.app_ventas.CustomersImport;
 import com.example.esmail.app_ventas.R;
+import com.example.esmail.app_ventas.adapters.RecyclerViewAdapter;
 import com.example.esmail.app_ventas.modelos.Cliente;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomersImportFragment extends Fragment {
 
-    private ListView lv;
+    RecyclerViewAdapter adapter;
+    RecyclerView recyclerView;
+    private static List<Cliente> clientes;
 
     public CustomersImportFragment() {
         // Required empty public constructor
@@ -45,15 +51,18 @@ public class CustomersImportFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ArrayList<Cliente> al = new ArrayList<>();
+        clientes=new ArrayList<>();
 
-        lv =getActivity().findViewById(R.id.lv_customers_import);
-        AdapterCustomersImport adapter = new AdapterCustomersImport(getActivity(), al);
-        lv.setAdapter(adapter);
+        recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
         CustomersImport customersImport = new CustomersImport("clientes.csv",getActivity());
+        adapter = new RecyclerViewAdapter(clientes);
+        recyclerView.setAdapter(adapter);
 
-
-        if (customersImport.actionImport()) {
+        //if (customersImport.actionImport()) {
         DatabaseOperations db = DatabaseOperations.obtenerInstancia(getActivity());
         Cursor c = db.obtenerClientes();
         if (c.moveToFirst()) {
@@ -61,18 +70,13 @@ public class CustomersImportFragment extends Fragment {
                 String codArticulo = c.getString(1);
                 String nombreCli = c.getString(2);
 
-                al.add(new Cliente(codArticulo, nombreCli));
+                clientes.add(new Cliente(codArticulo, nombreCli));
 
             } while (c.moveToNext());
         }
-        System.out.println("inicio");
-        for (Cliente al2 :
-                al) {
-            System.out.println(al2.getCod_articulo()+"\t"+al2.getNombre());
-        }
-        System.out.println("fin");
+        adapter.notifyDataSetChanged();
 
-        }
+        //}
 
     }
 }

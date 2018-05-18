@@ -60,13 +60,13 @@ public class AdapterCustomersImport extends BaseAdapter {
         }
 
         Cliente dir = items.get(position);
-
+/*
         TextView codigo = (TextView) v.findViewById(R.id.txt_titulo);
         codigo.setText(dir.getCod_articulo());
 
         TextView nombre = (TextView) v.findViewById(R.id.txt_subtitulo);
         nombre.setText(dir.getNombre());
-
+*/
 
         return v;
     }
