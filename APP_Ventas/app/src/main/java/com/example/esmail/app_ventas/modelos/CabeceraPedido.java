@@ -1,25 +1,16 @@
 package com.example.esmail.app_ventas.modelos;
 
 public class CabeceraPedido {
-    private String id;
     private String fecha;
     private String caja;
     private String fk_id_cliente;
 
-    public CabeceraPedido(String id, String fecha, String caja, String fk_id_cliente) {
-        this.id = id;
+    public CabeceraPedido(String fecha, String caja, String fk_id_cliente) {
         this.fecha = fecha;
         this.caja = caja;
         this.fk_id_cliente = fk_id_cliente;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getFecha() {
         return fecha;

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.esmail.app_ventas.MakeSale;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
@@ -45,10 +46,10 @@ public class MakeSaleFragment extends Fragment {
 
         ArrayList<String> clientes = new ArrayList<>();
         DatabaseOperations db= DatabaseOperations.obtenerInstancia(getActivity());
-        Cursor c=db.obtenerClientes();
+        final Cursor c=db.obtenerClientes();
         if (c.moveToFirst()){
             do {
-                String nombre=c.getString(2);
+                String nombre=c.getString(1);
                 clientes.add(nombre);
             }while (c.moveToNext());
         }
@@ -84,12 +85,8 @@ public class MakeSaleFragment extends Fragment {
                 System.out.println("Caja --> " +
                         "" + caja);
                 System.out.println("Cliente --> " +clienteSelected);
+                ((MakeSale) getActivity()).setParametersToFragment(fecha,caja,clienteSelected);
 
-                MakeSaleFragment2 fragment2 = new MakeSaleFragment2();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.content_frame_make, fragment2, "Fragment")
-                        .addToBackStack(null);
-                fragmentTransaction.commit();
             }
         });
         return v;

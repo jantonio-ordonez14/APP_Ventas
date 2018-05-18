@@ -9,6 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment;
+import com.example.esmail.app_ventas.fragments.MakeSaleFragment2;
+import com.example.esmail.app_ventas.modelos.CabeceraPedido;
+import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 public class MakeSale extends AppCompatActivity{
 
@@ -33,6 +36,17 @@ public class MakeSale extends AppCompatActivity{
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         MakeSaleFragment fragment = new MakeSaleFragment();
+        fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
+        fragmentTransaction.commit();
+
+    }
+
+    public void setParametersToFragment(String fecha, String caja, String cliente){
+        DatabaseOperations operations=DatabaseOperations.obtenerInstancia(this);
+        operations.insertarCabecera(new CabeceraPedido(fecha,caja,cliente));
+
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        MakeSaleFragment2 fragment = new MakeSaleFragment2();
         fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
         fragmentTransaction.commit();
 

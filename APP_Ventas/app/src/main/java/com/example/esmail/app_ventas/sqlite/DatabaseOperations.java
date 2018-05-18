@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.esmail.app_ventas.modelos.Articulo;
+import com.example.esmail.app_ventas.modelos.CabeceraPedido;
 import com.example.esmail.app_ventas.modelos.Cliente;
 
 public final class DatabaseOperations {
@@ -28,7 +29,60 @@ public final class DatabaseOperations {
             baseDatos = new DataBasesSales(contexto);
         }
         return instancia;
+
     }
+
+    // [OPERACIONES_cabecera]
+    public Cursor obtenerCabecera() {
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+
+        String sql = String.format("SELECT * FROM %s", DataBasesSales.Tablas.CABECERA_PEDIDO);
+
+        return db.rawQuery(sql, null);
+    }
+
+    public String insertarCabecera(CabeceraPedido cabeceraPedido) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        ContentValues valores = new ContentValues();
+        // Generar Pk
+        String idcabecera= Sales.CabecerasPedido.generarIdCabeceraPedido();
+        valores.put(Sales.CabecerasPedido.FECHA, cabeceraPedido.getFecha());
+        valores.put(Sales.CabecerasPedido.CAJA, cabeceraPedido.getCaja());
+        valores.put(Sales.CabecerasPedido.FK_ID_CLIENTE, cabeceraPedido.getFk_id_cliente());
+
+        db.insertOrThrow(DataBasesSales.Tablas.CABECERA_PEDIDO, null, valores);
+
+        return idcabecera;
+
+    }
+/*
+        public boolean actualizararticulo(Articulo articulo) {
+            SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+            ContentValues valores = new ContentValues();
+            valores.put(Sales.Articulos., articulo.nombre);
+
+            String whereClause = String.format("%s=?", Sales.Articulos.ID);
+            String[] whereArgs = {articulo.};
+
+            int resultado = db.update(DataBasesSales.Tablas.articulo, valores, whereClause, whereArgs);
+
+            return resultado > 0;
+        }*/
+
+    public boolean eliminarCabecera(String id) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        String whereClause = String.format("%s=?", Sales.Articulos.ID);
+        String[] whereArgs = {id};
+
+        int resultado = db.delete(DataBasesSales.Tablas.CABECERA_PEDIDO, whereClause, whereArgs);
+
+        return resultado > 0;
+    }
+    // [/OPERACIONES_cabecera]
+
 
     // [OPERACIONES_articulo]
     public Cursor obtenerArticulos() {
