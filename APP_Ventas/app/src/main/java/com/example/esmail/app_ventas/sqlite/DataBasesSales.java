@@ -27,6 +27,8 @@ public class DataBasesSales extends SQLiteOpenHelper{
                 Tablas.ARTICULOS, Sales.Articulos.COD_ERP);
         String COD_BARRAS = String.format("REFERENCES %s(%s)",
                 Tablas.ARTICULOS, Sales.Articulos.COD_BARRAS);
+        String ID_CABECERA = String.format("REFERENCES %s(%s)",
+                Tablas.DETALLE_PEDIDO, Sales.Articulos.ID);
 
     }
 
@@ -56,11 +58,11 @@ public class DataBasesSales extends SQLiteOpenHelper{
                 Sales.CabecerasPedido.CAJA,Sales.CabecerasPedido.FK_ID_CLIENTE,Sales.CabecerasPedido.FK_ID_CLIENTE, Referencias.COD_ERP));
 
         db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT, %s TEXT, %s REAL, %s TEXT NOT NULL,%s TEXT NOT NULL,  FOREIGN KEY(%s) %s, FOREIGN KEY(%s) %s)",
+                        "%s TEXT, %s TEXT, %s REAL, %s TEXT NOT NULL %s,%s TEXT NOT NULL %s, INGEGER NOT NULL %s",
                 Tablas.DETALLE_PEDIDO, BaseColumns._ID,
                 Sales.DetallesPedido.TIPO, Sales.DetallesPedido.CAJA,
-                Sales.DetallesPedido.UNIDADES,Sales.DetallesPedido.FK_ID_CLIENTE,
-                Sales.DetallesPedido.FK_CODIGO_BARRAS,Sales.DetallesPedido.FK_ID_CLIENTE, Referencias.COD_ERP,Sales.DetallesPedido.FK_CODIGO_BARRAS, Referencias.COD_BARRAS));
+                Sales.DetallesPedido.UNIDADES,Sales.DetallesPedido.FK_COD_ERP, Referencias.COD_ERP,
+                Sales.DetallesPedido.FK_CODIGO_BARRAS, Referencias.COD_BARRAS, Sales.DetallesPedido.FK_ID_CABECERA, Referencias.ID_CABECERA));
 
         db.execSQL(String.format("CREATE TABLE %s ( %s INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "%s TEXT UNIQUE NOT NULL,%s TEXT UNIQUE NOT NULL ,%s TEXT,%s REAL," +

@@ -87,7 +87,9 @@ public class MakeSale extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         MakeSaleFragment2 fragment = new MakeSaleFragment2();
         Bundle args = new Bundle();
-        args.putString("c-barras", resultado);
+        args.putString("fecha", fecha);
+        args.putString("caja", caja);
+        args.putString("cliente", cliente);
         fragment.setArguments(args);
         fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
         fragmentTransaction.commit();
@@ -174,7 +176,7 @@ public class MakeSale extends AppCompatActivity {
      */
     @SuppressLint("ValidFragment")
     public static class MakeSaleFragment2 extends Fragment {
-        private ListView lv;
+        private String fecha, caja, cliente;
         private ArrayList<String> al = new ArrayList<>();
 
         public MakeSaleFragment2() {
@@ -196,6 +198,8 @@ public class MakeSale extends AppCompatActivity {
             Log.e("Fragment", "onCreate");
 
 
+
+
         }
 
         @Override
@@ -205,7 +209,7 @@ public class MakeSale extends AppCompatActivity {
 
             Button btnScan = getActivity().findViewById(R.id.btn_scan);
             Button btnFinalizar = getActivity().findViewById(R.id.btn_finalizar);
-            lv = getActivity().findViewById(R.id.lv_make_sale);
+            //lv = getActivity().findViewById(R.id.lv_make_sale);
 
 
             btnScan.setOnClickListener(new View.OnClickListener() {
@@ -220,9 +224,6 @@ public class MakeSale extends AppCompatActivity {
             if (c_barras != null) {
                 System.out.println("cod barras -> " + c_barras);
 
-                al.add(c_barras);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, al);
-                lv.setAdapter(adapter);
 
             }
 

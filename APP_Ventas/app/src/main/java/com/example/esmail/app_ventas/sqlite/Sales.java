@@ -18,9 +18,10 @@ public class Sales {
         String ID = "id";
         String TIPO = "tipo";
         String CAJA = "caja";
-        String FK_ID_CLIENTE = "fk_id_cliente";
-        String FK_CODIGO_BARRAS = "fk_codigo_barras";
         String UNIDADES = "unidades";
+        String FK_COD_ERP = "fk_cod_erp";
+        String FK_CODIGO_BARRAS = "fk_codigo_barras";
+        String FK_ID_CABECERA = "fk_id_cabecera";
     }
 
     interface ColumnasArticulo {
