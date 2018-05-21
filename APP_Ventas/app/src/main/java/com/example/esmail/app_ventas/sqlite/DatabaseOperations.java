@@ -49,10 +49,9 @@ public final class DatabaseOperations {
         String idDetalle;
 
         ContentValues valores = new ContentValues();
-        valores.put(Sales.DetallesPedido.CAJA, detallePedido.getCaja());
+        valores.put(Sales.DetallesPedido.TIPO, detallePedido.getTipo());
+        valores.put(Sales.DetallesPedido.ARTICULO, detallePedido.getArticulo());
         valores.put(Sales.DetallesPedido.UNIDADES, detallePedido.getUnidades());
-        valores.put(Sales.DetallesPedido.FK_COD_ERP, detallePedido.getFk_id_cliente());
-        valores.put(Sales.DetallesPedido.FK_CODIGO_BARRAS, detallePedido.getFk_cod_barras());
         valores.put(Sales.DetallesPedido.FK_ID_CABECERA, detallePedido.getFk_id_cabecera());
         long id = db.insertOrThrow(DataBasesSales.Tablas.DETALLE_PEDIDO, null, valores);
         idDetalle=String.valueOf(id);
@@ -100,10 +99,10 @@ public final class DatabaseOperations {
 
         ContentValues valores = new ContentValues();
         // Generar Pk
-        valores.put(Sales.CabecerasPedido.FK_ID_CLIENTE, cabeceraPedido.getFk_id_cliente());
+        valores.put(Sales.CabecerasPedido.TIPO, cabeceraPedido.getTipo());
         valores.put(Sales.CabecerasPedido.FECHA, cabeceraPedido.getFecha());
         valores.put(Sales.CabecerasPedido.CAJA, cabeceraPedido.getCaja());
-
+        valores.put(Sales.CabecerasPedido.FK_ID_CLIENTE, cabeceraPedido.getFk_id_cliente());
 
         long id = db.insertOrThrow(DataBasesSales.Tablas.CABECERA_PEDIDO, null, valores);
         String idcabecera=String.valueOf(id);

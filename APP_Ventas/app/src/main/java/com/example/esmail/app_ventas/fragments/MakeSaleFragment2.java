@@ -20,7 +20,7 @@ import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 import java.util.ArrayList;
 
 public class MakeSaleFragment2 extends Fragment {
-    private String idCabecera, caja, cliente;
+    private String idCabecera, caja, cliente,tipo;
     private ArrayList<String> al = new ArrayList<>();
 
     public MakeSaleFragment2() {
@@ -42,14 +42,13 @@ public class MakeSaleFragment2 extends Fragment {
         Log.e("Fragment", "onCreate");
         SharedPreferences sharedPreferences=getActivity().getSharedPreferences("MakeSaleFragment2", Context.MODE_PRIVATE);
 
+        tipo="L";
+
         if (sharedPreferences!=null) {
             System.out.println("entra");
             this.idCabecera=sharedPreferences.getString("id-cabecera",null);
-            this.caja=sharedPreferences.getString("caja",null);
-            this.cliente=sharedPreferences.getString("cliente",null);
         }
-        System.out.println("Caja -> " + caja+"\tCliente -> "+cliente
-                + "\tId Cab -> "+idCabecera);
+        System.out.println("Id Cab -> "+idCabecera);
     }
 
     @Override
@@ -86,10 +85,9 @@ public class MakeSaleFragment2 extends Fragment {
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Caja -> " + caja+"\tUnidades -> "+unidades+"\tCliente -> "+cliente
-                +"\tCodigo B -> " + c_barras + "\tId Cab -> "+idCabecera);
+                System.out.println("Tipo -> " +tipo+"\tArticulo -> " + c_barras + "\tUnidades -> "+unidades+"\tId Cab -> "+idCabecera);
                 DatabaseOperations operations=DatabaseOperations.obtenerInstancia(getActivity());
-                operations.insertarDetalles(new DetallePedido(caja,unidades,cliente,c_barras,idCabecera));
+                operations.insertarDetalles(new DetallePedido(tipo,c_barras,unidades,idCabecera));
             }
         });
 
@@ -105,15 +103,12 @@ public class MakeSaleFragment2 extends Fragment {
         super.onSaveInstanceState(outState);
 
         Log.e("MS","onSaveInstanceState");
-        System.out.println("Caja -> " + caja+"\tCliente -> "+cliente
-                 + "\tId Cab -> "+idCabecera);
+        System.out.println("Id Cab -> "+idCabecera);
 
 
         SharedPreferences sharedPreferences=getActivity().getSharedPreferences("MakeSaleFragment2", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putString("id-cabecera",idCabecera);
-        editor.putString("cliente",cliente);
-        editor.putString("caja",caja);
         editor.commit();
 
 

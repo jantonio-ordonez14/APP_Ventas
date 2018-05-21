@@ -74,15 +74,14 @@ public class MakeSale extends AppCompatActivity {
 
     public void setParametersToFragment(String fecha, String caja, String cliente) {
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-        String idCabecera=operations.insertarCabecera(new CabeceraPedido(cliente, fecha, caja));
+        String tipo="C";
+        String idCabecera=operations.insertarCabecera(new CabeceraPedido(tipo, fecha, caja,cliente));
         System.out.println("id cabecera -> "+ idCabecera);
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         MakeSaleFragment2 fragment = new MakeSaleFragment2();
         Bundle args = new Bundle();
-        args.putString("cliente", cliente);
         args.putString("idcabecera", idCabecera);
-        args.putString("caja", caja);
         fragment.setArguments(args);
         fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
         fragmentTransaction.commit();

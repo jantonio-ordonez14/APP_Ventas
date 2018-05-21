@@ -9,23 +9,22 @@ public class Sales {
 
     interface ColumnasCabeceraPedido {
         String ID = "_id";
+        String TIPO="tipo";
         String FECHA = "fecha";
         String CAJA = "caja";
         String FK_ID_CLIENTE = "fk_id_cliente";
     }
 
     interface ColumnasDetallePedido {
-        String ID = "id";
+        String ID = "_id";
         String TIPO = "tipo";
-        String CAJA = "caja";
+        String ARTICULO="articulo";
         String UNIDADES = "unidades";
-        String FK_COD_ERP = "fk_cod_erp";
-        String FK_CODIGO_BARRAS = "fk_codigo_barras";
         String FK_ID_CABECERA = "fk_id_cabecera";
     }
 
     interface ColumnasArticulo {
-        String ID = "id";
+        String ID = "_id";
         String COD_ERP = "cod_erp";
         String COD_BARRAS = "cod_barras";
         String DESCRIPCION = "descripcion";
@@ -35,7 +34,7 @@ public class Sales {
     }
 
     interface ColumnasCliente {
-        String ID = "id";
+        String ID = "_id";
         String FK_CODIGO_ERP = "fk_codigo_erp";
         String NOMBRE = "nombre";
     }
