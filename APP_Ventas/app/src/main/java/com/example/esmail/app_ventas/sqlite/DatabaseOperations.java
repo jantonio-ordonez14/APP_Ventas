@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.esmail.app_ventas.modelos.Articulo;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
 import com.example.esmail.app_ventas.modelos.Cliente;
+import com.example.esmail.app_ventas.modelos.DetallePedido;
 
 public final class DatabaseOperations {
 
@@ -32,6 +33,59 @@ public final class DatabaseOperations {
 
     }
 
+    // [OPERACIONES_DETALLES]
+    public Cursor obtenerDetalles() {
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+
+        String sql = String.format("SELECT * FROM %s", DataBasesSales.Tablas.DETALLE_PEDIDO);
+
+        return db.rawQuery(sql, null);
+    }
+
+    public String insertarDetalles(DetallePedido detallePedido) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        // Generar Pk
+        String idDetalle;
+
+        ContentValues valores = new ContentValues();
+        valores.put(Sales.DetallesPedido.CAJA, detallePedido.getCaja());
+        valores.put(Sales.DetallesPedido.UNIDADES, detallePedido.getUnidades());
+        valores.put(Sales.DetallesPedido.FK_COD_ERP, detallePedido.getFk_id_cliente());
+        valores.put(Sales.DetallesPedido.FK_CODIGO_BARRAS, detallePedido.getFk_cod_barras());
+        valores.put(Sales.DetallesPedido.FK_ID_CABECERA, detallePedido.getFk_id_cabecera());
+        long id = db.insertOrThrow(DataBasesSales.Tablas.DETALLE_PEDIDO, null, valores);
+        idDetalle=String.valueOf(id);
+
+        return idDetalle;
+    }
+/*
+    public boolean actualizarDetalle(DetallePedido detallePedido, String id) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        ContentValues valores = new ContentValues();
+        valores.put(Sales.DetallesPedido.FK_ID_CABECERA, detallePedido.getFk_id_cabecera());
+
+        String whereClause = String.format("%s=?", Sales.Clientes.ID);
+        final String[] whereArgs = {id};
+
+        int resultado = db.update(DataBasesSales.Tablas.CLIENTE, valores, whereClause, whereArgs);
+
+        return resultado > 0;
+    }*/
+
+    public boolean eliminarDetalle(String idDetalle) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        String whereClause = String.format("%s=?", Sales.DetallesPedido.FK_ID_CABECERA);
+        final String[] whereArgs = {idDetalle};
+
+        int resultado = db.delete(DataBasesSales.Tablas.DETALLE_PEDIDO, whereClause, whereArgs);
+
+        return resultado > 0;
+    }
+// [/OPERACIONES_DETALLE]
+
     // [OPERACIONES_cabecera]
     public Cursor obtenerCabecera() {
         SQLiteDatabase db = baseDatos.getReadableDatabase();
@@ -46,14 +100,13 @@ public final class DatabaseOperations {
 
         ContentValues valores = new ContentValues();
         // Generar Pk
-        String idcabecera= Sales.CabecerasPedido.generarIdCabeceraPedido();
         valores.put(Sales.CabecerasPedido.FK_ID_CLIENTE, cabeceraPedido.getFk_id_cliente());
         valores.put(Sales.CabecerasPedido.FECHA, cabeceraPedido.getFecha());
         valores.put(Sales.CabecerasPedido.CAJA, cabeceraPedido.getCaja());
 
 
-        db.insertOrThrow(DataBasesSales.Tablas.CABECERA_PEDIDO, null, valores);
-
+        long id = db.insertOrThrow(DataBasesSales.Tablas.CABECERA_PEDIDO, null, valores);
+        String idcabecera=String.valueOf(id);
         return idcabecera;
 
     }

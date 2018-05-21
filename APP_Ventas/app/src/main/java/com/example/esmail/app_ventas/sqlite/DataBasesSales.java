@@ -7,7 +7,7 @@ import android.os.Build;
 import android.provider.BaseColumns;
 
 public class DataBasesSales extends SQLiteOpenHelper{
-    private static final String NOMBRE_BASE_DATOS = "db_sales9.db";
+    private static final String NOMBRE_BASE_DATOS = "db_sales12.db";
 
     private static final int VERSION_ACTUAL = 1;
 
@@ -28,7 +28,7 @@ public class DataBasesSales extends SQLiteOpenHelper{
         String COD_BARRAS = String.format("REFERENCES %s(%s)",
                 Tablas.ARTICULOS, Sales.Articulos.COD_BARRAS);
         String ID_CABECERA = String.format("REFERENCES %s(%s)",
-                Tablas.DETALLE_PEDIDO, Sales.Articulos.ID);
+                Tablas.CABECERA_PEDIDO, Sales.CabecerasPedido.ID);
 
     }
 
@@ -58,11 +58,10 @@ public class DataBasesSales extends SQLiteOpenHelper{
                 Sales.CabecerasPedido.CAJA,Sales.CabecerasPedido.FK_ID_CLIENTE,Sales.CabecerasPedido.FK_ID_CLIENTE, Referencias.COD_ERP));
 
         db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT, %s TEXT, %s REAL, %s TEXT NOT NULL %s,%s TEXT NOT NULL %s, INGEGER NOT NULL %s",
-                Tablas.DETALLE_PEDIDO, BaseColumns._ID,
-                Sales.DetallesPedido.TIPO, Sales.DetallesPedido.CAJA,
-                Sales.DetallesPedido.UNIDADES,Sales.DetallesPedido.FK_COD_ERP, Referencias.COD_ERP,
-                Sales.DetallesPedido.FK_CODIGO_BARRAS, Referencias.COD_BARRAS, Sales.DetallesPedido.FK_ID_CABECERA, Referencias.ID_CABECERA));
+                        "%s TEXT, %s REAL, %s TEXT NOT NULL,%s TEXT NOT NULL,%s INTEGER %s)",
+                Tablas.DETALLE_PEDIDO, BaseColumns._ID, Sales.DetallesPedido.CAJA,
+                Sales.DetallesPedido.UNIDADES,Sales.DetallesPedido.FK_COD_ERP,
+                Sales.DetallesPedido.FK_CODIGO_BARRAS, Sales.DetallesPedido.FK_ID_CABECERA, Referencias.ID_CABECERA));
 
         db.execSQL(String.format("CREATE TABLE %s ( %s INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "%s TEXT UNIQUE NOT NULL,%s TEXT UNIQUE NOT NULL ,%s TEXT,%s REAL," +

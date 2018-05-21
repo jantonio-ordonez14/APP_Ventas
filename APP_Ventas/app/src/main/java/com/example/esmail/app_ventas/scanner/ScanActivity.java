@@ -1,12 +1,16 @@
 package com.example.esmail.app_ventas.scanner;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.esmail.app_ventas.MakeSale;
+import com.example.esmail.app_ventas.R;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -16,6 +20,7 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
     public static final String EXTRA = "package com.example.esmail.app_ventas.scanner";
     private ZXingScannerView mScannerView;
+    private String unidades;
 
     @Override
     public void onCreate(Bundle state) {
@@ -64,7 +69,6 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
         mScannerView.resumeCameraPreview(this);
         //recoge el resultado
         String resultado = rawResult.getText();
-
         Intent intent=new Intent(this, MakeSale.class);
         intent.putExtra(EXTRA,resultado);
         startActivity(intent);
@@ -72,4 +76,5 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
 
     }
+
 }

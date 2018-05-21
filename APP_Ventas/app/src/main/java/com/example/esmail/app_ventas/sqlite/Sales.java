@@ -8,7 +8,7 @@ import java.util.UUID;
 public class Sales {
 
     interface ColumnasCabeceraPedido {
-        String ID = "id";
+        String ID = "_id";
         String FECHA = "fecha";
         String CAJA = "caja";
         String FK_ID_CLIENTE = "fk_id_cliente";
