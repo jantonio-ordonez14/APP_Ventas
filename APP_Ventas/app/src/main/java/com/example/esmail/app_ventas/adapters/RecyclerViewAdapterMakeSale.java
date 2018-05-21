@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.esmail.app_ventas.R;
-import com.example.esmail.app_ventas.modelos.Articulo;
+import com.example.esmail.app_ventas.modelos.DetallePedido;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ public class RecyclerViewAdapterMakeSale
         extends RecyclerView.Adapter
         <RecyclerViewAdapterMakeSale.ListItemViewHolder> {
 
-    private List<Articulo> items;
+    private List<DetallePedido> items;
     private SparseBooleanArray selectedItems;
 
-    public RecyclerViewAdapterMakeSale(List<Articulo> modelData) {
+    public RecyclerViewAdapterMakeSale(List<DetallePedido> modelData) {
         if (modelData == null) {
             throw new IllegalArgumentException("modelData must not be null");
         }
@@ -31,17 +31,16 @@ public class RecyclerViewAdapterMakeSale
     public ListItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.estructure_lv_products, viewGroup, false);
+                inflate(R.layout.estructure_lv_make, viewGroup, false);
         return new ListItemViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ListItemViewHolder viewHolder, int position) {
-        Articulo articulo = items.get(position);
-        viewHolder.codArticulo.setText(articulo.getCod_articulo());
-        viewHolder.codBarras.setText(articulo.getCod_barras());
-        viewHolder.descripcion.setText(articulo.getDescripcion());
-        viewHolder.unidades.setText(articulo.getUnidades());
+        DetallePedido detallePedido = items.get(position);
+        viewHolder.articulo.setText(detallePedido.getArticulo());
+        viewHolder.unidades.setText(detallePedido.getUnidades());
+
         viewHolder.itemView.setActivated(selectedItems.get(position, false));
     }
 
@@ -51,19 +50,13 @@ public class RecyclerViewAdapterMakeSale
     }
 
     public final static class ListItemViewHolder extends RecyclerView.ViewHolder {
-        TextView codArticulo;
-        TextView codBarras;
-        TextView descripcion;
+        TextView articulo;
         TextView unidades;
-        TextView precio;
-        TextView importe;
 
         public ListItemViewHolder(View itemView) {
             super(itemView);
-            codArticulo = (TextView) itemView.findViewById(R.id.txt_cod_erp);
-            codBarras = (TextView) itemView.findViewById(R.id.txt_cod_barras);
-            descripcion = (TextView) itemView.findViewById(R.id.txt_descripcion);
-            unidades = (TextView) itemView.findViewById(R.id.txt_cantidad);
+            articulo = (TextView) itemView.findViewById(R.id.titulo);
+            unidades = (TextView) itemView.findViewById(R.id.subtitulo);
         }
     }
 }

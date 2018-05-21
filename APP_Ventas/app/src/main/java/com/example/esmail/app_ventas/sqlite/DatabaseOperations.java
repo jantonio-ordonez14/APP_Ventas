@@ -73,15 +73,16 @@ public final class DatabaseOperations {
         return resultado > 0;
     }*/
 
-    public boolean eliminarDetalle(String idDetalle) {
-        SQLiteDatabase db = baseDatos.getWritableDatabase();
+    public boolean eliminarDetalle() {
+        try {
+            SQLiteDatabase db = baseDatos.getWritableDatabase();
+            db.delete(DataBasesSales.Tablas.DETALLE_PEDIDO, null, null);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        String whereClause = String.format("%s=?", Sales.DetallesPedido.FK_ID_CABECERA);
-        final String[] whereArgs = {idDetalle};
-
-        int resultado = db.delete(DataBasesSales.Tablas.DETALLE_PEDIDO, whereClause, whereArgs);
-
-        return resultado > 0;
+        return false;
     }
 // [/OPERACIONES_DETALLE]
 
