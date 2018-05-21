@@ -39,6 +39,16 @@ public class Sales {
         String NOMBRE = "nombre";
     }
 
+    interface ColumnasPedido{
+        String ID = "_id";
+        String TIPO="tipo";
+        String FECHA = "fecha";
+        String CAJA = "caja";
+        String FK_ID_CLIENTE = "fk_id_cliente";
+        String ARTICULO="articulo";
+        String UNIDADES = "unidades";
+    }
+
 
     public static class CabecerasPedido implements ColumnasCabeceraPedido {
         public static String generarIdCabeceraPedido() {
@@ -61,6 +71,12 @@ public class Sales {
     public static class Clientes implements ColumnasCliente {
         public static String generarIdCliente() {
             return "CLI-" + UUID.randomUUID().toString();
+        }
+    }
+
+    public static class Pedidos implements ColumnasPedido {
+        public static String generarIdPedidos() {
+            return "PED-" + UUID.randomUUID().toString();
         }
     }
 

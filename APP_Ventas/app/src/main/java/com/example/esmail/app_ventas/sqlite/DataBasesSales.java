@@ -7,7 +7,7 @@ import android.os.Build;
 import android.provider.BaseColumns;
 
 public class DataBasesSales extends SQLiteOpenHelper{
-    private static final String NOMBRE_BASE_DATOS = "db_sales13.db";
+    private static final String NOMBRE_BASE_DATOS = "db_sales14.db";
 
     private static final int VERSION_ACTUAL = 1;
 
@@ -18,6 +18,7 @@ public class DataBasesSales extends SQLiteOpenHelper{
         String DETALLE_PEDIDO = "detalle_pedido";
         String ARTICULOS = "articulos";
         String CLIENTE = "cliente";
+        String PEDIDOS="pedidos";
     }
 
     interface Referencias {
@@ -74,7 +75,13 @@ public class DataBasesSales extends SQLiteOpenHelper{
                 Tablas.CLIENTE, BaseColumns._ID,
                 Sales.Clientes.FK_CODIGO_ERP, Referencias.COD_ERP,Sales.Clientes.NOMBRE));
 
-
+        db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        "%s TEXT,%s DATETIME,%s TEXT," +
+                        "%s TEXT, %s ,%s REAL)",
+                Tablas.PEDIDOS, BaseColumns._ID,
+                Sales.Pedidos.TIPO, Sales.Pedidos.FECHA,
+                Sales.Pedidos.CAJA,Sales.Pedidos.FK_ID_CLIENTE,
+                Sales.DetallesPedido.ARTICULO,Sales.DetallesPedido.UNIDADES));
     }
 
     @Override

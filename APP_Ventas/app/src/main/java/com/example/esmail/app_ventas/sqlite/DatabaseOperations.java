@@ -10,6 +10,7 @@ import com.example.esmail.app_ventas.modelos.Articulo;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
 import com.example.esmail.app_ventas.modelos.Cliente;
 import com.example.esmail.app_ventas.modelos.DetallePedido;
+import com.example.esmail.app_ventas.modelos.Pedido;
 
 public final class DatabaseOperations {
 
@@ -36,7 +37,36 @@ public final class DatabaseOperations {
 
 
     }
+    // [OPERACIONES_PEDIDOS]
+    public Cursor obtenerPedidos() {
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
 
+        String sql = String.format("SELECT * FROM %s", DataBasesSales.Tablas.PEDIDOS);
+
+        return db.rawQuery(sql, null);
+
+    }
+
+    public String insertarPedidos(Pedido pedido) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        // Generar Pk
+        String idPedido;
+
+        ContentValues valores = new ContentValues();
+        valores.put(Sales.Pedidos.TIPO, pedido.getTipo());
+        valores.put(Sales.Pedidos.FECHA, pedido.getFecha());
+        valores.put(Sales.Pedidos.CAJA, pedido.getCaja());
+        valores.put(Sales.Pedidos.FK_ID_CLIENTE, pedido.getCliente());
+        valores.put(Sales.Pedidos.ARTICULO, pedido.getArticulo());
+        valores.put(Sales.Pedidos.UNIDADES, pedido.getUnidades());
+        long id = db.insertOrThrow(DataBasesSales.Tablas.PEDIDOS, null, valores);
+        idPedido = String.valueOf(id);
+
+        return idPedido;
+    }
+
+    // [/OPERACIONES_PEDIDOS]
 
     // [OPERACIONES_DETALLES]
     public Cursor obtenerDetalles() {
@@ -140,8 +170,8 @@ public final class DatabaseOperations {
         // Columnas
         String[] projection = {
                 Sales.ColumnasCabeceraPedido.ID,
-                Sales.ColumnasCabeceraPedido.FECHA,
                 Sales.ColumnasCabeceraPedido.TIPO,
+                Sales.ColumnasCabeceraPedido.FECHA,
                 Sales.ColumnasCabeceraPedido.CAJA,
                 Sales.ColumnasCabeceraPedido.FK_ID_CLIENTE
 
