@@ -22,11 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".scanner.ScanActivity"/>
+        <activity android:name=".scanner.ScanActivity" />
         <activity
             android:name=".MakeSale"
             android:label="@string/title_activity_make_sale"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Export"></activity>
     </application>
 
 </manifest>

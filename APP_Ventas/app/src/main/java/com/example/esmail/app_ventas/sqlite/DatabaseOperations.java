@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.example.esmail.app_ventas.modelos.Articulo;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
@@ -19,6 +20,8 @@ public final class DatabaseOperations {
 
 
     private static DataBasesSales baseDatos;
+    private static String idCabecera;
+
 
     private static DatabaseOperations instancia = new DatabaseOperations();
 
@@ -31,7 +34,9 @@ public final class DatabaseOperations {
         }
         return instancia;
 
+
     }
+
 
     // [OPERACIONES_DETALLES]
     public Cursor obtenerDetalles() {
@@ -40,6 +45,40 @@ public final class DatabaseOperations {
         String sql = String.format("SELECT * FROM %s", DataBasesSales.Tablas.DETALLE_PEDIDO);
 
         return db.rawQuery(sql, null);
+    }
+
+    public Cursor obtenerDetallesId(String idCabecera) {
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+
+        // Columnas
+        String[] projection = {
+                Sales.ColumnasDetallePedido.ID,
+                Sales.ColumnasDetallePedido.TIPO,
+                Sales.ColumnasDetallePedido.ARTICULO,
+                Sales.ColumnasDetallePedido.UNIDADES,
+                Sales.ColumnasDetallePedido.FK_ID_CABECERA
+
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = Sales.ColumnasDetallePedido.FK_ID_CABECERA + " = ?";
+        String[] selectionArgs = {idCabecera};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Sales.ColumnasDetallePedido.ID + " ASC";
+
+        return db.query(
+                DataBasesSales.Tablas.DETALLE_PEDIDO,                            // tabla
+                projection,                                 // columnas
+                selection,                              // columnas para la clausula WHERE
+                selectionArgs,                           // valores para la clausula WHERE
+                null,
+                null,
+                sortOrder                                   // The sort order
+        );
+
+
     }
 
     public String insertarDetalles(DetallePedido detallePedido) {
@@ -54,7 +93,7 @@ public final class DatabaseOperations {
         valores.put(Sales.DetallesPedido.UNIDADES, detallePedido.getUnidades());
         valores.put(Sales.DetallesPedido.FK_ID_CABECERA, detallePedido.getFk_id_cabecera());
         long id = db.insertOrThrow(DataBasesSales.Tablas.DETALLE_PEDIDO, null, valores);
-        idDetalle=String.valueOf(id);
+        idDetalle = String.valueOf(id);
 
         return idDetalle;
     }
@@ -95,6 +134,38 @@ public final class DatabaseOperations {
         return db.rawQuery(sql, null);
     }
 
+    public Cursor obtenerCabeceraId(String idCabecera) {
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+
+        // Columnas
+        String[] projection = {
+                Sales.ColumnasCabeceraPedido.ID,
+                Sales.ColumnasCabeceraPedido.FECHA,
+                Sales.ColumnasCabeceraPedido.TIPO,
+                Sales.ColumnasCabeceraPedido.CAJA,
+                Sales.ColumnasCabeceraPedido.FK_ID_CLIENTE
+
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = Sales.ColumnasCabeceraPedido.ID + " = ?";
+        String[] selectionArgs = {idCabecera};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Sales.ColumnasDetallePedido.ID + " ASC";
+
+        return db.query(
+                DataBasesSales.Tablas.CABECERA_PEDIDO,                            // tabla
+                projection,                                 // columnas
+                selection,                              // columnas para la clausula WHERE
+                selectionArgs,                           // valores para la clausula WHERE
+                null,
+                null,
+                sortOrder                                   // The sort order
+        );
+    }
+
     public String insertarCabecera(CabeceraPedido cabeceraPedido) {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
@@ -106,7 +177,7 @@ public final class DatabaseOperations {
         valores.put(Sales.CabecerasPedido.FK_ID_CLIENTE, cabeceraPedido.getFk_id_cliente());
 
         long id = db.insertOrThrow(DataBasesSales.Tablas.CABECERA_PEDIDO, null, valores);
-        String idcabecera=String.valueOf(id);
+        String idcabecera = String.valueOf(id);
         return idcabecera;
 
     }
@@ -125,15 +196,16 @@ public final class DatabaseOperations {
             return resultado > 0;
         }*/
 
-    public boolean eliminarCabecera(String id) {
-        SQLiteDatabase db = baseDatos.getWritableDatabase();
+    public boolean eliminarCabecera() {
+        try {
+            SQLiteDatabase db = baseDatos.getWritableDatabase();
+            db.delete(DataBasesSales.Tablas.CABECERA_PEDIDO, null, null);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        String whereClause = String.format("%s=?", Sales.Articulos.ID);
-        String[] whereArgs = {id};
-
-        int resultado = db.delete(DataBasesSales.Tablas.CABECERA_PEDIDO, whereClause, whereArgs);
-
-        return resultado > 0;
+        return false;
     }
     // [/OPERACIONES_cabecera]
 
@@ -238,6 +310,8 @@ public final class DatabaseOperations {
 
         return resultado > 0;
     }
+
+
 // [/OPERACIONES_CLIENTE]
 
 

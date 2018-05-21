@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.esmail.app_ventas.CustomersImport;
+import com.example.esmail.app_ventas.Export;
+import com.example.esmail.app_ventas.MakeSale;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterMakeSale;
@@ -95,10 +97,8 @@ public class MakeSaleFragment2 extends Fragment {
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseOperations operations = DatabaseOperations.obtenerInstancia(getActivity());
-                if (operations.eliminarDetalle()){
-                    Log.e("MakeFragment2", "eliminada base de datos");
-                }
+
+                ((MakeSale) getActivity()).setParametersExport(idCabecera);
 
             }
         });

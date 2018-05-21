@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -98,6 +99,13 @@ public class MakeSale extends AppCompatActivity {
         fragment.setArguments(args);
         fragmentTransaction.replace(R.id.content_frame_make, fragment);
         fragmentTransaction.commit();
+    }
+
+    public void setParametersExport(String idCabecera){
+        Intent intent=new Intent(this, Export.class);
+        Log.e("MakeFrame2",idCabecera);
+        intent.putExtra("id",idCabecera);
+        startActivity(intent);
     }
 
 
