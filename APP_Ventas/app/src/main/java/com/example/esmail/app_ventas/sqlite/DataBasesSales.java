@@ -7,7 +7,7 @@ import android.os.Build;
 import android.provider.BaseColumns;
 
 public class DataBasesSales extends SQLiteOpenHelper{
-    private static final String NOMBRE_BASE_DATOS = "db_sales14.db";
+    private static final String NOMBRE_BASE_DATOS = "db_sales15.db";
 
     private static final int VERSION_ACTUAL = 1;
 
@@ -71,9 +71,9 @@ public class DataBasesSales extends SQLiteOpenHelper{
                 Sales.Articulos.UNIDADES,Sales.Articulos.PRECIO,Sales.Articulos.IMPORTE));
 
         db.execSQL(String.format("CREATE TABLE %s ( %s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        "%s TEXT NOT NULL %s,%s TEXT NOT NULL)",
+                        "%s TEXT UNIQUE NOT NULL,%s TEXT NOT NULL)",
                 Tablas.CLIENTE, BaseColumns._ID,
-                Sales.Clientes.FK_CODIGO_ERP, Referencias.COD_ERP,Sales.Clientes.NOMBRE));
+                Sales.Clientes.FK_CODIGO_ERP,Sales.Clientes.NOMBRE));
 
         db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "%s TEXT,%s DATETIME,%s TEXT," +

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">AppVentas</string>
 
+    <string name="header_customers">CLIENTES</string>
+    <string name="header_products">PRODUCTOS</string>
+
     <string name="customers_import">Importar Clientes</string>
     <string name="products_import">Importar Productos</string>
     <string name="make_sale">Realizar Venta</string>
