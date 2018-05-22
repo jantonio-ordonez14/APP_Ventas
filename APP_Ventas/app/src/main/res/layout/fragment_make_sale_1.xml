@@ -42,7 +42,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:ems="10"
-            android:hint="introduce el nº"
+            android:hint="introduce caja"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.535"
@@ -53,8 +53,9 @@
             android:id="@+id/lbl_cliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="28dp"
             android:layout_weight="1"
             android:text="@string/lbl_cliente"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,16 +87,45 @@
             app:layout_constraintStart_toEndOf="@+id/lbl_fecha"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Spinner
-            android:id="@+id/spinner"
+        <Button
+            android:id="@+id/btn_cliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="48dp"
+            android:text="@string/btn_cliente"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/lbl_cliente"
+            app:layout_constraintHorizontal_bias="0.526"
+            app:layout_constraintStart_toEndOf="@+id/et_cliente"
             app:layout_constraintTop_toBottomOf="@+id/et_caja" />
+
+        <EditText
+            android:id="@+id/et_cliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="52dp"
+            android:ems="10"
+            android:hint="introduce nº "
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_caja" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_cliente" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -14,6 +14,7 @@ import android.widget.Spinner;
 
 import com.example.esmail.app_ventas.MakeSale;
 import com.example.esmail.app_ventas.R;
+import com.example.esmail.app_ventas.modelos.Cliente;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.text.SimpleDateFormat;
@@ -23,9 +24,9 @@ import java.util.Date;
 public class MakeSaleFragment1 extends Fragment {
 
 
-    private EditText etFecha, etCaja;
+    private EditText etFecha, etCaja, etCliente;
     private Spinner spinner;
-    private Button btnBuscar, btnAnadir;
+    private Button btnSiguiente, btnAnadir;
     private String clienteSelected;
 
     public MakeSaleFragment1() {
@@ -35,14 +36,18 @@ public class MakeSaleFragment1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_make_sale_1, container, false);
-
+        //obtener instancias
         etFecha = v.findViewById(R.id.et_fecha);
         etCaja = v.findViewById(R.id.et_caja);
         spinner = v.findViewById(R.id.spinner);
-        Button btn = v.findViewById(R.id.btn_siguiente);
+        etCliente = v.findViewById(R.id.et_cliente);
+        btnAnadir = v.findViewById(R.id.btn_cliente);
+        btnSiguiente = v.findViewById(R.id.btn_siguiente);
+        btnSiguiente.setEnabled(false);
 
         ArrayList<String> clientes = new ArrayList<>();
         DatabaseOperations db = DatabaseOperations.obtenerInstancia(getActivity());
+        //obtener clientes
         final Cursor c = db.obtenerClientes();
         if (c.moveToFirst()) {
             do {
@@ -51,12 +56,15 @@ public class MakeSaleFragment1 extends Fragment {
             } while (c.moveToNext());
         }
         c.close();
+        //mostrar clientes en el spinner
         spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, clientes));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //obtener cliente seleccionado
                 String text = (String) parent.getItemAtPosition(position).toString();
                 clienteSelected = text;
+                btnSiguiente.setEnabled(true);
             }
 
             @Override
@@ -65,8 +73,31 @@ public class MakeSaleFragment1 extends Fragment {
             }
         });
 
+        btnAnadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String clienteObtenido = "";
+                //obtener cliente
+                String cliente = etCliente.getText().toString();
+                //obtener clientes de la bd
+                Cursor c = DatabaseOperations.obtenerInstancia(getActivity()).obtenerClientes();
+                if (c.moveToFirst()) {
+                    do {
+                        clienteObtenido = c.getString(1);
+                    } while (c.moveToNext());
+                }
+                //si existe el cliente lo guardamos
+                if (clienteObtenido.length() == cliente.length()) {
+                    btnSiguiente.setEnabled(true);
+                    clienteSelected = cliente;
+                } else {
+                    btnSiguiente.setEnabled(false);
+                }
 
-        btn.setOnClickListener(new View.OnClickListener() {
+            }
+        });
+
+        btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String fecha = etFecha.getText().toString();

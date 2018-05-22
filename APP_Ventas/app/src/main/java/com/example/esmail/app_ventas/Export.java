@@ -72,21 +72,21 @@ public class Export extends AppCompatActivity {
     }
 
     private void obtenerPedido() {
-        ArrayList<Pedidos> pedidos=new ArrayList<>();
+        ArrayList<Pedidos> pedidos = new ArrayList<>();
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
         Cursor c = operations.obtenerPedidos();
 
         if (c.moveToFirst()) {
             do {
                 String id = c.getString(0);
-                String tipo= c.getString(1);
-                String fecha= c.getString(2);
-                String caja= c.getString(3);
-                String cliente= c.getString(4);
-                String articulo= c.getString(5);
-                String unidades= c.getString(6);
+                String tipo = c.getString(1);
+                String fecha = c.getString(2);
+                String caja = c.getString(3);
+                String cliente = c.getString(4);
+                String articulo = c.getString(5);
+                String unidades = c.getString(6);
 
-                pedidos.add(new Pedidos(id,tipo,fecha,caja,cliente,articulo,unidades));
+                pedidos.add(new Pedidos(id, tipo, fecha, caja, cliente, articulo, unidades));
             } while (c.moveToNext());
         }
         try {
@@ -101,8 +101,8 @@ public class Export extends AppCompatActivity {
             // obtenemos los registros
             for (Pedidos pd : pedidos) {
 
-                String datos = pd.getIdRegsitro() + "\t" + pd.getTipo()+ "\t" + pd.getFecha() + "\t" + pd.getCaja()
-                        + "\t" + pd.getCliente() + "\t" + pd.getArticulo() +"\t" + pd.getUnidades()+  "\r\n";
+                String datos = pd.getTipo() + "\t" + pd.getIdRegsitro() + "\t" + pd.getFecha() + "\t" + pd.getCaja()
+                        + "\t" + pd.getCliente() + "\t" + pd.getArticulo() + "\t" + pd.getUnidades() + "\r\n";
                 System.out.println(datos);
                 // insertamos los registros en el archivo
                 fout.write(datos);
