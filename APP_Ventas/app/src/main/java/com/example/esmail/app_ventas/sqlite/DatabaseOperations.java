@@ -317,20 +317,23 @@ public final class DatabaseOperations {
         return idarticulo;
 
     }
-/*
-        public boolean actualizararticulo(Articulo articulo) {
-            SQLiteDatabase db = baseDatos.getWritableDatabase();
 
-            ContentValues valores = new ContentValues();
-            valores.put(Sales.Articulos., articulo.nombre);
+    public boolean actualizarArticulo(String descripcion,String unidades, String precio, String importe, String cBarras) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
 
-            String whereClause = String.format("%s=?", Sales.Articulos.ID);
-            String[] whereArgs = {articulo.};
+        ContentValues valores = new ContentValues();
+        valores.put(Sales.Articulos.DESCRIPCION, descripcion);
+        valores.put(Sales.Articulos.UNIDADES, unidades);
+        valores.put(Sales.Articulos.PRECIO, precio);
+        valores.put(Sales.Articulos.IMPORTE, importe);
 
-            int resultado = db.update(DataBasesSales.Tablas.articulo, valores, whereClause, whereArgs);
+        String whereClause = String.format("%s=?", Sales.Articulos.COD_BARRAS);
+        final String[] whereArgs = {cBarras};
 
-            return resultado > 0;
-        }*/
+        int resultado = db.update(DataBasesSales.Tablas.ARTICULOS, valores, whereClause, whereArgs);
+
+        return resultado > 0;
+    }
 
     public boolean eliminararticulo(String codArticulo) {
         SQLiteDatabase db = baseDatos.getWritableDatabase();

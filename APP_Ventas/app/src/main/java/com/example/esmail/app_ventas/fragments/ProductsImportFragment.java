@@ -67,6 +67,8 @@ public class ProductsImportFragment extends Fragment {
                     String precio=c.getString(5);
                     String importe=c.getString(6);
 
+
+
                     articulos.add(new Articulo(codArticulo,codBarras,descripcion,unidades,precio,importe));
                 } while (c.moveToNext());
             }
