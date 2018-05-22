@@ -50,6 +50,9 @@ public class CustomersImport {
                     alAux.add(row[i]);
                 }
                 DatabaseOperations databaseOperations = DatabaseOperations.obtenerInstancia(context);
+                if (databaseOperations.consultarCliente(alAux.get(0))){
+                    databaseOperations.actualizarCliente(alAux.get(1),alAux.get(0));
+                }else
                 databaseOperations.insertarCliente(new Cliente(alAux.get(0), alAux.get(1)));
 
             }

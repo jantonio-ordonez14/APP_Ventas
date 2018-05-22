@@ -100,11 +100,13 @@ public class MakeSaleFragment1 extends Fragment {
         btnSiguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //obtenemos la fecha
                 String fecha = etFecha.getText().toString();
+                //si se deja vacio, se coje la del hoy
                 if (fecha.isEmpty()) {
                     fecha = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
                 }
-
+                //obtenemos la caja
                 String caja = etCaja.getText().toString();
 
 
@@ -112,6 +114,7 @@ public class MakeSaleFragment1 extends Fragment {
                 System.out.println("Caja --> " +
                         "" + caja);
                 System.out.println("Cliente --> " + clienteSelected);
+                //enviamos los parametros al activity para que se envien al fragment
                 ((MakeSale) getActivity()).setParametersToFragment(fecha, caja, clienteSelected);
 
             }

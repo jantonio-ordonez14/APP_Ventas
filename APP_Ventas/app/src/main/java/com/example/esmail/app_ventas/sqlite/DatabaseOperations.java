@@ -366,13 +366,51 @@ public final class DatabaseOperations {
         return idCliente;
     }
 
-    public boolean actualizarCliente(Cliente cliente, String id) {
+    public Boolean consultarCliente(String codigo){
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+
+        // Columnas
+        String[] projection = {
+                Sales.ColumnasCliente.FK_CODIGO_ERP
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = Sales.ColumnasCliente.FK_CODIGO_ERP+ " = ?";
+        String[] selectionArgs = {codigo};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Sales.Clientes.ID + " ASC";
+
+        Cursor c= db.query(
+                DataBasesSales.Tablas.CLIENTE,                            // tabla
+                projection,                                 // columnas
+                selection,                              // columnas para la clausula WHERE
+                selectionArgs,                           // valores para la clausula WHERE
+                null,
+                null,
+                sortOrder                                   // The sort order
+        );
+        String valor="";
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+                valor = c.getString(0);
+
+            } while (c.moveToNext());
+        }
+        if (codigo.length() == valor.length()) {
+            return true;
+        } else return false;
+    }
+
+    public boolean actualizarCliente(String nombre, String id) {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
         ContentValues valores = new ContentValues();
-        valores.put(Sales.Clientes.NOMBRE, cliente.getNombre());
+        valores.put(Sales.Clientes.NOMBRE, nombre);
 
-        String whereClause = String.format("%s=?", Sales.Clientes.ID);
+        String whereClause = String.format("%s=?", Sales.Clientes.FK_CODIGO_ERP);
         final String[] whereArgs = {id};
 
         int resultado = db.update(DataBasesSales.Tablas.CLIENTE, valores, whereClause, whereArgs);

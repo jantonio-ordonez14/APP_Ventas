@@ -34,7 +34,6 @@ public class MakeSale extends AppCompatActivity {
 
     private String TAG = "MakeSale";
     private String resultado = null;
-    private static String unidades;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +41,12 @@ public class MakeSale extends AppCompatActivity {
         setContentView(R.layout.activity_make_sale);
 
         Log.e(TAG, "onCreate");
+        //obtenemos el resultado de ScanActivity
         resultado = getIntent().getStringExtra(EXTRA);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        //boton flotante
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +58,8 @@ public class MakeSale extends AppCompatActivity {
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         Fragment fragment = null;
+        //si el resultado no es nulo, consultamos si existe y si existe lo enviamos, sino existe
+        //volvemos a escanear
         if (resultado != null) {
 
             DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
@@ -103,19 +105,26 @@ public class MakeSale extends AppCompatActivity {
         b.show();
     }
 
-
+    /**
+     * Metodo para enviar parametros desde @MakeSaleFragment1 a @MakeSaleFragment2
+     * @param fecha
+     * @param caja
+     * @param cliente
+     */
     public void setParametersToFragment(String fecha, String caja, String cliente) {
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
         String tipo = "C";
+        //insertamos la cabecera y obtenmos la id
         String idCabecera = operations.insertarCabecera(new CabeceraPedido(tipo, fecha, caja, cliente));
         System.out.println("id cabecera -> " + idCabecera);
-
+        //iniciar fragment
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         MakeSaleFragment2 fragment = new MakeSaleFragment2();
         Bundle args = new Bundle();
         args.putString("idcabecera", idCabecera);
         fragment.setArguments(args);
-        fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
+        fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG)
+                            .addToBackStack(null);
         fragmentTransaction.commit();
 
     }

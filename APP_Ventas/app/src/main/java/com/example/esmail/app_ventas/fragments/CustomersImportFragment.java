@@ -44,19 +44,23 @@ public class CustomersImportFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        clientes = new ArrayList<>();
 
+        clientes = new ArrayList<>();
+        //recycler view
         recyclerView = (RecyclerView) getView().findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
+        //objeto para importar documento clientes
         CustomersImport customersImport = new CustomersImport("clientes.csv", getActivity());
+        //adaptador
         adapter = new RecyclerViewAdapterCustomers(clientes);
         recyclerView.setAdapter(adapter);
-
+        //si sale bien los mostramos
         if (customersImport.actionImport()) {
             DatabaseOperations db = DatabaseOperations.obtenerInstancia(getActivity());
+            //obtenemos clientes
             Cursor c = db.obtenerClientes();
             if (c.moveToFirst()) {
                 do {
