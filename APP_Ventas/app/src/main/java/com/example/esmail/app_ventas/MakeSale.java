@@ -14,9 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.esmail.app_ventas.fragments.EditorFragment;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment1;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment2;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
@@ -27,7 +26,7 @@ import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 import static com.example.esmail.app_ventas.scanner.ScanActivity.EXTRA;
 
 public class MakeSale extends AppCompatActivity {
-
+    private String unidades;
     private String TAG = "MakeSale";
     private String resultado = null;
     private FragmentManager mFragmentManager;
@@ -62,13 +61,8 @@ public class MakeSale extends AppCompatActivity {
 
             DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
             if (operations.consultarArticulo(resultado)) {
+                editorDialog(resultado);
 
-                fragment = new EditorFragment();
-                Bundle args = new Bundle();
-                args.putString("c-barras", resultado);
-                fragment.setArguments(args);
-                fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
-                fragmentTransaction.commit();
             } else {
                 Toast.makeText(this, "No existe el articulo", Toast.LENGTH_SHORT).show();
                 anadirDialog();
@@ -81,6 +75,27 @@ public class MakeSale extends AppCompatActivity {
         }
 
 
+    }
+
+    private AlertDialog editorDialog(final String codBarras) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final EditText editText = new EditText(this);
+        builder.setTitle(R.string.dialog_makesale);   // Título
+        builder.setView(editText);
+        builder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String texto = editText.getText().toString();
+                unidades=texto;
+
+                // llama al metodo de la clase
+                setUnidades(unidades, codBarras);
+
+
+            }
+        });
+        builder.create();
+        return builder.show();
     }
 
     private void anadirDialog() {
