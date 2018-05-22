@@ -5,10 +5,15 @@ import android.database.Cursor;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers;
+import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterExport;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
+import com.example.esmail.app_ventas.modelos.Cliente;
 import com.example.esmail.app_ventas.modelos.DetallePedido;
 import com.example.esmail.app_ventas.modelos.Pedido;
 import com.example.esmail.app_ventas.modelos.Pedidos;
@@ -41,8 +46,8 @@ public class Export extends AppCompatActivity {
 
 
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-        //operations.eliminarDetalle();
-        //operations.eliminarCabecera();
+        operations.eliminarDetalle();
+        operations.eliminarCabecera();
 
     }
 
@@ -89,6 +94,18 @@ public class Export extends AppCompatActivity {
                 pedidos.add(new Pedidos(id, tipo, fecha, caja, cliente, articulo, unidades));
             } while (c.moveToNext());
         }
+
+
+        //recycler view
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_export);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
+        //adaptador
+        RecyclerViewAdapterExport adapter = new RecyclerViewAdapterExport(pedidos);
+        recyclerView.setAdapter(adapter);
+
         try {
             //creamos un objeto file
             File f = leerFichero(NOMBRE_DOCUMENTO);

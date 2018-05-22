@@ -85,8 +85,7 @@ public class MakeSaleFragment2 extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), ScanActivity.class);
-                startActivity(intent);
+                ((MakeSale)getActivity()).inicializeScan();
             }
         });
 

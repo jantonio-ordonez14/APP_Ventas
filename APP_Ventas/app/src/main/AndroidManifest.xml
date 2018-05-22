@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".scanner.ScanActivity" />
+        <activity android:name=".scanner.BarcodeScan" />
         <activity
             android:name=".MakeSale"
             android:label="@string/title_activity_make_sale"

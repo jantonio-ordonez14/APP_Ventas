@@ -1,30 +1,25 @@
 package com.example.esmail.app_ventas;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.esmail.app_ventas.fragments.EditorFragment;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment1;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment2;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
-import com.example.esmail.app_ventas.modelos.DetallePedido;
+import com.example.esmail.app_ventas.scanner.BarcodeScan;
 import com.example.esmail.app_ventas.scanner.ScanActivity;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
@@ -71,8 +66,8 @@ public class MakeSale extends AppCompatActivity {
                 fragment.setArguments(args);
                 fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
                 fragmentTransaction.commit();
-            }else{
-                Toast.makeText(this,"No existe el articulo",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "No existe el articulo", Toast.LENGTH_SHORT).show();
                 anadirDialog();
             }
 
@@ -91,7 +86,7 @@ public class MakeSale extends AppCompatActivity {
         b.setPositiveButton(getResources().getString(R.string.aceptar), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(getApplicationContext(),ScanActivity.class));
+                startActivity(new Intent(getApplicationContext(), ScanActivity.class));
             }
         });
         b.setNegativeButton(getResources().getString(R.string.cancelar), new DialogInterface.OnClickListener() {
@@ -107,6 +102,7 @@ public class MakeSale extends AppCompatActivity {
 
     /**
      * Metodo para enviar parametros desde @MakeSaleFragment1 a @MakeSaleFragment2
+     *
      * @param fecha
      * @param caja
      * @param cliente
@@ -124,7 +120,7 @@ public class MakeSale extends AppCompatActivity {
         args.putString("idcabecera", idCabecera);
         fragment.setArguments(args);
         fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG)
-                            .addToBackStack(null);
+                .addToBackStack(null);
         fragmentTransaction.commit();
 
     }
@@ -137,7 +133,7 @@ public class MakeSale extends AppCompatActivity {
         args.putString("unidades", unidades);
         args.putString("c-barras", codBarras);
         fragment.setArguments(args);
-        fragmentTransaction.replace(R.id.content_frame_make, fragment);
+        fragmentTransaction.replace(R.id.content_frame_make, fragment).addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -149,4 +145,42 @@ public class MakeSale extends AppCompatActivity {
     }
 
 
+    public void inicializeScan() {
+        try {
+            AlertDialog.Builder b = new AlertDialog.Builder(this);
+            b.setTitle(getResources().getString(R.string.dialog_scanner));
+
+            String[] types = getResources().getStringArray(R.array.opciones_scanner);
+            b.setItems(types, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int pos) {
+
+                    dialog.dismiss();
+                    switch (pos) {
+
+                        case 0:
+                            startActivity(new Intent(getApplicationContext(), ScanActivity.class));
+                            break;
+                        case 1:
+                            try {
+                                startActivity(new Intent(getApplicationContext(), BarcodeScan.class));
+                            } catch (IllegalArgumentException e) {
+                                System.out.println(e.getMessage());
+                            }
+
+                            break;
+                    }
+
+                }
+
+            });
+
+            b.show();
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }
