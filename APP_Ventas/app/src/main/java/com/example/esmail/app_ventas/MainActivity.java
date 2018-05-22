@@ -2,6 +2,7 @@ package com.example.esmail.app_ventas;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,11 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.esmail.app_ventas.fragments.CustomersImportFragment;
-import com.example.esmail.app_ventas.fragments.ExportFragment;
+import com.example.esmail.app_ventas.fragments.InitialFragment;
 import com.example.esmail.app_ventas.fragments.ProductsImportFragment;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private Toolbar appbar;
     private DrawerLayout drawerLayout;
@@ -62,12 +63,11 @@ public class MainActivity extends AppCompatActivity{
                                 fragmentTransaction = true;
                                 break;
                             case R.id.menu_make_sale:
-                                startActivity(new Intent(getApplicationContext(),MakeSale.class));
+                                startActivity(new Intent(getApplicationContext(), MakeSale.class));
 
                                 break;
-                            case R.id.menu_export:
-                                fragment = new ExportFragment();
-                                fragmentTransaction = true;
+                            case R.id.menu_salir:
+                                System.exit(0);
                                 break;
                         }
                         //iniciar fragments
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
     }
+
     @Override
     public void onBackPressed() {
         if (mFragmentManager.getBackStackEntryCount() > 1)
@@ -93,6 +94,15 @@ public class MainActivity extends AppCompatActivity{
         else {
             finish();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        InitialFragment fragment = new InitialFragment();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.commit();
     }
 
     /**
@@ -127,7 +137,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void eliminarPedido() {
-        DatabaseOperations operations=DatabaseOperations.obtenerInstancia(this);
+        DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
         operations.eliminarPedidos();
         operations.eliminarDetalle();
         operations.eliminarCabecera();

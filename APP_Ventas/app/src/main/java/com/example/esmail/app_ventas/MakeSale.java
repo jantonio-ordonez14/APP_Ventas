@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.esmail.app_ventas.fragments.InitialFragment;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment1;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment2;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
@@ -43,15 +45,6 @@ public class MakeSale extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //boton flotante
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         Fragment fragment = null;
@@ -76,6 +69,8 @@ public class MakeSale extends AppCompatActivity {
 
 
     }
+
+
 
     private AlertDialog editorDialog(final String codBarras) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

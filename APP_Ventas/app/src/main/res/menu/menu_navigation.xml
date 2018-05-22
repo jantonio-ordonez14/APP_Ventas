@@ -15,7 +15,7 @@
             android:title="@string/make_sale"
             android:icon="@drawable/ic_menu"/>
         <item
-            android:id="@+id/menu_export"
+            android:id="@+id/menu_salir"
             android:title="@string/export"
             android:icon="@drawable/ic_menu"/>
     </group>
