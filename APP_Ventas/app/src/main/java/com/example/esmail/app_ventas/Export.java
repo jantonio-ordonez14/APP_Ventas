@@ -225,4 +225,11 @@ public class Export extends AppCompatActivity {
 
         return ruta;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this,MainActivity.class));
+        finish();
+    }
 }

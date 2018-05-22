@@ -86,7 +86,14 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
     }
-
+    @Override
+    public void onBackPressed() {
+        if (mFragmentManager.getBackStackEntryCount() > 1)
+            mFragmentManager.popBackStack();
+        else {
+            finish();
+        }
+    }
 
     /**
      * Menu opciones

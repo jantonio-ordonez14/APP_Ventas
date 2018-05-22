@@ -1,6 +1,7 @@
 package com.example.esmail.app_ventas;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,12 +30,14 @@ public class MakeSale extends AppCompatActivity {
 
     private String TAG = "MakeSale";
     private String resultado = null;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_sale);
 
+        mFragmentManager = getFragmentManager();
         Log.e(TAG, "onCreate");
         //obtenemos el resultado de ScanActivity
         resultado = getIntent().getStringExtra(EXTRA);
@@ -51,7 +54,7 @@ public class MakeSale extends AppCompatActivity {
             }
         });
 
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         Fragment fragment = null;
         //si el resultado no es nulo, consultamos si existe y si existe lo enviamos, sino existe
         //volvemos a escanear
@@ -86,7 +89,7 @@ public class MakeSale extends AppCompatActivity {
         b.setPositiveButton(getResources().getString(R.string.aceptar), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(getApplicationContext(), ScanActivity.class));
+                inicializeScan();
             }
         });
         b.setNegativeButton(getResources().getString(R.string.cancelar), new DialogInterface.OnClickListener() {
@@ -114,20 +117,19 @@ public class MakeSale extends AppCompatActivity {
         String idCabecera = operations.insertarCabecera(new CabeceraPedido(tipo, fecha, caja, cliente));
         System.out.println("id cabecera -> " + idCabecera);
         //iniciar fragment
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         MakeSaleFragment2 fragment = new MakeSaleFragment2();
         Bundle args = new Bundle();
         args.putString("idcabecera", idCabecera);
         fragment.setArguments(args);
-        fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG)
-                .addToBackStack(null);
+        fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
         fragmentTransaction.commit();
 
     }
 
     public void setUnidades(String unidades, String codBarras) {
 
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         MakeSaleFragment2 fragment = new MakeSaleFragment2();
         Bundle args = new Bundle();
         args.putString("unidades", unidades);
@@ -138,10 +140,15 @@ public class MakeSale extends AppCompatActivity {
     }
 
     public void setParametersExport(String idCabecera) {
+
         Intent intent = new Intent(this, Export.class);
         Log.e("MakeFrame2", idCabecera);
         intent.putExtra("id", idCabecera);
         startActivity(intent);
+        finish();
+        while (mFragmentManager.getBackStackEntryCount() > 0) {
+            mFragmentManager.popBackStackImmediate();
+        }
     }
 
 
