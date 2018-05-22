@@ -85,12 +85,12 @@ public class MakeSaleFragment2 extends Fragment {
             @Override
             public void onClick(View v) {
 
-                ((MakeSale)getActivity()).inicializeScan();
+                ((MakeSale) getActivity()).inicializeScan();
             }
         });
 
-        final String c_barras = getArguments().getString("c-barras");
-        final String unidades = getArguments().getString("unidades");
+        String c_barras = getArguments().getString("c-barras");
+        String unidades = getArguments().getString("unidades");
 
 
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +102,10 @@ public class MakeSaleFragment2 extends Fragment {
             }
         });
 
-        if (c_barras!=null){
+        if (c_barras != null) {
             System.out.println("Tipo -> " + tipo + "\tArticulo -> " + c_barras + "\tUnidades -> " + unidades + "\tId Cab -> " + idCabecera);
+
+
 
             DatabaseOperations operations = DatabaseOperations.obtenerInstancia(getActivity());
             operations.insertarDetalles(new DetallePedido(tipo, c_barras, unidades, idCabecera));
@@ -134,6 +136,9 @@ public class MakeSaleFragment2 extends Fragment {
 
 
     }
+
+
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

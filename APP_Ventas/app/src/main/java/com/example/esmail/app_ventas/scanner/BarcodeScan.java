@@ -60,8 +60,6 @@ public class BarcodeScan extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -326,10 +324,49 @@ public class BarcodeScan extends AppCompatActivity {
     };
 
     private void setParameters(String barcodeData) {
+        if (barcodeData.length() < 13) {
+            barcodeData= obtenerCodigoBarrasCompleto(barcodeData);
+        }
         Intent intent=new Intent(this, MakeSale.class);
         intent.putExtra(EXTRA,barcodeData);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * Cálculo del código de control
+     */
+    private int calculadorCodigoControl(String firstTwelveDigits) {
+        char[] charDigits = firstTwelveDigits.toCharArray();
+        int[] ean13 =
+                {
+                        1, 3
+                };
+        int sum = 0;
+        for (int i = 0; i < charDigits.length; i++) {
+            sum += Character.getNumericValue(charDigits[i]) * ean13[i % 2];
+        }
+        int checksum = 10 - sum % 10;
+
+        if (checksum == 10)
+            checksum = 0;
+
+        return checksum;
+    }
+
+    /**
+     * Metodo para obtener el codigo de barras completo
+     *
+     * @param num
+     * @return
+     */
+    private String obtenerCodigoBarrasCompleto(String num) {
+
+        int codigoControl = calculadorCodigoControl(num);
+        //suma el codigo de control
+        String codigoBarras = num + codigoControl;
+
+        return codigoBarras;
     }
 
     private void cancleScan() throws Exception {

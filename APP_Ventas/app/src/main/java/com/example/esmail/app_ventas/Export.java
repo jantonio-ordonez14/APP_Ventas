@@ -229,6 +229,7 @@ public class Export extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        DatabaseOperations.obtenerInstancia(this).eliminarPedidos();
         startActivity(new Intent(this,MainActivity.class));
         finish();
     }

@@ -64,9 +64,14 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_make_sale:
                                 startActivity(new Intent(getApplicationContext(), MakeSale.class));
-
+                                finish();
                                 break;
                             case R.id.menu_salir:
+                                if (mFragmentManager.getBackStackEntryCount() > 1)
+                                    mFragmentManager.popBackStack();
+                                else {
+                                    finish();
+                                }
                                 System.exit(0);
                                 break;
                         }
