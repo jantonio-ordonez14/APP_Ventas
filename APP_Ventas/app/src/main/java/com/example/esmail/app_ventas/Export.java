@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
 import com.example.esmail.app_ventas.modelos.DetallePedido;
 import com.example.esmail.app_ventas.modelos.Pedido;
+import com.example.esmail.app_ventas.modelos.Pedidos;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.io.File;
@@ -40,8 +41,8 @@ public class Export extends AppCompatActivity {
 
 
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-        operations.eliminarDetalle();
-        operations.eliminarCabecera();
+        //operations.eliminarDetalle();
+        //operations.eliminarCabecera();
 
     }
 
@@ -53,21 +54,41 @@ public class Export extends AppCompatActivity {
         for (int i = 0; i < cabecera.size(); i++) {
             pedido.add(new Pedido(cabecera.get(i).getTipo(), cabecera.get(i).getFecha(), cabecera.get(i).getCaja(),
                     cabecera.get(i).getFk_id_cliente(), "", ""));
-            for (int j = 0; j <detalle.size(); j++) {
-                pedido.add(new Pedido(detalle.get(i).getTipo(),"","","",detalle.get(i).getArticulo(),detalle.get(i).getUnidades()));
+            for (int j = 0; j < detalle.size(); j++) {
+                pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "", detalle.get(j).getArticulo(), detalle.get(j).getUnidades()));
             }
         }
 
         for (Pedido pd :
                 pedido) {
-            System.out.println(pd.getTipo()+"\t"+pd.getFecha()+"\t"+pd.getCaja()+"\t"+pd.getCliente()+"\t"+
-                                pd.getArticulo()+"\t"+pd.getUnidades());
+            System.out.println(pd.getTipo() + "\t" + pd.getFecha() + "\t" + pd.getCaja() + "\t" + pd.getCliente() + "\t" +
+                    pd.getArticulo() + "\t" + pd.getUnidades());
+
+            DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
+            operations.insertarPedidos(new Pedido(pd.getTipo(), pd.getFecha(), pd.getCaja(), pd.getCliente(), pd.getArticulo(), pd.getUnidades()));
         }
 
+        obtenerPedido();
+    }
 
+    private void obtenerPedido() {
+        ArrayList<Pedidos> pedidos=new ArrayList<>();
+        DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
+        Cursor c = operations.obtenerPedidos();
 
-        /*
+        if (c.moveToFirst()) {
+            do {
+                String id = c.getString(0);
+                String tipo= c.getString(1);
+                String fecha= c.getString(2);
+                String caja= c.getString(3);
+                String cliente= c.getString(4);
+                String articulo= c.getString(5);
+                String unidades= c.getString(6);
 
+                pedidos.add(new Pedidos(id,tipo,fecha,caja,cliente,articulo,unidades));
+            } while (c.moveToNext());
+        }
         try {
             //creamos un objeto file
             File f = leerFichero(NOMBRE_DOCUMENTO);
@@ -76,12 +97,12 @@ public class Export extends AppCompatActivity {
                     new OutputStreamWriter(
                             new FileOutputStream(f));
 
-            // obtenemos los registros
-            for (int i = 0; i < al.size(); i++) {
 
-                String datos = al.get(i).getCodigo() + "\t" + al.get(i).getCBarras()
-                        + "\t" + al.get(i).getDescripcion() + "\t" + al.get(i).getUnid()
-                        + "\t" + al.get(i).getPrecio() + "\t" + al.get(i).getImporte() + "\r\n";
+            // obtenemos los registros
+            for (Pedidos pd : pedidos) {
+
+                String datos = pd.getIdRegsitro() + "\t" + pd.getTipo()+ "\t" + pd.getFecha() + "\t" + pd.getCaja()
+                        + "\t" + pd.getCliente() + "\t" + pd.getArticulo() +"\t" + pd.getUnidades()+  "\r\n";
                 System.out.println(datos);
                 // insertamos los registros en el archivo
                 fout.write(datos);
@@ -94,7 +115,7 @@ public class Export extends AppCompatActivity {
             Toast.makeText(this, "Error al escribir fichero", Toast.LENGTH_SHORT).show();
 
             Log.e("Ficheros", ex.getMessage());
-        }*/
+        }
     }
 
     private ArrayList<CabeceraPedido> obtenerDetallesCabecera(String idCabecera) {

@@ -16,6 +16,7 @@ import android.view.View;
 import com.example.esmail.app_ventas.fragments.CustomersImportFragment;
 import com.example.esmail.app_ventas.fragments.ExportFragment;
 import com.example.esmail.app_ventas.fragments.ProductsImportFragment;
+import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -110,10 +111,19 @@ public class MainActivity extends AppCompatActivity{
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
-
+            case R.id.delete:
+                eliminarPedido();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void eliminarPedido() {
+        DatabaseOperations operations=DatabaseOperations.obtenerInstancia(this);
+        operations.eliminarPedidos();
+        operations.eliminarDetalle();
+        operations.eliminarCabecera();
     }
 
 

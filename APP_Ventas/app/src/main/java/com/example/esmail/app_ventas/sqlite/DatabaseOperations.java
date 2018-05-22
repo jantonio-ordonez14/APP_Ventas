@@ -66,6 +66,18 @@ public final class DatabaseOperations {
         return idPedido;
     }
 
+    public Boolean eliminarPedidos() {
+        try {
+            SQLiteDatabase db = baseDatos.getWritableDatabase();
+            db.delete(DataBasesSales.Tablas.PEDIDOS, null, null);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     // [/OPERACIONES_PEDIDOS]
 
     // [OPERACIONES_DETALLES]
@@ -153,7 +165,7 @@ public final class DatabaseOperations {
 
         return false;
     }
-// [/OPERACIONES_DETALLE]
+    // [/OPERACIONES_DETALLE]
 
     // [OPERACIONES_cabecera]
     public Cursor obtenerCabecera() {
@@ -247,6 +259,44 @@ public final class DatabaseOperations {
         String sql = String.format("SELECT * FROM %s", DataBasesSales.Tablas.ARTICULOS);
 
         return db.rawQuery(sql, null);
+    }
+
+    public Boolean consultarArticulo(String codBarras){
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+
+        // Columnas
+        String[] projection = {
+                Sales.ColumnasArticulo.COD_BARRAS
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = Sales.ColumnasArticulo.COD_BARRAS+ " = ?";
+        String[] selectionArgs = {codBarras};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Sales.Articulos.ID + " ASC";
+
+        Cursor c= db.query(
+                DataBasesSales.Tablas.ARTICULOS,                            // tabla
+                projection,                                 // columnas
+                selection,                              // columnas para la clausula WHERE
+                selectionArgs,                           // valores para la clausula WHERE
+                null,
+                null,
+                sortOrder                                   // The sort order
+        );
+        String valor="";
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+                valor = c.getString(0);
+
+            } while (c.moveToNext());
+        }
+        if (codBarras.length() == valor.length()) {
+            return true;
+        } else return false;
     }
 
     public String insertarArticulos(Articulo articulo) {

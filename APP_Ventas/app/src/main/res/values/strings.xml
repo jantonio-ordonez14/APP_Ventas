@@ -14,7 +14,9 @@
     <string name="btn_finalizar">FINALIZAR</string>
 
     <string name="aceptar">Aceptar</string>
+    <string name="cancelar">Cancelar</string>
     <string name="dialog_makesale">¿Cuantas unidades son?</string>
+    <string name="dialog_anadir">¿Desea continuar leyendo codigos?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

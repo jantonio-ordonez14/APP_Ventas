@@ -20,7 +20,6 @@ public class ScanActivity extends AppCompatActivity implements ZXingScannerView.
 
     public static final String EXTRA = "package com.example.esmail.app_ventas.scanner";
     private ZXingScannerView mScannerView;
-    private String unidades;
 
     @Override
     public void onCreate(Bundle state) {
