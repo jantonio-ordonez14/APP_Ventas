@@ -20,7 +20,6 @@ import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ProductsImportFragment extends Fragment {
 
     RecyclerViewAdapterProducts adapter;

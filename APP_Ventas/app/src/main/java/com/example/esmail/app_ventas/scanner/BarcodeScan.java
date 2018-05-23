@@ -1,6 +1,7 @@
 package com.example.esmail.app_ventas.scanner;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.esmail.app_ventas.MakeSale;
@@ -245,7 +247,7 @@ public class BarcodeScan extends AppCompatActivity {
     }
 
     private void initializeUI() {
-        final Button btn2 = (Button) findViewById(R.id.btn_scanner);
+        final ImageButton btn2 =  findViewById(R.id.btn_scanner);
         btn2.setOnTouchListener(new Button.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

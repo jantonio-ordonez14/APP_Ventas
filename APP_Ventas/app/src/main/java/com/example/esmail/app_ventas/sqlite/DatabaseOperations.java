@@ -3,6 +3,7 @@ package com.example.esmail.app_ventas.sqlite;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 
@@ -208,7 +209,7 @@ public final class DatabaseOperations {
         );
     }
 
-    public String insertarCabecera(CabeceraPedido cabeceraPedido) {
+    public String insertarCabecera(CabeceraPedido cabeceraPedido) throws SQLException {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
         ContentValues valores = new ContentValues();

@@ -4,20 +4,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/menu_customers_import"
-            android:title="@string/customers_import"
-            android:icon="@drawable/ic_menu"/>
+            android:icon="@drawable/clientes"
+            android:title="@string/customers_import" />
         <item
             android:id="@+id/menus_products_import"
-            android:title="@string/products_import"
-            android:icon="@drawable/ic_menu"/>
+            android:icon="@drawable/importar_productos"
+            android:title="@string/products_import" />
         <item
             android:id="@+id/menu_make_sale"
-            android:title="@string/make_sale"
-            android:icon="@drawable/ic_menu"/>
+            android:icon="@drawable/venta"
+            android:title="@string/make_sale" />
         <item
             android:id="@+id/menu_salir"
-            android:title="@string/export"
-            android:icon="@drawable/ic_menu"/>
+            android:icon="@drawable/salir"
+            android:title="@string/export" />
     </group>
 
 </menu>
