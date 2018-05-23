@@ -50,6 +50,7 @@ public class CustomersImport {
                     alAux.add(row[i]);
                 }
                 DatabaseOperations databaseOperations = DatabaseOperations.obtenerInstancia(context);
+                // si existe el cliente, actualizamos el nombre, sino lo insertamos
                 if (databaseOperations.consultarCliente(alAux.get(0))){
                     databaseOperations.actualizarCliente(alAux.get(1),alAux.get(0));
                 }else
@@ -66,7 +67,6 @@ public class CustomersImport {
 
         return false;
     }
-
 
     /**
      * Crea un fichero y obtiene la ruta
@@ -91,7 +91,7 @@ public class CustomersImport {
      */
     public static File getRuta() {
 
-        // El fichero ser? almacenado en un directorio dentro del directorio
+        // El fichero sera almacenado en un directorio dentro del directorio
         // Descargas
         File ruta = null;
         if (Environment.MEDIA_MOUNTED.equals(Environment
@@ -107,7 +107,6 @@ public class CustomersImport {
                     }
                 }
             }
-        } else {
         }
 
         return ruta;

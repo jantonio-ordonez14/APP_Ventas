@@ -14,7 +14,6 @@ import android.widget.Spinner;
 
 import com.example.esmail.app_ventas.MakeSale;
 import com.example.esmail.app_ventas.R;
-import com.example.esmail.app_ventas.modelos.Cliente;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.text.SimpleDateFormat;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class MakeSaleFragment1 extends Fragment {
-
 
     private EditText etFecha, etCaja, etCliente;
     private Spinner spinner;

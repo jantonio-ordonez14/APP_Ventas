@@ -35,7 +35,7 @@ public class ProductsImportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v= inflater.inflate(R.layout.fragment_products_import, container, false);
+        View v = inflater.inflate(R.layout.fragment_products_import, container, false);
 
         return v;
     }
@@ -45,7 +45,7 @@ public class ProductsImportFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         ProductsImport productsImport = new ProductsImport("productos.csv", getActivity());
-        articulos =new ArrayList<>();
+        articulos = new ArrayList<>();
 
         recyclerView = (RecyclerView) getView().findViewById(R.id.recyclerview_products);
         recyclerView.setHasFixedSize(true);
@@ -63,17 +63,14 @@ public class ProductsImportFragment extends Fragment {
                     String codArticulo = c.getString(1);
                     String codBarras = c.getString(2);
                     String descripcion = c.getString(3);
-                    String unidades=c.getString(4);
-                    String precio=c.getString(5);
-                    String importe=c.getString(6);
+                    String unidades = c.getString(4);
+                    String precio = c.getString(5);
+                    String importe = c.getString(6);
 
-
-
-                    articulos.add(new Articulo(codArticulo,codBarras,descripcion,unidades,precio,importe));
+                    articulos.add(new Articulo(codArticulo, codBarras, descripcion, unidades, precio, importe));
                 } while (c.moveToNext());
             }
             adapter.notifyDataSetChanged();
-
 
         }
     }

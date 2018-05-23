@@ -1,23 +1,18 @@
 package com.example.esmail.app_ventas;
 
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.esmail.app_ventas.fragments.InitialFragment;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment1;
 import com.example.esmail.app_ventas.fragments.MakeSaleFragment2;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
@@ -32,6 +27,9 @@ public class MakeSale extends AppCompatActivity {
     private String TAG = "MakeSale";
     private String resultado = null;
     private FragmentManager mFragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private MakeSaleFragment1 makeSaleFragment1;
+    private MakeSaleFragment2 makeSaleFragment2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +44,8 @@ public class MakeSale extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        Fragment fragment = null;
+        fragmentTransaction = mFragmentManager.beginTransaction();
+
         //si el resultado no es nulo, consultamos si existe y si existe lo enviamos, sino existe
         //volvemos a escanear
         if (resultado != null) {
@@ -62,16 +60,19 @@ public class MakeSale extends AppCompatActivity {
             }
 
         } else {
-            fragment = new MakeSaleFragment1();
-            fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
+            makeSaleFragment1 = new MakeSaleFragment1();
+            fragmentTransaction.replace(R.id.content_frame_make, makeSaleFragment1);
             fragmentTransaction.commit();
         }
 
 
     }
 
-
-
+    /**
+     * AlertDialog para añadir unidades
+     * @param codBarras
+     * @return
+     */
     private AlertDialog editorDialog(final String codBarras) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -81,7 +82,7 @@ public class MakeSale extends AppCompatActivity {
         builder.setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String texto = editText.getText().toString();
-                unidades=texto;
+                unidades = texto;
 
                 // llama al metodo de la clase
                 setUnidades(unidades, codBarras);
@@ -93,6 +94,9 @@ public class MakeSale extends AppCompatActivity {
         return builder.show();
     }
 
+    /**
+     * AlertDialog sino encuentra codigoBarras
+     */
     private void anadirDialog() {
         android.app.AlertDialog.Builder b = new android.app.AlertDialog.Builder(this);
         b.setTitle(getResources().getString(R.string.dialog_anadir));
@@ -127,28 +131,37 @@ public class MakeSale extends AppCompatActivity {
         String idCabecera = operations.insertarCabecera(new CabeceraPedido(tipo, fecha, caja, cliente));
         System.out.println("id cabecera -> " + idCabecera);
         //iniciar fragment
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        MakeSaleFragment2 fragment = new MakeSaleFragment2();
+        fragmentTransaction = mFragmentManager.beginTransaction();
+        makeSaleFragment2 = new MakeSaleFragment2();
         Bundle args = new Bundle();
         args.putString("idcabecera", idCabecera);
-        fragment.setArguments(args);
-        fragmentTransaction.replace(R.id.content_frame_make, fragment, TAG);
+        makeSaleFragment2.setArguments(args);
+        fragmentTransaction.replace(R.id.content_frame_make, makeSaleFragment2, TAG);
         fragmentTransaction.commit();
 
     }
 
+    /**
+     * Metodo para enviar unidades a @MakeSaleFragment2
+     * @param unidades
+     * @param codBarras
+     */
     public void setUnidades(String unidades, String codBarras) {
 
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        MakeSaleFragment2 fragment = new MakeSaleFragment2();
+        fragmentTransaction = mFragmentManager.beginTransaction();
+        makeSaleFragment2 = new MakeSaleFragment2();
         Bundle args = new Bundle();
         args.putString("unidades", unidades);
         args.putString("c-barras", codBarras);
-        fragment.setArguments(args);
-        fragmentTransaction.replace(R.id.content_frame_make, fragment).addToBackStack(null);
+        makeSaleFragment2.setArguments(args);
+        fragmentTransaction.replace(R.id.content_frame_make, makeSaleFragment2);
         fragmentTransaction.commit();
     }
 
+    /**
+     * Metodo para iniciar @Export
+     * @param idCabecera
+     */
     public void setParametersExport(String idCabecera) {
 
         Intent intent = new Intent(this, Export.class);
@@ -161,7 +174,9 @@ public class MakeSale extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Metodo para elegir entre camara y escaner
+     */
     public void inicializeScan() {
         try {
             AlertDialog.Builder b = new AlertDialog.Builder(this);
