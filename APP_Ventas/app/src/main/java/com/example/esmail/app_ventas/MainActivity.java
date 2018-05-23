@@ -67,11 +67,6 @@ public class MainActivity extends AppCompatActivity {
                                 finish();
                                 break;
                             case R.id.menu_salir:
-                                if (mFragmentManager.getBackStackEntryCount() > 1)
-                                    mFragmentManager.popBackStack();
-                                else {
-                                    finish();
-                                }
                                 System.exit(0);
                                 break;
                         }
@@ -133,19 +128,29 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.delete:
-                eliminarPedido();
+            case R.id.deleteCustomers:
+                eliminarClientes();
+                return true;
+            case R.id.deleteProducts:
+                eliminarProductos();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void eliminarPedido() {
+    private void eliminarClientes() {
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-        operations.eliminarPedidos();
-        operations.eliminarDetalle();
-        operations.eliminarCabecera();
+        operations.eliminarClientes();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    private void eliminarProductos() {
+        DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
+        operations.eliminarArticulos();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
 

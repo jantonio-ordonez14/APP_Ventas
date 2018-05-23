@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/delete"
-        android:title="Eliminar" />
+        android:id="@+id/deleteCustomers"
+        android:title="@string/menu_delete_customers" />
+
+    <item
+        android:id="@+id/deleteProducts"
+        android:title="@string/menu_delete_products" />
+
+
 </menu>

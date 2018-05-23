@@ -344,6 +344,19 @@ public final class DatabaseOperations {
         int resultado = db.delete(DataBasesSales.Tablas.ARTICULOS, whereClause, whereArgs);
 
         return resultado > 0;
+
+    }
+
+    public boolean eliminarArticulos() {
+        try {
+            SQLiteDatabase db = baseDatos.getWritableDatabase();
+            db.delete(DataBasesSales.Tablas.ARTICULOS, null, null);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
     // [/OPERACIONES_articulo]
 
@@ -431,6 +444,19 @@ public final class DatabaseOperations {
 
         return resultado > 0;
     }
+    public boolean eliminarClientes() {
+        try {
+            SQLiteDatabase db = baseDatos.getWritableDatabase();
+            db.delete(DataBasesSales.Tablas.CLIENTE, null, null);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
 
 
 // [/OPERACIONES_CLIENTE]

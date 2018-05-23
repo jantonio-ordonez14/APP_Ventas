@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">AppVentas</string>
 
+    <string name="menu_delete_customers">Eliminar Clientes</string>
+    <string name="menu_delete_products">Eliminar Productos</string>
+
     <string name="header_customers">CLIENTES</string>
     <string name="header_products">PRODUCTOS</string>
 
