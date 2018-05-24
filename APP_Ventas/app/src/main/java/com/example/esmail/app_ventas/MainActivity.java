@@ -157,4 +157,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void recargarFragment(String id) {
+        switch (id){
+            case "clientes":
+                 fragment = new CustomersFragment();
+                break;
+            case "articulos":
+                 fragment = new ProductsFragment();
+                break;
+        }
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.commit();
+    }
 }

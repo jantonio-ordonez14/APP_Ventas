@@ -20,7 +20,7 @@
         <item
             android:id="@+id/menu_salir"
             android:icon="@drawable/salir"
-            android:title="@string/export" />
+            android:title="@string/exit" />
     </group>
 
 </menu>
