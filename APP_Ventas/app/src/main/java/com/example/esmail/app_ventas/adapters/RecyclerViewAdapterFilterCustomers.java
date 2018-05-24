@@ -15,23 +15,24 @@ import com.example.esmail.app_ventas.modelos.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewAdapterFiltroClientes extends RecyclerView.Adapter
+public class RecyclerViewAdapterFilterCustomers extends RecyclerView.Adapter
         <com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers.ListItemViewHolder>
-        implements Filterable {
+        implements Filterable, View.OnClickListener{
 
     private List<Cliente> items;
     private ArrayList<Cliente> itemsFilters;
     private CustomFilter mFilter;
     private SparseBooleanArray selectedItems;
+    private View.OnClickListener listener;
 
-    public RecyclerViewAdapterFiltroClientes(List<Cliente> modelData) {
+    public RecyclerViewAdapterFilterCustomers(List<Cliente> modelData) {
         if (modelData == null) {
             throw new IllegalArgumentException("modelData must not be null");
         }
         items = modelData;
         this.itemsFilters = new ArrayList();
         this.itemsFilters.addAll(items);
-        this.mFilter = new CustomFilter(RecyclerViewAdapterFiltroClientes.this);
+        this.mFilter = new CustomFilter(RecyclerViewAdapterFilterCustomers.this);
         selectedItems = new SparseBooleanArray();
     }
 
@@ -40,14 +41,15 @@ public class RecyclerViewAdapterFiltroClientes extends RecyclerView.Adapter
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.estructure_lv_customers, viewGroup, false);
+        itemView.setOnClickListener(this);
         return new com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers.ListItemViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers.ListItemViewHolder viewHolder, int position) {
         Cliente cliente = itemsFilters.get(position);
-        viewHolder.name.setText(cliente.getCod_articulo());
-        viewHolder.age.setText(cliente.getNombre());
+        viewHolder.name.setText(cliente.getNombre());
+        viewHolder.age.setText(cliente.getCod_articulo());
         viewHolder.itemView.setActivated(selectedItems.get(position, false));
     }
 
@@ -58,7 +60,15 @@ public class RecyclerViewAdapterFiltroClientes extends RecyclerView.Adapter
 
     @Override
     public Filter getFilter() {
-        return null;
+        return mFilter;
+    }
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
+    }
+    @Override
+    public void onClick(View v) {
+        if(listener != null)
+            listener.onClick(v);
     }
 
     public final static class ListItemViewHolder extends RecyclerView.ViewHolder {
@@ -73,11 +83,11 @@ public class RecyclerViewAdapterFiltroClientes extends RecyclerView.Adapter
     }
 
     public class CustomFilter extends Filter {
-        private RecyclerViewAdapterFiltroClientes RecyclerViewAdapterFiltroClientes;
+        private RecyclerViewAdapterFilterCustomers RecyclerViewAdapterFilterCustomers;
 
-        private CustomFilter(RecyclerViewAdapterFiltroClientes RecyclerViewAdapterFiltroClientes) {
+        private CustomFilter(RecyclerViewAdapterFilterCustomers RecyclerViewAdapterFilterCustomers) {
             super();
-            this.RecyclerViewAdapterFiltroClientes = RecyclerViewAdapterFiltroClientes;
+            this.RecyclerViewAdapterFilterCustomers = RecyclerViewAdapterFilterCustomers;
         }
 
         @Override
@@ -101,7 +111,7 @@ public class RecyclerViewAdapterFiltroClientes extends RecyclerView.Adapter
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            this.RecyclerViewAdapterFiltroClientes.notifyDataSetChanged();
+            this.RecyclerViewAdapterFilterCustomers.notifyDataSetChanged();
         }
     }
 }

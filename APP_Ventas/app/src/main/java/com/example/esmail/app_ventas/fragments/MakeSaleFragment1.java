@@ -3,20 +3,21 @@ package com.example.esmail.app_ventas.fragments;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.example.esmail.app_ventas.MakeSale;
 import com.example.esmail.app_ventas.R;
+import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterFilterCustomers;
+import com.example.esmail.app_ventas.modelos.Cliente;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.text.SimpleDateFormat;
@@ -33,7 +34,6 @@ public class MakeSaleFragment1 extends Fragment {
     public MakeSaleFragment1() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_make_sale_1, container, false);
@@ -42,24 +42,56 @@ public class MakeSaleFragment1 extends Fragment {
         etCaja = v.findViewById(R.id.et_caja);
         etCliente = v.findViewById(R.id.et_cliente);
         etSearch = v.findViewById(R.id.et_search);
-        rv = v.findViewById(R.id.lv_cliente);
+        rv = v.findViewById(R.id.rv_cliente);
+        rv.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(llm);
 
         btnAnadir = v.findViewById(R.id.btn_cliente);
         btnSiguiente = v.findViewById(R.id.btn_siguiente);
         btnSiguiente.setEnabled(false);
 
-        ArrayList<String> clientes = new ArrayList<>();
+        final ArrayList<Cliente> clientes = new ArrayList<>();
         DatabaseOperations db = DatabaseOperations.obtenerInstancia(getActivity());
         //obtener clientes
         final Cursor c = db.obtenerClientes();
         if (c.moveToFirst()) {
             do {
+                String codigo = c.getString(1);
                 String nombre = c.getString(2);
-                clientes.add(nombre);
+                clientes.add(new Cliente(codigo, nombre));
             } while (c.moveToNext());
         }
         c.close();
-        
+
+        final RecyclerViewAdapterFilterCustomers adapter = new RecyclerViewAdapterFilterCustomers(clientes);
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = rv.getChildAdapterPosition(v);
+                btnSiguiente.setEnabled(true);
+                clienteSelected=clientes.get(position).getCod_articulo();
+            }
+        });
+        rv.setAdapter(adapter);
+
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         btnAnadir.setOnClickListener(new View.OnClickListener() {
