@@ -3,6 +3,9 @@ package com.example.esmail.app_ventas.fragments;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ListView;
 
 import com.example.esmail.app_ventas.MakeSale;
 import com.example.esmail.app_ventas.R;
@@ -22,8 +25,8 @@ import java.util.Date;
 
 public class MakeSaleFragment1 extends Fragment {
 
-    private EditText etFecha, etCaja, etCliente;
-    private Spinner spinner;
+    private EditText etFecha, etCaja, etCliente, etSearch;
+    private RecyclerView rv;
     private Button btnSiguiente, btnAnadir;
     private String clienteSelected;
 
@@ -37,8 +40,10 @@ public class MakeSaleFragment1 extends Fragment {
         //obtener instancias
         etFecha = v.findViewById(R.id.et_fecha);
         etCaja = v.findViewById(R.id.et_caja);
-        spinner = v.findViewById(R.id.spinner);
         etCliente = v.findViewById(R.id.et_cliente);
+        etSearch = v.findViewById(R.id.et_search);
+        rv = v.findViewById(R.id.lv_cliente);
+
         btnAnadir = v.findViewById(R.id.btn_cliente);
         btnSiguiente = v.findViewById(R.id.btn_siguiente);
         btnSiguiente.setEnabled(false);
@@ -49,27 +54,13 @@ public class MakeSaleFragment1 extends Fragment {
         final Cursor c = db.obtenerClientes();
         if (c.moveToFirst()) {
             do {
-                String nombre = c.getString(1);
+                String nombre = c.getString(2);
                 clientes.add(nombre);
             } while (c.moveToNext());
         }
         c.close();
-        //mostrar clientes en el spinner
-        spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, clientes));
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //obtener cliente seleccionado
-                String text = (String) parent.getItemAtPosition(position).toString();
-                clienteSelected = text;
-                btnSiguiente.setEnabled(true);
-            }
+        
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         btnAnadir.setOnClickListener(new View.OnClickListener() {
             @Override

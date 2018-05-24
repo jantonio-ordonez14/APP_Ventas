@@ -25,7 +25,7 @@ public class Sales {
 
     interface ColumnasArticulo {
         String ID = "_id";
-        String COD_ERP = "cod_erp";
+        String COD_ERP_ARTICULO = "cod_erp_articulo";
         String COD_BARRAS = "cod_barras";
         String DESCRIPCION = "descripcion";
         String UNIDADES = "unidades";
@@ -35,7 +35,7 @@ public class Sales {
 
     interface ColumnasCliente {
         String ID = "_id";
-        String FK_CODIGO_ERP = "fk_codigo_erp";
+        String CODIGO_ERP_CLIENTE = "codigo_erp_cliente";
         String NOMBRE = "nombre";
     }
 

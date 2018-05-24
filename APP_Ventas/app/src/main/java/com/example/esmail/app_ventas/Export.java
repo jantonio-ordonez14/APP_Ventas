@@ -95,7 +95,6 @@ public class Export extends AppCompatActivity {
             } while (c.moveToNext());
         }
 
-
         //recycler view
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_export);
         recyclerView.setHasFixedSize(true);
@@ -114,7 +113,6 @@ public class Export extends AppCompatActivity {
                     new OutputStreamWriter(
                             new FileOutputStream(f));
 
-
             // obtenemos los registros
             for (Pedidos pd : pedidos) {
 
@@ -124,7 +122,6 @@ public class Export extends AppCompatActivity {
                 // insertamos los registros en el archivo
                 fout.write(datos);
                 Toast.makeText(this, "Se ha exportado el pedido", Toast.LENGTH_SHORT).show();
-
 
             }
             fout.close();

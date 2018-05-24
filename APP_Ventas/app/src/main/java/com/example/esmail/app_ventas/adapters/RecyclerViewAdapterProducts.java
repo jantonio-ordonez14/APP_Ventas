@@ -55,8 +55,6 @@ public class RecyclerViewAdapterProducts
         TextView codBarras;
         TextView descripcion;
         TextView unidades;
-        TextView precio;
-        TextView importe;
 
         public ListItemViewHolder(View itemView) {
             super(itemView);

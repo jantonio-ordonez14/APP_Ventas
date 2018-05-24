@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.example.esmail.app_ventas.modelos.Articulo;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
@@ -306,7 +305,7 @@ public final class DatabaseOperations {
         ContentValues valores = new ContentValues();
         // Generar Pk
         String idarticulo = Sales.Articulos.generarIdArticulo();
-        valores.put(Sales.Articulos.COD_ERP, articulo.getCod_articulo());
+        valores.put(Sales.Articulos.COD_ERP_ARTICULO, articulo.getCod_articulo());
         valores.put(Sales.Articulos.COD_BARRAS, articulo.getCod_barras());
         valores.put(Sales.Articulos.DESCRIPCION, articulo.getDescripcion());
         valores.put(Sales.Articulos.UNIDADES, articulo.getUnidades());
@@ -365,7 +364,7 @@ public final class DatabaseOperations {
     public Cursor obtenerClientes() {
         SQLiteDatabase db = baseDatos.getReadableDatabase();
 
-        String sql = String.format("SELECT * FROM %s", DataBasesSales.Tablas.CLIENTE);
+        String sql = String.format("SELECT * FROM %s ORDER BY %s", DataBasesSales.Tablas.CLIENTE, Sales.Clientes.NOMBRE);
 
         return db.rawQuery(sql, null);
     }
@@ -377,7 +376,7 @@ public final class DatabaseOperations {
         String idCliente = Sales.Clientes.generarIdCliente();
 
         ContentValues valores = new ContentValues();
-        valores.put(Sales.Clientes.FK_CODIGO_ERP, cliente.getCod_articulo());
+        valores.put(Sales.Clientes.CODIGO_ERP_CLIENTE, cliente.getCod_articulo());
         valores.put(Sales.Clientes.NOMBRE, cliente.getNombre());
         db.insertOrThrow(DataBasesSales.Tablas.CLIENTE, null, valores);
         return idCliente;
@@ -388,11 +387,11 @@ public final class DatabaseOperations {
 
         // Columnas
         String[] projection = {
-                Sales.ColumnasCliente.FK_CODIGO_ERP
+                Sales.ColumnasCliente.CODIGO_ERP_CLIENTE
         };
 
         // Filter results WHERE "title" = 'My Title'
-        String selection = Sales.ColumnasCliente.FK_CODIGO_ERP+ " = ?";
+        String selection = Sales.ColumnasCliente.CODIGO_ERP_CLIENTE + " = ?";
         String[] selectionArgs = {codigo};
 
         // How you want the results sorted in the resulting Cursor
@@ -427,7 +426,7 @@ public final class DatabaseOperations {
         ContentValues valores = new ContentValues();
         valores.put(Sales.Clientes.NOMBRE, nombre);
 
-        String whereClause = String.format("%s=?", Sales.Clientes.FK_CODIGO_ERP);
+        String whereClause = String.format("%s=?", Sales.Clientes.CODIGO_ERP_CLIENTE);
         final String[] whereArgs = {id};
 
         int resultado = db.update(DataBasesSales.Tablas.CLIENTE, valores, whereClause, whereArgs);

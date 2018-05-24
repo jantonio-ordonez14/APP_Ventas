@@ -65,7 +65,6 @@ public class MakeSale extends AppCompatActivity {
             fragmentTransaction.commit();
         }
 
-
     }
 
     /**
@@ -86,7 +85,6 @@ public class MakeSale extends AppCompatActivity {
 
                 // llama al metodo de la clase
                 setUnidades(unidades, codBarras);
-
 
             }
         });
@@ -200,7 +198,6 @@ public class MakeSale extends AppCompatActivity {
                             } catch (IllegalArgumentException e) {
                                 System.out.println(e.getMessage());
                             }
-
                             break;
                     }
 
@@ -212,7 +209,5 @@ public class MakeSale extends AppCompatActivity {
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
-
-
     }
 }
