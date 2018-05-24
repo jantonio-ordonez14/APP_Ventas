@@ -7,10 +7,11 @@
     <string name="header_customers">CLIENTES</string>
     <string name="header_products">PRODUCTOS</string>
 
-    <string name="customers_import">Importar Clientes</string>
-    <string name="products_import">Importar Productos</string>
+    <string name="start">Inicio</string>
+    <string name="customers">Clientes</string>
+    <string name="products">Productos</string>
     <string name="make_sale">Realizar Venta</string>
-    <string name="export">SALIR</string>
+    <string name="export">Salir</string>
 
     <string name="lbl_fecha">FECHA</string>
     <string name="lbl_caja">CAJA</string>

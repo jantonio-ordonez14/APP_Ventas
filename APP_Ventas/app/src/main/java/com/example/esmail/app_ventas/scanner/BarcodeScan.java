@@ -1,14 +1,12 @@
 package com.example.esmail.app_ventas.scanner;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,7 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.esmail.app_ventas.MakeSale;
+import com.example.esmail.app_ventas.makesale.MakeSale;
 import com.example.esmail.app_ventas.R;
 import com.honeywell.decodemanager.DecodeManager;
 import com.honeywell.decodemanager.barcode.CommonDefine;

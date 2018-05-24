@@ -3,13 +3,16 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/menu_customers_import"
-            android:icon="@drawable/clientes"
-            android:title="@string/customers_import" />
+            android:id="@+id/menu_start"
+            android:title="@string/start" />
         <item
-            android:id="@+id/menus_products_import"
+            android:id="@+id/menu_customers"
+            android:icon="@drawable/clientes"
+            android:title="@string/customers" />
+        <item
+            android:id="@+id/menus_products"
             android:icon="@drawable/importar_productos"
-            android:title="@string/products_import" />
+            android:title="@string/products" />
         <item
             android:id="@+id/menu_make_sale"
             android:icon="@drawable/venta"

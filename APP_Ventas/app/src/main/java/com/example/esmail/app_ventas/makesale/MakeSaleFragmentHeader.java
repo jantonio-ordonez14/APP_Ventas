@@ -1,4 +1,4 @@
-package com.example.esmail.app_ventas.fragments;
+package com.example.esmail.app_ventas.makesale;
 
 import android.app.Fragment;
 import android.database.Cursor;
@@ -7,14 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.esmail.app_ventas.MakeSale;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterFilterCustomers;
 import com.example.esmail.app_ventas.modelos.Cliente;
@@ -24,19 +22,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MakeSaleFragment1 extends Fragment {
+public class MakeSaleFragmentHeader extends Fragment {
 
     private EditText etFecha, etCaja, etCliente, etSearch;
     private RecyclerView rv;
     private Button btnSiguiente, btnAnadir;
     private String clienteSelected;
 
-    public MakeSaleFragment1() {
+    public MakeSaleFragmentHeader() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_make_sale_1, container, false);
+        View v = inflater.inflate(R.layout.fragment_make_sale_header, container, false);
         //obtener instancias
         etFecha = v.findViewById(R.id.et_fecha);
         etCaja = v.findViewById(R.id.et_caja);

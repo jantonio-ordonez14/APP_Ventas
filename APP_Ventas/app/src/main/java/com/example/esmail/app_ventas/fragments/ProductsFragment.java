@@ -10,8 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.esmail.app_ventas.CustomersImport;
-import com.example.esmail.app_ventas.ProductsImport;
+import com.example.esmail.app_ventas.imports.ProductsImport;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterProducts;
 import com.example.esmail.app_ventas.modelos.Articulo;
@@ -20,13 +19,13 @@ import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductsImportFragment extends Fragment {
+public class ProductsFragment extends Fragment {
 
     RecyclerViewAdapterProducts adapter;
     RecyclerView recyclerView;
     private static List<Articulo> articulos;
 
-    public ProductsImportFragment() {
+    public ProductsFragment() {
         // Required empty public constructor
     }
 
@@ -34,7 +33,7 @@ public class ProductsImportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_products_import, container, false);
+        View v = inflater.inflate(R.layout.fragment_products, container, false);
 
         return v;
     }

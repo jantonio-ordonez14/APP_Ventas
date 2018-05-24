@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.esmail.app_ventas.CustomersImport;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterProducts;

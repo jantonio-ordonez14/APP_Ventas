@@ -1,16 +1,12 @@
 package com.example.esmail.app_ventas.scanner;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.esmail.app_ventas.MakeSale;
-import com.example.esmail.app_ventas.R;
+import com.example.esmail.app_ventas.makesale.MakeSale;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;

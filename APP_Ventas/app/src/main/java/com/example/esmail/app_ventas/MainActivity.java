@@ -14,9 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.esmail.app_ventas.fragments.CustomersImportFragment;
+import com.example.esmail.app_ventas.fragments.CustomersFragment;
 import com.example.esmail.app_ventas.fragments.InitialFragment;
-import com.example.esmail.app_ventas.fragments.ProductsImportFragment;
+import com.example.esmail.app_ventas.fragments.ProductsFragment;
+import com.example.esmail.app_ventas.makesale.MakeSale;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 public class MainActivity extends AppCompatActivity {
@@ -54,12 +55,14 @@ public class MainActivity extends AppCompatActivity {
                         boolean fragmentTransaction = false;
 
                         switch (menuItem.getItemId()) {
-                            case R.id.menu_customers_import:
-                                fragment = new CustomersImportFragment();
+                            case R.id.menu_start:
+
+                            case R.id.menu_customers:
+                                fragment = new CustomersFragment();
                                 fragmentTransaction = true;
                                 break;
-                            case R.id.menus_products_import:
-                                fragment = new ProductsImportFragment();
+                            case R.id.menus_products:
+                                fragment = new ProductsFragment();
                                 fragmentTransaction = true;
                                 break;
                             case R.id.menu_make_sale:

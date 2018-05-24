@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.esmail.app_ventas.CustomersImport;
+import com.example.esmail.app_ventas.imports.CustomersImport;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers;
 import com.example.esmail.app_ventas.modelos.Cliente;
@@ -19,13 +19,13 @@ import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomersImportFragment extends Fragment {
+public class CustomersFragment extends Fragment {
 
     RecyclerViewAdapterCustomers adapter;
     RecyclerView recyclerView;
     private static List<Cliente> clientes;
 
-    public CustomersImportFragment() {
+    public CustomersFragment() {
         // Required empty public constructor
     }
 
@@ -34,7 +34,7 @@ public class CustomersImportFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_customers_import, container, false);
+        View v = inflater.inflate(R.layout.fragment_customers, container, false);
 
 
         return v;

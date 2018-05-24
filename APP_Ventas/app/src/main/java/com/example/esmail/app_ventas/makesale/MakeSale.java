@@ -1,4 +1,4 @@
-package com.example.esmail.app_ventas;
+package com.example.esmail.app_ventas.makesale;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -13,8 +13,11 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.esmail.app_ventas.fragments.MakeSaleFragment1;
-import com.example.esmail.app_ventas.fragments.MakeSaleFragment2;
+import com.example.esmail.app_ventas.Export;
+import com.example.esmail.app_ventas.MainActivity;
+import com.example.esmail.app_ventas.R;
+import com.example.esmail.app_ventas.makesale.MakeSaleFragmentDetails;
+import com.example.esmail.app_ventas.makesale.MakeSaleFragmentHeader;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
 import com.example.esmail.app_ventas.scanner.BarcodeScan;
 import com.example.esmail.app_ventas.scanner.ScanActivity;
@@ -28,8 +31,8 @@ public class MakeSale extends AppCompatActivity {
     private String resultado = null;
     private FragmentManager mFragmentManager;
     private FragmentTransaction fragmentTransaction;
-    private MakeSaleFragment1 makeSaleFragment1;
-    private MakeSaleFragment2 makeSaleFragment2;
+    private MakeSaleFragmentHeader makeSaleFragmentHeader;
+    private MakeSaleFragmentDetails makeSaleFragmentDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,8 @@ public class MakeSale extends AppCompatActivity {
             }
 
         } else {
-            makeSaleFragment1 = new MakeSaleFragment1();
-            fragmentTransaction.replace(R.id.content_frame_make, makeSaleFragment1);
+            makeSaleFragmentHeader = new MakeSaleFragmentHeader();
+            fragmentTransaction.replace(R.id.content_frame_make, makeSaleFragmentHeader);
             fragmentTransaction.commit();
         }
 
@@ -116,7 +119,7 @@ public class MakeSale extends AppCompatActivity {
     }
 
     /**
-     * Metodo para enviar parametros desde @MakeSaleFragment1 a @MakeSaleFragment2
+     * Metodo para enviar parametros desde @MakeSaleFragmentHeader a @MakeSaleFragmentDetails
      *
      * @param fecha
      * @param caja
@@ -130,29 +133,29 @@ public class MakeSale extends AppCompatActivity {
         System.out.println("id cabecera -> " + idCabecera);
         //iniciar fragment
         fragmentTransaction = mFragmentManager.beginTransaction();
-        makeSaleFragment2 = new MakeSaleFragment2();
+        makeSaleFragmentDetails = new MakeSaleFragmentDetails();
         Bundle args = new Bundle();
         args.putString("idcabecera", idCabecera);
-        makeSaleFragment2.setArguments(args);
-        fragmentTransaction.replace(R.id.content_frame_make, makeSaleFragment2, TAG);
+        makeSaleFragmentDetails.setArguments(args);
+        fragmentTransaction.replace(R.id.content_frame_make, makeSaleFragmentDetails, TAG);
         fragmentTransaction.commit();
 
     }
 
     /**
-     * Metodo para enviar unidades a @MakeSaleFragment2
+     * Metodo para enviar unidades a @MakeSaleFragmentDetails
      * @param unidades
      * @param codBarras
      */
     public void setUnidades(String unidades, String codBarras) {
 
         fragmentTransaction = mFragmentManager.beginTransaction();
-        makeSaleFragment2 = new MakeSaleFragment2();
+        makeSaleFragmentDetails = new MakeSaleFragmentDetails();
         Bundle args = new Bundle();
         args.putString("unidades", unidades);
         args.putString("c-barras", codBarras);
-        makeSaleFragment2.setArguments(args);
-        fragmentTransaction.replace(R.id.content_frame_make, makeSaleFragment2);
+        makeSaleFragmentDetails.setArguments(args);
+        fragmentTransaction.replace(R.id.content_frame_make, makeSaleFragmentDetails);
         fragmentTransaction.commit();
     }
 

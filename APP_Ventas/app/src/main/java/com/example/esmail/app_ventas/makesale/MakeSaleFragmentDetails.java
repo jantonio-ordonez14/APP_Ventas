@@ -1,4 +1,4 @@
-package com.example.esmail.app_ventas.fragments;
+package com.example.esmail.app_ventas.makesale;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.esmail.app_ventas.MakeSale;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterMakeSale;
 import com.example.esmail.app_ventas.modelos.DetallePedido;
@@ -23,19 +22,19 @@ import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MakeSaleFragment2 extends Fragment {
+public class MakeSaleFragmentDetails extends Fragment {
     private String idCabecera, caja, cliente, tipo;
     private List<DetallePedido> al = new ArrayList<>();
     private RecyclerViewAdapterMakeSale adapter;
     private RecyclerView recyclerView;
 
-    public MakeSaleFragment2() {
+    public MakeSaleFragmentDetails() {
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_make_sale_2, container, false);
+        View v = inflater.inflate(R.layout.fragment_make_sale_details, container, false);
         Log.e("Fragment", "onCreateView");
 
 
@@ -46,7 +45,7 @@ public class MakeSaleFragment2 extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("Fragment", "onCreate");
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MakeSaleFragment2", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MakeSaleFragmentDetails", Context.MODE_PRIVATE);
         // indicamos el tipo
         tipo = "L";
         // obtenemos la idcabecera
@@ -130,6 +129,7 @@ public class MakeSaleFragment2 extends Fragment {
 
     /**
      * Guardar instancia
+     *
      * @param outState
      */
     @Override
@@ -139,7 +139,7 @@ public class MakeSaleFragment2 extends Fragment {
         Log.e("MS", "onSaveInstanceState");
         System.out.println("Id Cab -> " + idCabecera);
         // guardar idcabecera
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MakeSaleFragment2", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MakeSaleFragmentDetails", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("id-cabecera", idCabecera);
         editor.commit();
