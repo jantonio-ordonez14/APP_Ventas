@@ -17,6 +17,11 @@
             android:id="@+id/menu_make_sale"
             android:icon="@drawable/venta"
             android:title="@string/make_sale" />
+
+        <item
+            android:id="@+id/menu_orders"
+            android:icon="@drawable/venta"
+            android:title="@string/orders" />
         <item
             android:id="@+id/menu_salir"
             android:icon="@drawable/salir"

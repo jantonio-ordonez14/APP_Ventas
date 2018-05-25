@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.esmail.app_ventas.R;
-import com.example.esmail.app_ventas.modelos.Pedidos;
+import com.example.esmail.app_ventas.modelos.Exportados;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ public class RecyclerViewAdapterExport
         extends RecyclerView.Adapter
         <RecyclerViewAdapterExport.ListItemViewHolder> {
 
-    private List<Pedidos> items;
+    private List<Exportados> items;
     private SparseBooleanArray selectedItems;
 
-    public RecyclerViewAdapterExport(List<Pedidos> modelData) {
+    public RecyclerViewAdapterExport(List<Exportados> modelData) {
         if (modelData == null) {
             throw new IllegalArgumentException("modelData must not be null");
         }
@@ -37,14 +37,14 @@ public class RecyclerViewAdapterExport
 
     @Override
     public void onBindViewHolder(ListItemViewHolder viewHolder, int position) {
-        Pedidos pedidos = items.get(position);
-        viewHolder.id.setText(pedidos.getIdRegsitro());
-        viewHolder.tipo.setText(pedidos.getTipo());
-        viewHolder.fecha.setText(pedidos.getFecha());
-        viewHolder.caja.setText(pedidos.getCaja());
-        viewHolder.cliente.setText(pedidos.getCliente());
-        viewHolder.articulo.setText(pedidos.getArticulo());
-        viewHolder.unidades.setText(pedidos.getUnidades());
+        Exportados exportados = items.get(position);
+        viewHolder.id.setText(exportados.getIdRegistro());
+        viewHolder.tipo.setText(exportados.getTipo());
+        viewHolder.fecha.setText(exportados.getFecha());
+        viewHolder.caja.setText(exportados.getCaja());
+        viewHolder.cliente.setText(exportados.getCliente());
+        viewHolder.articulo.setText(exportados.getArticulo());
+        viewHolder.unidades.setText(exportados.getUnidades());
         viewHolder.itemView.setActivated(selectedItems.get(position, false));
     }
 

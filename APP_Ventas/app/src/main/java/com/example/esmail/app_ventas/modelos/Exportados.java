@@ -1,20 +1,21 @@
 package com.example.esmail.app_ventas.modelos;
 
-public class Pedidos {
-    private String idRegsitro, tipo, fecha, caja, cliente, articulo, unidades;
+public class Exportados {
+    private String idRegistro, tipo, fecha, caja, cliente, articulo, unidades, fk_id_cabecera;
 
-    public Pedidos(String idRegsitro, String tipo, String fecha, String caja, String cliente, String articulo, String unidades) {
-        this.idRegsitro = idRegsitro;
+    public Exportados(String idRegistro, String tipo, String fecha, String caja, String cliente, String articulo, String unidades, String fk_id_cabecera) {
+        this.idRegistro = idRegistro;
         this.tipo = tipo;
         this.fecha = fecha;
         this.caja = caja;
         this.cliente = cliente;
         this.articulo = articulo;
         this.unidades = unidades;
+        this.fk_id_cabecera=fk_id_cabecera;
     }
 
-    public String getIdRegsitro() {
-        return idRegsitro;
+    public String getIdRegistro() {
+        return idRegistro;
     }
 
     public String getTipo() {
@@ -39,5 +40,9 @@ public class Pedidos {
 
     public String getUnidades() {
         return unidades;
+    }
+
+    public String getFk_id_cabecera() {
+        return fk_id_cabecera;
     }
 }

@@ -47,6 +47,19 @@ public class Sales {
         String FK_ID_CLIENTE = "fk_id_cliente";
         String ARTICULO="articulo";
         String UNIDADES = "unidades";
+        String FK_ID_CABECERA="fk_id_cabecera";
+    }
+
+    interface ColumnasExportado{
+        String IDREGISTRO="id_registro";
+        String TIPO="tipo";
+        String FECHA = "fecha";
+        String CAJA = "caja";
+        String ID_CLIENTE = "id_cliente";
+        String ARTICULO="articulo";
+        String UNIDADES = "unidades";
+        String FK_ID_CABECERA="fk_id_cabecera";
+
     }
 
 
@@ -80,7 +93,11 @@ public class Sales {
         }
     }
 
-
+    public static class Exportado implements ColumnasExportado{
+        public static String generarIdExportados() {
+            return "EXP-" + UUID.randomUUID().toString();
+        }
+    }
     private Sales() {
     }
 

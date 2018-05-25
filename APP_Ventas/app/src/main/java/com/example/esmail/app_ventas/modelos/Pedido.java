@@ -1,15 +1,16 @@
 package com.example.esmail.app_ventas.modelos;
 
 public class Pedido {
-    private String tipo,fecha,caja,cliente,articulo,unidades;
+    private String tipo, fecha, caja, cliente, articulo, unidades, fk_id_cabecera;
 
-    public Pedido(String tipo, String fecha, String caja, String cliente, String articulo, String unidades) {
+    public Pedido(String tipo, String fecha, String caja, String cliente, String articulo, String unidades, String fk_id_cabecera) {
         this.tipo = tipo;
         this.fecha = fecha;
         this.caja = caja;
         this.cliente = cliente;
         this.articulo = articulo;
         this.unidades = unidades;
+        this.fk_id_cabecera = fk_id_cabecera;
     }
 
     public String getTipo() {
@@ -34,5 +35,9 @@ public class Pedido {
 
     public String getUnidades() {
         return unidades;
+    }
+
+    public String getFk_id_cabecera() {
+        return fk_id_cabecera;
     }
 }

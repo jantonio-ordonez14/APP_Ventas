@@ -10,13 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterExport;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
-import com.example.esmail.app_ventas.modelos.Cliente;
 import com.example.esmail.app_ventas.modelos.DetallePedido;
 import com.example.esmail.app_ventas.modelos.Pedido;
-import com.example.esmail.app_ventas.modelos.Pedidos;
+import com.example.esmail.app_ventas.modelos.Exportados;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.io.File;
@@ -42,42 +40,15 @@ public class Export extends AppCompatActivity {
         String idCabecera = intent.getStringExtra("id");
         Log.e("Export", idCabecera);
 
-        hacerPedido(idCabecera);
 
 
-        DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-        operations.eliminarDetalle();
-        operations.eliminarCabecera();
+
 
     }
-
-    private void hacerPedido(String idCabecera) {
-        ArrayList<Pedido> pedido = new ArrayList<>();
-        ArrayList<CabeceraPedido> cabecera = obtenerDetallesCabecera(idCabecera);
-        ArrayList<DetallePedido> detalle = obtenerDetallesPedido(idCabecera);
-
-        for (int i = 0; i < cabecera.size(); i++) {
-            pedido.add(new Pedido(cabecera.get(i).getTipo(), cabecera.get(i).getFecha(), cabecera.get(i).getCaja(),
-                    cabecera.get(i).getFk_id_cliente(), "", ""));
-            for (int j = 0; j < detalle.size(); j++) {
-                pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "", detalle.get(j).getArticulo(), detalle.get(j).getUnidades()));
-            }
-        }
-
-        for (Pedido pd :
-                pedido) {
-            System.out.println(pd.getTipo() + "\t" + pd.getFecha() + "\t" + pd.getCaja() + "\t" + pd.getCliente() + "\t" +
-                    pd.getArticulo() + "\t" + pd.getUnidades());
-
-            DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-            operations.insertarPedidos(new Pedido(pd.getTipo(), pd.getFecha(), pd.getCaja(), pd.getCliente(), pd.getArticulo(), pd.getUnidades()));
-        }
-
-        obtenerPedido();
-    }
+/*
 
     private void obtenerPedido() {
-        ArrayList<Pedidos> pedidos = new ArrayList<>();
+        ArrayList<Pedido> pedidos = new ArrayList<>();
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
         Cursor c = operations.obtenerPedidos();
 
@@ -90,8 +61,9 @@ public class Export extends AppCompatActivity {
                 String cliente = c.getString(4);
                 String articulo = c.getString(5);
                 String unidades = c.getString(6);
+                String idcabecera=c.getString(7);
 
-                pedidos.add(new Pedidos(id, tipo, fecha, caja, cliente, articulo, unidades));
+                pedidos.add(new Pedido( tipo, fecha, caja, cliente, articulo, unidades,idcabecera));
             } while (c.moveToNext());
         }
 
@@ -114,9 +86,9 @@ public class Export extends AppCompatActivity {
                             new FileOutputStream(f));
 
             // obtenemos los registros
-            for (Pedidos pd : pedidos) {
+            for (Exportados pd : pedidos) {
 
-                String datos = pd.getTipo() + "\t" + pd.getIdRegsitro() + "\t" + pd.getFecha() + "\t" + pd.getCaja()
+                String datos = pd.getTipo() + "\t" + pd.getIdRegistro() + "\t" + pd.getFecha() + "\t" + pd.getCaja()
                         + "\t" + pd.getCliente() + "\t" + pd.getArticulo() + "\t" + pd.getUnidades() + "\r\n";
                 System.out.println(datos);
                 // insertamos los registros en el archivo
@@ -132,58 +104,7 @@ public class Export extends AppCompatActivity {
         }
     }
 
-    private ArrayList<CabeceraPedido> obtenerDetallesCabecera(String idCabecera) {
-        DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-        Cursor c = operations.obtenerCabeceraId(idCabecera);
-
-        if (c.moveToFirst()) {
-            do {
-                String tipo = c.getString(1);
-                String fecha = c.getString(2);
-                String caja = c.getString(3);
-                String fk_id_cliente = c.getString(4);
-
-                alCabecera.add(new CabeceraPedido(tipo, fecha, caja, fk_id_cliente));
-            } while (c.moveToNext());
-        }
-
-        System.out.println("****************CABECERA**********************");
-        for (CabeceraPedido pedido :
-                alCabecera) {
-            System.out.println("TIPO->" + pedido.getTipo() + "\tFECHA->" + pedido.getFecha()
-                    + "\tCAJA->" + pedido.getCaja() + "\tIDCLIENTE->" + pedido.getFk_id_cliente());
-        }
-        System.out.println("*******************FIN************************");
-
-        return alCabecera;
-    }
-
-    private ArrayList<DetallePedido> obtenerDetallesPedido(String idCabecera) {
-        DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-        Cursor c = operations.obtenerDetallesId(idCabecera);
-
-        if (c.moveToFirst()) {
-            do {
-                String id = c.getString(0);
-                String tipo = c.getString(1);
-                String articulo = c.getString(2);
-                String unidades = c.getString(3);
-                String fk_id_cabecera = c.getString(4);
-
-                alDetalle.add(new DetallePedido(tipo, articulo, unidades, fk_id_cabecera));
-            } while (c.moveToNext());
-        }
-        System.out.println("****************DETALLE**********************");
-
-        for (DetallePedido pedido :
-                alDetalle) {
-            System.out.println("TIPO->" + pedido.getTipo() + "\tARTICULO->" + pedido.getArticulo() + "\tUNIDADES->" +
-                    pedido.getUnidades() + "\tIDCABECERA->" + pedido.getFk_id_cabecera());
-        }
-        System.out.println("*******************FIN************************");
-
-        return alDetalle;
-    }
+*/
 
     /**
      * creamos un fichero con la ruta obtenida

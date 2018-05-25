@@ -11,6 +11,7 @@
     <string name="customers">Clientes</string>
     <string name="products">Productos</string>
     <string name="make_sale">Realizar Venta</string>
+    <string name="orders">Pedidos</string>
     <string name="exit">Salir</string>
 
     <string name="lbl_fecha">FECHA</string>

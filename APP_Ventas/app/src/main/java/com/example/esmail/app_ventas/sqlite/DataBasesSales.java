@@ -7,7 +7,7 @@ import android.os.Build;
 import android.provider.BaseColumns;
 
 public class DataBasesSales extends SQLiteOpenHelper{
-    private static final String NOMBRE_BASE_DATOS = "db_sales17.db";
+    private static final String NOMBRE_BASE_DATOS = "db_sales18.db";
 
     private static final int VERSION_ACTUAL = 1;
 
@@ -19,6 +19,7 @@ public class DataBasesSales extends SQLiteOpenHelper{
         String ARTICULOS = "articulos";
         String CLIENTE = "cliente";
         String PEDIDOS="pedidos";
+        String EXPORTADOS="exportados";
     }
 
     interface Referencias {
@@ -77,11 +78,20 @@ public class DataBasesSales extends SQLiteOpenHelper{
 
         db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT," +
                         "%s TEXT,%s DATETIME,%s TEXT," +
-                        "%s TEXT, %s ,%s REAL)",
+                        "%s TEXT, %s TEXT,%s REAL, %s INTEGER)",
                 Tablas.PEDIDOS, BaseColumns._ID,
                 Sales.Pedidos.TIPO, Sales.Pedidos.FECHA,
                 Sales.Pedidos.CAJA,Sales.Pedidos.FK_ID_CLIENTE,
-                Sales.DetallesPedido.ARTICULO,Sales.DetallesPedido.UNIDADES));
+                Sales.Pedidos.ARTICULO,Sales.Pedidos.UNIDADES, Sales.Pedidos.FK_ID_CABECERA));
+
+        db.execSQL(String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY," +
+                        "%s TEXT,%s DATETIME,%s TEXT," +
+                        "%s TEXT, %s ,%s REAL, %s INTEGER)",
+                Tablas.EXPORTADOS, Sales.Exportado.IDREGISTRO,
+                Sales.Exportado.TIPO, Sales.Exportado.FECHA,
+                Sales.Exportado.CAJA,Sales.Exportado.ID_CLIENTE,
+                Sales.Exportado.ARTICULO,Sales.Exportado.UNIDADES, Sales.Exportado.FK_ID_CABECERA));
+
     }
 
     @Override
@@ -91,6 +101,8 @@ public class DataBasesSales extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + Tablas.DETALLE_PEDIDO);
         db.execSQL("DROP TABLE IF EXISTS " + Tablas.ARTICULOS);
         db.execSQL("DROP TABLE IF EXISTS " + Tablas.CLIENTE);
+        db.execSQL("DROP TABLE IF EXISTS " + Tablas.PEDIDOS);
+        db.execSQL("DROP TABLE IF EXISTS " + Tablas.EXPORTADOS);
 
         onCreate(db);
     }

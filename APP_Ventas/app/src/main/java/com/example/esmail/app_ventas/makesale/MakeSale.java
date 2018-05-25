@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,9 +20,13 @@ import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.makesale.MakeSaleFragmentDetails;
 import com.example.esmail.app_ventas.makesale.MakeSaleFragmentHeader;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
+import com.example.esmail.app_ventas.modelos.DetallePedido;
+import com.example.esmail.app_ventas.modelos.Pedido;
 import com.example.esmail.app_ventas.scanner.BarcodeScan;
 import com.example.esmail.app_ventas.scanner.ScanActivity;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
+
+import java.util.ArrayList;
 
 import static com.example.esmail.app_ventas.scanner.ScanActivity.EXTRA;
 
@@ -72,6 +77,7 @@ public class MakeSale extends AppCompatActivity {
 
     /**
      * AlertDialog para añadir unidades
+     *
      * @param codBarras
      * @return
      */
@@ -144,6 +150,7 @@ public class MakeSale extends AppCompatActivity {
 
     /**
      * Metodo para enviar unidades a @MakeSaleFragmentDetails
+     *
      * @param unidades
      * @param codBarras
      */
@@ -161,18 +168,17 @@ public class MakeSale extends AppCompatActivity {
 
     /**
      * Metodo para iniciar @Export
+     *
      * @param idCabecera
      */
     public void setParametersExport(String idCabecera) {
 
-        Intent intent = new Intent(this, Export.class);
-        Log.e("MakeFrame2", idCabecera);
-        intent.putExtra("id", idCabecera);
-        startActivity(intent);
+        hacerPedido(idCabecera);
+        DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
+        operations.eliminarDetalle();
+        operations.eliminarCabecera();
+        startActivity(new Intent(this, MainActivity.class));
         finish();
-        while (mFragmentManager.getBackStackEntryCount() > 0) {
-            mFragmentManager.popBackStackImmediate();
-        }
     }
 
     /**
@@ -212,5 +218,85 @@ public class MakeSale extends AppCompatActivity {
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void hacerPedido(String idCabecera) {
+        ArrayList<Pedido> pedido = new ArrayList<>();
+        ArrayList<CabeceraPedido> cabecera = obtenerDetallesCabecera(idCabecera);
+        ArrayList<DetallePedido> detalle = obtenerDetallesPedido(idCabecera);
+
+        for (int i = 0; i < cabecera.size(); i++) {
+            pedido.add(new Pedido(cabecera.get(i).getTipo(), cabecera.get(i).getFecha(), cabecera.get(i).getCaja(),
+                    cabecera.get(i).getFk_id_cliente(), "", "", idCabecera));
+            for (int j = 0; j < detalle.size(); j++) {
+                pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "", detalle.get(j).getArticulo(), detalle.get(j).getUnidades(), idCabecera));
+            }
+        }
+
+        for (Pedido pd :
+                pedido) {
+            System.out.println(pd.getTipo() + "\t" + pd.getFecha() + "\t" + pd.getCaja() + "\t" + pd.getCliente() + "\t" +
+                    pd.getArticulo() + "\t" + pd.getUnidades());
+
+            DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
+            operations.insertarPedidos(new Pedido(pd.getTipo(), pd.getFecha(), pd.getCaja(), pd.getCliente(), pd.getArticulo(), pd.getUnidades(), pd.getFk_id_cabecera()));
+        }
+
+
+    }
+
+    private ArrayList<CabeceraPedido> obtenerDetallesCabecera(String idCabecera) {
+        DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
+        Cursor c = operations.obtenerCabeceraId(idCabecera);
+
+        ArrayList<CabeceraPedido> alCabecera = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                String tipo = c.getString(1);
+                String fecha = c.getString(2);
+                String caja = c.getString(3);
+                String fk_id_cliente = c.getString(4);
+
+                alCabecera.add(new CabeceraPedido(tipo, fecha, caja, fk_id_cliente));
+            } while (c.moveToNext());
+        }
+
+        System.out.println("****************CABECERA**********************");
+        for (CabeceraPedido pedido :
+                alCabecera) {
+            System.out.println("TIPO->" + pedido.getTipo() + "\tFECHA->" + pedido.getFecha()
+                    + "\tCAJA->" + pedido.getCaja() + "\tIDCLIENTE->" + pedido.getFk_id_cliente());
+        }
+        System.out.println("*******************FIN************************");
+
+        return alCabecera;
+    }
+
+    private ArrayList<DetallePedido> obtenerDetallesPedido(String idCabecera) {
+        DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
+        Cursor c = operations.obtenerDetallesId(idCabecera);
+
+        ArrayList<DetallePedido> alDetalle = new ArrayList<>();
+        if (c.moveToFirst()) {
+            do {
+                String id = c.getString(0);
+                String tipo = c.getString(1);
+                String articulo = c.getString(2);
+                String unidades = c.getString(3);
+                String fk_id_cabecera = c.getString(4);
+
+                alDetalle.add(new DetallePedido(tipo, articulo, unidades, fk_id_cabecera));
+            } while (c.moveToNext());
+        }
+        System.out.println("****************DETALLE**********************");
+
+        for (DetallePedido pedido :
+                alDetalle) {
+            System.out.println("TIPO->" + pedido.getTipo() + "\tARTICULO->" + pedido.getArticulo() + "\tUNIDADES->" +
+                    pedido.getUnidades() + "\tIDCABECERA->" + pedido.getFk_id_cabecera());
+        }
+        System.out.println("*******************FIN************************");
+
+        return alDetalle;
     }
 }

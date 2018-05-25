@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.example.esmail.app_ventas.fragments.CustomersFragment;
 import com.example.esmail.app_ventas.fragments.InitialFragment;
+import com.example.esmail.app_ventas.fragments.OrdersFragment;
 import com.example.esmail.app_ventas.fragments.ProductsFragment;
 import com.example.esmail.app_ventas.makesale.MakeSale;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
@@ -68,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.menu_make_sale:
                                 startActivity(new Intent(getApplicationContext(), MakeSale.class));
                                 finish();
+                                break;
+                            case R.id.menu_orders:
+                                fragment = new OrdersFragment();
+                                fragmentTransaction=true;
                                 break;
                             case R.id.menu_salir:
                                 System.exit(0);
