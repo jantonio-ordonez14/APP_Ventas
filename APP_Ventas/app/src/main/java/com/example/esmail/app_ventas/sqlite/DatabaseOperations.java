@@ -127,6 +127,67 @@ public final class DatabaseOperations {
         );
     }
 
+    public Cursor obtenerPedidosSeleccionados(String idCabecera){
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        // Columnas
+        String[] projection = {
+                Sales.Pedidos.ID,
+                Sales.Pedidos.TIPO,
+                Sales.Pedidos.FECHA,
+                Sales.Pedidos.CAJA,
+                Sales.Pedidos.FK_ID_CLIENTE,
+                Sales.Pedidos.ARTICULO,
+                Sales.Pedidos.UNIDADES,
+
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = Sales.Pedidos.FK_ID_CABECERA + " = ?";
+        String[] selectionArgs = {idCabecera};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Sales.ColumnasDetallePedido.ID + " ASC";
+
+        return db.query(
+                DataBasesSales.Tablas.PEDIDOS,                            // tabla
+                projection,                                 // columnas
+                selection,                              // columnas para la clausula WHERE
+                selectionArgs,                           // valores para la clausula WHERE
+                null,
+                null,
+                sortOrder                                   // The sort order
+        );
+    }
+
+    public Cursor obtenerIdCabecera(String horaFecha){
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        // Columnas
+        String[] projection = {
+                Sales.Pedidos.FK_ID_CABECERA
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = Sales.Pedidos.FECHA_Y_HORA + " = ?";
+        String[] selectionArgs = {horaFecha};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Sales.ColumnasDetallePedido.ID + " ASC";
+
+        return db.query(
+                DataBasesSales.Tablas.PEDIDOS,                            // tabla
+                projection,                                 // columnas
+                selection,                              // columnas para la clausula WHERE
+                selectionArgs,                           // valores para la clausula WHERE
+                null,
+                null,
+                sortOrder                                   // The sort order
+        );
+    }
+
     public String insertarPedidos(Pedido pedido) {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 

@@ -235,7 +235,7 @@ public class MakeSale extends AppCompatActivity {
             pedido.add(new Pedido(cabecera.get(i).getTipo(), cabecera.get(i).getFecha(), cabecera.get(i).getCaja(),
                     cabecera.get(i).getFk_id_cliente(), "", "", idCabecera, creacion));
             for (int j = 0; j < detalle.size(); j++) {
-                pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "", detalle.get(j).getArticulo(), detalle.get(j).getUnidades(), idCabecera,creacion));
+                pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "", detalle.get(j).getArticulo(), detalle.get(j).getUnidades(), idCabecera,""));
             }
         }
 
