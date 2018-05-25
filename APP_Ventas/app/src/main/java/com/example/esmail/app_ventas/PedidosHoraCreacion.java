@@ -1,0 +1,35 @@
+package com.example.esmail.app_ventas;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+
+public class PedidosHoraCreacion {
+    String fecha, caja, cliente, hora_creacion;
+
+    public PedidosHoraCreacion(String fecha, String caja, String cliente, String hora_creacion) {
+
+        this.fecha = fecha;
+        this.caja = caja;
+        this.cliente = cliente;
+        this.hora_creacion = hora_creacion;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public String getCaja() {
+        return caja;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public String getHora_creacion() {
+        return hora_creacion;
+    }
+}

@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.esmail.app_ventas.PedidosHoraCreacion;
 import com.example.esmail.app_ventas.R;
-import com.example.esmail.app_ventas.modelos.Articulo;
 
 import java.util.List;
 
@@ -16,10 +16,10 @@ public class RecyclerViewAdapterOrders
         extends RecyclerView.Adapter
         <RecyclerViewAdapterOrders.ListItemViewHolder> {
 
-    private List<Articulo> items;
+    private List<PedidosHoraCreacion> items;
     private SparseBooleanArray selectedItems;
 
-    public RecyclerViewAdapterOrders(List<Articulo> modelData) {
+    public RecyclerViewAdapterOrders(List<PedidosHoraCreacion> modelData) {
         if (modelData == null) {
             throw new IllegalArgumentException("modelData must not be null");
         }
@@ -31,17 +31,17 @@ public class RecyclerViewAdapterOrders
     public ListItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.estructure_lv_products, viewGroup, false);
+                inflate(R.layout.estructure_lv_orders, viewGroup, false);
         return new ListItemViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(ListItemViewHolder viewHolder, int position) {
-        Articulo articulo = items.get(position);
-        viewHolder.codArticulo.setText(articulo.getCod_articulo());
-        viewHolder.codBarras.setText(articulo.getCod_barras());
-        viewHolder.descripcion.setText(articulo.getDescripcion());
-        viewHolder.unidades.setText(articulo.getUnidades());
+        PedidosHoraCreacion PedidosHoraCreacion = items.get(position);
+        viewHolder.fecha.setText(PedidosHoraCreacion.getFecha());
+        viewHolder.caja.setText(PedidosHoraCreacion.getCaja());
+        viewHolder.cliente.setText(PedidosHoraCreacion.getCliente());
+        viewHolder.horaCreacion.setText("Creado: " + PedidosHoraCreacion.getHora_creacion());
         viewHolder.itemView.setActivated(selectedItems.get(position, false));
     }
 
@@ -51,17 +51,14 @@ public class RecyclerViewAdapterOrders
     }
 
     public final static class ListItemViewHolder extends RecyclerView.ViewHolder {
-        TextView codArticulo;
-        TextView codBarras;
-        TextView descripcion;
-        TextView unidades;
+        TextView fecha, caja, cliente, horaCreacion;
 
         public ListItemViewHolder(View itemView) {
             super(itemView);
-            codArticulo = (TextView) itemView.findViewById(R.id.txt_cod_erp);
-            codBarras = (TextView) itemView.findViewById(R.id.txt_cod_barras);
-            descripcion = (TextView) itemView.findViewById(R.id.txt_descripcion);
-            unidades = (TextView) itemView.findViewById(R.id.txt_cantidad);
+            fecha = (TextView) itemView.findViewById(R.id.fecha);
+            caja = (TextView) itemView.findViewById(R.id.caja);
+            cliente = (TextView) itemView.findViewById(R.id.cliente);
+            horaCreacion = (TextView) itemView.findViewById(R.id.hora_creacion);
         }
     }
 }

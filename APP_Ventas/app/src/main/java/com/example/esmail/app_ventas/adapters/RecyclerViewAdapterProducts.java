@@ -59,9 +59,9 @@ public class RecyclerViewAdapterProducts
         public ListItemViewHolder(View itemView) {
             super(itemView);
             codArticulo = (TextView) itemView.findViewById(R.id.txt_cod_erp);
-            codBarras = (TextView) itemView.findViewById(R.id.txt_cod_barras);
+            codBarras = (TextView) itemView.findViewById(R.id.txt_fecha);
             descripcion = (TextView) itemView.findViewById(R.id.txt_descripcion);
-            unidades = (TextView) itemView.findViewById(R.id.txt_cantidad);
+            unidades = (TextView) itemView.findViewById(R.id.txt_cliente);
         }
     }
 }

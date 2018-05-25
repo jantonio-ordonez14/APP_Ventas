@@ -48,6 +48,7 @@ public class Sales {
         String ARTICULO="articulo";
         String UNIDADES = "unidades";
         String FK_ID_CABECERA="fk_id_cabecera";
+        String FECHA_Y_HORA="fecha_y_hora";
     }
 
     interface ColumnasExportado{

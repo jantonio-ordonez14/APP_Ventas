@@ -95,6 +95,38 @@ public final class DatabaseOperations {
 
     }
 
+    public Cursor obtenerCabecera(String tipo) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        // Columnas
+        String[] projection = {
+                Sales.Pedidos.TIPO,
+                Sales.Pedidos.FECHA,
+                Sales.Pedidos.CAJA,
+                Sales.Pedidos.FK_ID_CLIENTE,
+                Sales.Pedidos.FECHA_Y_HORA
+
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = Sales.Pedidos.TIPO + " = ?";
+        String[] selectionArgs = {tipo};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Sales.ColumnasDetallePedido.ID + " ASC";
+
+        return db.query(
+                DataBasesSales.Tablas.PEDIDOS,                            // tabla
+                projection,                                 // columnas
+                selection,                              // columnas para la clausula WHERE
+                selectionArgs,                           // valores para la clausula WHERE
+                null,
+                null,
+                sortOrder                                   // The sort order
+        );
+    }
+
     public String insertarPedidos(Pedido pedido) {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
@@ -109,6 +141,7 @@ public final class DatabaseOperations {
         valores.put(Sales.Pedidos.ARTICULO, pedido.getArticulo());
         valores.put(Sales.Pedidos.UNIDADES, pedido.getUnidades());
         valores.put(Sales.Pedidos.FK_ID_CABECERA, pedido.getFk_id_cabecera());
+        valores.put(Sales.Pedidos.FECHA_Y_HORA, pedido.getCreacion());
 
         long id = db.insertOrThrow(DataBasesSales.Tablas.PEDIDOS, null, valores);
         idPedido = String.valueOf(id);

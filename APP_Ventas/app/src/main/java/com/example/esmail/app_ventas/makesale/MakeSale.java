@@ -26,7 +26,10 @@ import com.example.esmail.app_ventas.scanner.BarcodeScan;
 import com.example.esmail.app_ventas.scanner.ScanActivity;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.esmail.app_ventas.scanner.ScanActivity.EXTRA;
 
@@ -221,25 +224,28 @@ public class MakeSale extends AppCompatActivity {
     }
 
     private void hacerPedido(String idCabecera) {
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+        String creacion=String.valueOf(hourdateFormat.format(date));
         ArrayList<Pedido> pedido = new ArrayList<>();
         ArrayList<CabeceraPedido> cabecera = obtenerDetallesCabecera(idCabecera);
         ArrayList<DetallePedido> detalle = obtenerDetallesPedido(idCabecera);
 
         for (int i = 0; i < cabecera.size(); i++) {
             pedido.add(new Pedido(cabecera.get(i).getTipo(), cabecera.get(i).getFecha(), cabecera.get(i).getCaja(),
-                    cabecera.get(i).getFk_id_cliente(), "", "", idCabecera));
+                    cabecera.get(i).getFk_id_cliente(), "", "", idCabecera, creacion));
             for (int j = 0; j < detalle.size(); j++) {
-                pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "", detalle.get(j).getArticulo(), detalle.get(j).getUnidades(), idCabecera));
+                pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "", detalle.get(j).getArticulo(), detalle.get(j).getUnidades(), idCabecera,creacion));
             }
         }
 
         for (Pedido pd :
                 pedido) {
             System.out.println(pd.getTipo() + "\t" + pd.getFecha() + "\t" + pd.getCaja() + "\t" + pd.getCliente() + "\t" +
-                    pd.getArticulo() + "\t" + pd.getUnidades());
+                    pd.getArticulo() + "\t" + pd.getUnidades() +"\t" + pd.getCreacion());
 
             DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-            operations.insertarPedidos(new Pedido(pd.getTipo(), pd.getFecha(), pd.getCaja(), pd.getCliente(), pd.getArticulo(), pd.getUnidades(), pd.getFk_id_cabecera()));
+            operations.insertarPedidos(new Pedido(pd.getTipo(), pd.getFecha(), pd.getCaja(), pd.getCliente(), pd.getArticulo(), pd.getUnidades(), pd.getFk_id_cabecera(), pd.getCreacion()));
         }
 
 
