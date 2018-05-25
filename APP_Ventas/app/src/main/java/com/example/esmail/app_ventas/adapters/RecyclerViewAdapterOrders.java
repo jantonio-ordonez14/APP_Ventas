@@ -1,5 +1,6 @@
 package com.example.esmail.app_ventas.adapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.example.esmail.app_ventas.PedidosHoraCreacion;
 import com.example.esmail.app_ventas.R;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class RecyclerViewAdapterOrders
@@ -17,14 +19,15 @@ public class RecyclerViewAdapterOrders
         <RecyclerViewAdapterOrders.ListItemViewHolder> {
 
     private List<PedidosHoraCreacion> items;
-    private SparseBooleanArray selectedItems;
+    private SparseBooleanArray seleccionados;
+    private boolean modoSeleccion;
 
     public RecyclerViewAdapterOrders(List<PedidosHoraCreacion> modelData) {
         if (modelData == null) {
             throw new IllegalArgumentException("modelData must not be null");
         }
         items = modelData;
-        selectedItems = new SparseBooleanArray();
+        seleccionados = new SparseBooleanArray();
     }
 
     @Override
@@ -42,16 +45,21 @@ public class RecyclerViewAdapterOrders
         viewHolder.caja.setText(PedidosHoraCreacion.getCaja());
         viewHolder.cliente.setText(PedidosHoraCreacion.getCliente());
         viewHolder.horaCreacion.setText("Creado: " + PedidosHoraCreacion.getHora_creacion());
-        viewHolder.itemView.setActivated(selectedItems.get(position, false));
+
+        viewHolder.itemView.setActivated(seleccionados.get(position, false));
+
+
     }
+
 
     @Override
     public int getItemCount() {
         return items.size();
     }
 
-    public final static class ListItemViewHolder extends RecyclerView.ViewHolder {
+    public final class ListItemViewHolder extends RecyclerView.ViewHolder {
         TextView fecha, caja, cliente, horaCreacion;
+
 
         public ListItemViewHolder(View itemView) {
             super(itemView);
@@ -59,6 +67,71 @@ public class RecyclerViewAdapterOrders
             caja = (TextView) itemView.findViewById(R.id.caja);
             cliente = (TextView) itemView.findViewById(R.id.cliente);
             horaCreacion = (TextView) itemView.findViewById(R.id.hora_creacion);
+
+
+            //Selecciona el objeto si estaba seleccionado
+            if (seleccionados.get(getAdapterPosition())) {
+                itemView.setSelected(true);
+            } else
+                itemView.setSelected(false);
+
+            /**Activa el modo de selección*/
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (!modoSeleccion) {
+                        modoSeleccion = true;
+                        v.setSelected(true);
+                        v.setBackgroundColor(Color.RED);
+                        seleccionados.put(getAdapterPosition(), true);
+                    }
+
+                    return true;
+                }
+            });
+
+            /**Selecciona/deselecciona un ítem si está activado el modo selección*/
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (modoSeleccion) {
+                        if (!v.isSelected()) {
+                            v.setSelected(true);
+                            v.setBackgroundColor(Color.RED);
+                            seleccionados.put(getAdapterPosition(), true);
+                        } else {
+                            v.setSelected(false);
+                            v.setBackgroundColor(Color.WHITE);
+                            seleccionados.put(getAdapterPosition(), false);
+                            if (!haySeleccionados())
+                                modoSeleccion = false;
+                        }
+                    }
+                }
+            });
         }
     }
+
+    public boolean haySeleccionados() {
+        for (int i = 0; i <= items.size(); i++) {
+            if (seleccionados.get(i))
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Devuelve aquellos objetos marcados.
+     */
+    public LinkedList<PedidosHoraCreacion> obtenerSeleccionados() {
+        LinkedList<PedidosHoraCreacion> marcados = new LinkedList<>();
+        for (int i = 0; i < items.size(); i++) {
+            if (seleccionados.get(i)) {
+                marcados.add(items.get(i));
+            }
+        }
+        return marcados;
+    }
 }
+
+
