@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.esmail.app_ventas.Export;
@@ -18,7 +17,6 @@ import com.example.esmail.app_ventas.Pedidos;
 import com.example.esmail.app_ventas.PedidosHoraCreacion;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterOrders;
-import com.example.esmail.app_ventas.modelos.Pedido;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.util.ArrayList;
@@ -39,16 +37,18 @@ public class OrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_orders, container, false);
-
+        //recyclerview
         rv = v.findViewById(R.id.rv_orders);
+
         pedidosHoraCreacions = new ArrayList<>();
+
         return v;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        // recycler view
         rv.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -57,63 +57,76 @@ public class OrdersFragment extends Fragment {
         //adaptador
         adapter = new RecyclerViewAdapterOrders(pedidosHoraCreacions);
         rv.setAdapter(adapter);
-
+        //rellenar recycleview
         rellenar();
-
-        Button exp=getView().findViewById(R.id.exportar);
-        final TextView mostrar=getView().findViewById(R.id.mostrar);
+        //boton exportar
+        Button exp = getView().findViewById(R.id.exportar);
+        final TextView mostrar = getView().findViewById(R.id.mostrar);
         exp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LinkedList<PedidosHoraCreacion> marcados = adapter.obtenerSeleccionados();
-                String contenidoMarcados=null;
-                for (PedidosHoraCreacion os : marcados){
-                    contenidoMarcados = os.getHora_creacion();
+                ArrayList<String> contenidoMarcados = new ArrayList<>();
+                //obtener la fecha y hora de creacion
+                for (PedidosHoraCreacion os : marcados) {
+                    contenidoMarcados.add(os.getHora_creacion());
                 }
-                mostrar.setText(contenidoMarcados);
                 System.out.println(contenidoMarcados);
-                String idCabecera=obtenerIdCabecera(contenidoMarcados);
-                System.out.println("CAbecera -> " +idCabecera);
-                if (idCabecera!=null){
-                    List<Pedidos> pd=obtenerPedido(idCabecera);
+                //obtener la id de la cabecera
+                ArrayList<String> idCabecera = obtenerIdCabecera(contenidoMarcados);
+                System.out.println("CAbecera -> " + idCabecera);
+
+                if (idCabecera != null) {
+                    //obtener el pedido con esa id
+                    List<Pedidos> pd = obtenerPedido(idCabecera);
+                    //exportar el pedido
                     new Export(pd, getActivity()).action();
                 }
             }
         });
     }
-    private String obtenerIdCabecera(String fechaHora){
-        Cursor c=DatabaseOperations.obtenerInstancia(getActivity()).obtenerIdCabecera(fechaHora);
 
-        String id=null;
-        if (c.moveToFirst()){
-            do {
-                id=c.getString(0);
-                System.out.println("id -> " + id);
-            }while(c.moveToNext());
+    private ArrayList<String> obtenerIdCabecera(ArrayList<String> fechaHora) {
+        ArrayList<String> idCabecera = new ArrayList<>();
+        for (String al : fechaHora) {
+            System.out.println("Al -> " + al);
+            Cursor c = DatabaseOperations.obtenerInstancia(getActivity()).obtenerIdCabecera(al);
+
+            if (c.moveToFirst()) {
+                do {
+                    String id = c.getString(0);
+                    System.out.println("id -> " + id);
+                    idCabecera.add(id);
+                } while (c.moveToNext());
+            }
         }
 
-        return id;
+        return idCabecera;
 
     }
 
-    private List<Pedidos> obtenerPedido(String idcabecera) {
+    private List<Pedidos> obtenerPedido(ArrayList<String> idcabecera) {
+        List<Pedidos> pedidos = new ArrayList<>();
 
-        Cursor c = DatabaseOperations.obtenerInstancia(getActivity()).obtenerPedidosSeleccionados(idcabecera);
+        Cursor c = null;
+        for (String al : idcabecera) {
+            c = DatabaseOperations.obtenerInstancia(getActivity()).obtenerPedidosSeleccionados(al);
 
-        List<Pedidos> pedidos=new ArrayList<>();
-        if (c.moveToFirst()) {
-            do {
-                String id = c.getString(0);
-                String tipo = c.getString(1);
-                String fecha = c.getString(2);
-                String caja = c.getString(3);
-                String cliente = c.getString(4);
-                String articulo = c.getString(5);
-                String unidades = c.getString(6);
+            if (c.moveToFirst()) {
+                do {
+                    String id = c.getString(0);
+                    String tipo = c.getString(1);
+                    String fecha = c.getString(2);
+                    String caja = c.getString(3);
+                    String cliente = c.getString(4);
+                    String articulo = c.getString(5);
+                    String unidades = c.getString(6);
 
-                pedidos.add(new Pedidos( tipo,id, fecha, caja, cliente, articulo, unidades));
-            } while (c.moveToNext());
+                    pedidos.add(new Pedidos(tipo, id, fecha, caja, cliente, articulo, unidades));
+                } while (c.moveToNext());
+            }
         }
+
         return pedidos;
     }
 
@@ -125,9 +138,9 @@ public class OrdersFragment extends Fragment {
                 String fecha = c.getString(1);
                 String caja = c.getString(2);
                 String cliente = c.getString(3);
-                String created=c.getString(4);
+                String created = c.getString(4);
 
-                pedidosHoraCreacions.add(new PedidosHoraCreacion(fecha, caja, cliente,created));
+                pedidosHoraCreacions.add(new PedidosHoraCreacion(fecha, caja, cliente, created));
             } while (c.moveToNext());
         }
         adapter.notifyDataSetChanged();
