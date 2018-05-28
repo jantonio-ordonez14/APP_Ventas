@@ -1,18 +1,20 @@
 package com.example.esmail.app_ventas.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.esmail.app_ventas.Export;
 import com.example.esmail.app_ventas.MainActivity;
@@ -21,7 +23,6 @@ import com.example.esmail.app_ventas.PedidosHoraCreacion;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterOrders;
 import com.example.esmail.app_ventas.modelos.Exportados;
-import com.example.esmail.app_ventas.modelos.Pedido;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.util.ArrayList;
@@ -36,8 +37,40 @@ public class OrdersFragment extends Fragment {
     private String id = "pedidos";
     private Button btnExportar, btnEliminar;
 
-
     public OrdersFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            //visualizar productos exportados
+            case R.id.m_mostrar_exportados:
+                mostrarExportados();
+                return true;
+
+        }
+        return false;
+    }
+
+    private void mostrarExportados() {
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        ExportedProductsFragment fragment = new ExportedProductsFragment();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.commit();
     }
 
     @Nullable
@@ -134,23 +167,31 @@ public class OrdersFragment extends Fragment {
                     }
 
                 }
-                ((MainActivity)getActivity()).recargarFragment(id);
+                //recarga el fragment
+                ((MainActivity) getActivity()).recargarFragment(id);
             }
         });
 
     }
 
-
+    /**
+     * Metodo que obtiene la id de la cabecera a traves de fecha y hora de creacion
+     *
+     * @param fechaHora
+     * @return
+     */
     private ArrayList<String> obtenerIdCabecera(ArrayList<String> fechaHora) {
         ArrayList<String> idCabecera = new ArrayList<>();
         for (String al : fechaHora) {
             System.out.println("Al -> " + al);
+            //obtiene la id
             Cursor c = DatabaseOperations.obtenerInstancia(getActivity()).obtenerIdCabecera(al);
 
             if (c.moveToFirst()) {
                 do {
                     String id = c.getString(0);
                     System.out.println("id -> " + id);
+                    //inserta la id en el array
                     idCabecera.add(id);
                 } while (c.moveToNext());
             }
@@ -160,11 +201,18 @@ public class OrdersFragment extends Fragment {
 
     }
 
+    /**
+     * Metodo para obtener los datos del pedido con la id
+     *
+     * @param idcabecera
+     * @return
+     */
     private List<Pedidos> obtenerPedido(ArrayList<String> idcabecera) {
         List<Pedidos> pedidos = new ArrayList<>();
 
         Cursor c = null;
         for (String al : idcabecera) {
+            //obtiene los datos del pedido
             c = DatabaseOperations.obtenerInstancia(getActivity()).obtenerPedidosSeleccionados(al);
 
             if (c.moveToFirst()) {
@@ -186,6 +234,9 @@ public class OrdersFragment extends Fragment {
         return pedidos;
     }
 
+    /**
+     * Metodo para rellenar el recyclerView
+     */
     private void rellenar() {
         String tipo = "C";
         Cursor c = DatabaseOperations.obtenerInstancia(getActivity()).obtenerCabecera(tipo);

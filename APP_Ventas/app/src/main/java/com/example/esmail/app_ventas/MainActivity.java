@@ -147,21 +147,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.deleteProducts:
                 eliminarProductos();
                 return true;
-            //visualizar productos exportados
-            case R.id.viewExport:
-                mostrarExportados();
-                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void mostrarExportados() {
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        ExportedProductsFragment fragment = new ExportedProductsFragment();
-        fragmentTransaction.replace(R.id.content_frame, fragment);
-        fragmentTransaction.commit();
-    }
 
     private void eliminarClientes() {
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
