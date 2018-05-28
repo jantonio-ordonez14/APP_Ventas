@@ -3,6 +3,7 @@
 
     <string name="menu_delete_customers">Eliminar Clientes</string>
     <string name="menu_delete_products">Eliminar Productos</string>
+    <string name="menu_view_export">Mostrar pedidos exportados</string>
 
     <string name="header_customers">CLIENTES</string>
     <string name="header_products">PRODUCTOS</string>

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.esmail.app_ventas.fragments.CustomersFragment;
+import com.example.esmail.app_ventas.fragments.ExportedProductsFragment;
 import com.example.esmail.app_ventas.fragments.InitialFragment;
 import com.example.esmail.app_ventas.fragments.OrdersFragment;
 import com.example.esmail.app_ventas.fragments.ProductsFragment;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_orders:
                                 fragment = new OrdersFragment();
-                                fragmentTransaction=true;
+                                fragmentTransaction = true;
                                 break;
                             case R.id.menu_salir:
                                 System.exit(0);
@@ -142,9 +143,19 @@ public class MainActivity extends AppCompatActivity {
             case R.id.deleteProducts:
                 eliminarProductos();
                 return true;
+            case R.id.viewExport:
+                mostrarExportados();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void mostrarExportados() {
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        ExportedProductsFragment fragment = new ExportedProductsFragment();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.commit();
     }
 
     private void eliminarClientes() {
@@ -163,19 +174,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void recargarFragment(String id) {
-        switch (id){
+        switch (id) {
             case "clientes":
-                 fragment = new CustomersFragment();
+                fragment = new CustomersFragment();
                 break;
             case "articulos":
-                 fragment = new ProductsFragment();
+                fragment = new ProductsFragment();
                 break;
             case "pedidos":
-                fragment=new OrdersFragment();
+                fragment = new OrdersFragment();
                 break;
         }
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
     }

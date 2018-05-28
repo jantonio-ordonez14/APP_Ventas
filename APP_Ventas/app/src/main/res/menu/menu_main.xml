@@ -9,5 +9,7 @@
         android:id="@+id/deleteProducts"
         android:title="@string/menu_delete_products" />
 
-
+    <item
+        android:id="@+id/viewExport"
+        android:title="@string/menu_view_export" />
 </menu>

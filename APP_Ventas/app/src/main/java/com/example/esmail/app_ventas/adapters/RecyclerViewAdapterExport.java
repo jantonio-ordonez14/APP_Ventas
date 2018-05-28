@@ -45,6 +45,7 @@ public class RecyclerViewAdapterExport
         viewHolder.cliente.setText(exportados.getCliente());
         viewHolder.articulo.setText(exportados.getArticulo());
         viewHolder.unidades.setText(exportados.getUnidades());
+        viewHolder.id_cabecera.setText(exportados.getFk_id_cabecera());
         viewHolder.itemView.setActivated(selectedItems.get(position, false));
     }
 
@@ -54,7 +55,7 @@ public class RecyclerViewAdapterExport
     }
 
     public final static class ListItemViewHolder extends RecyclerView.ViewHolder {
-        TextView id, tipo, fecha, caja, cliente, articulo, unidades;
+        TextView id, tipo, fecha, caja, cliente, articulo, unidades,id_cabecera;
 
         public ListItemViewHolder(View itemView) {
             super(itemView);
@@ -65,6 +66,7 @@ public class RecyclerViewAdapterExport
             cliente = (TextView) itemView.findViewById(R.id.txt_cliente);
             articulo = (TextView) itemView.findViewById(R.id.txt_articulo);
             unidades = (TextView) itemView.findViewById(R.id.txt_unidades);
+            id_cabecera=itemView.findViewById(R.id.txt_id_cabecera);
         }
     }
 }
