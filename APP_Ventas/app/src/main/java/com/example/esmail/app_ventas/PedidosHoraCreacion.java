@@ -1,11 +1,5 @@
 package com.example.esmail.app_ventas;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Timer;
-
 public class PedidosHoraCreacion {
     String fecha, caja, cliente, hora_creacion;
 

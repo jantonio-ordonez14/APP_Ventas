@@ -49,6 +49,37 @@ public final class DatabaseOperations {
 
     }
 
+    public Cursor obtenerExportadoCabecera(String tipo) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        // Columnas
+        String[] projection = {
+                Sales.Exportado.TIPO,
+                Sales.Exportado.FECHA,
+                Sales.Exportado.CAJA,
+                Sales.Exportado.ID_CLIENTE
+
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = Sales.Exportado.TIPO + " = ?";
+        String[] selectionArgs = {tipo};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Sales.ColumnasDetallePedido.ID + " ASC";
+
+        return db.query(
+                DataBasesSales.Tablas.EXPORTADOS,                            // tabla
+                projection,                                 // columnas
+                selection,                              // columnas para la clausula WHERE
+                selectionArgs,                           // valores para la clausula WHERE
+                null,
+                null,
+                sortOrder                                   // The sort order
+        );
+    }
+
     public String insertarExportado(Exportados exportado) {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
@@ -127,7 +158,7 @@ public final class DatabaseOperations {
         );
     }
 
-    public Cursor obtenerPedidosSeleccionados(String idCabecera){
+    public Cursor obtenerPedidosSeleccionados(String idCabecera) {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
         // Columnas
@@ -162,7 +193,7 @@ public final class DatabaseOperations {
         );
     }
 
-    public Cursor obtenerIdCabecera(String horaFecha){
+    public Cursor obtenerIdCabecera(String horaFecha) {
         SQLiteDatabase db = baseDatos.getWritableDatabase();
 
         // Columnas
@@ -296,20 +327,6 @@ public final class DatabaseOperations {
 
         return idDetalle;
     }
-/*
-    public boolean actualizarDetalle(DetallePedido detallePedido, String id) {
-        SQLiteDatabase db = baseDatos.getWritableDatabase();
-
-        ContentValues valores = new ContentValues();
-        valores.put(Sales.DetallesPedido.FK_ID_CABECERA, detallePedido.getFk_id_cabecera());
-
-        String whereClause = String.format("%s=?", Sales.Clientes.ID);
-        final String[] whereArgs = {id};
-
-        int resultado = db.update(DataBasesSales.Tablas.CLIENTE, valores, whereClause, whereArgs);
-
-        return resultado > 0;
-    }*/
 
     public boolean eliminarDetalle() {
         try {
@@ -380,20 +397,7 @@ public final class DatabaseOperations {
         return idcabecera;
 
     }
-/*
-        public boolean actualizararticulo(Articulo articulo) {
-            SQLiteDatabase db = baseDatos.getWritableDatabase();
 
-            ContentValues valores = new ContentValues();
-            valores.put(Sales.Articulos., articulo.nombre);
-
-            String whereClause = String.format("%s=?", Sales.Articulos.ID);
-            String[] whereArgs = {articulo.};
-
-            int resultado = db.update(DataBasesSales.Tablas.articulo, valores, whereClause, whereArgs);
-
-            return resultado > 0;
-        }*/
 
     public boolean eliminarCabecera() {
         try {

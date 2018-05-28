@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.esmail.app_ventas.Export;
+import com.example.esmail.app_ventas.PedidosHoraCreacion;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterCustomers;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterExport;
@@ -22,7 +23,8 @@ import java.util.ArrayList;
 
 public class ExportedProductsFragment extends Fragment {
     private RecyclerView recyclerView;
-    private ArrayList<Exportados> productosExportados;
+    private ArrayList<PedidosHoraCreacion> productosExportados;
+    private RecyclerViewAdapterExport adapter;
 
     public ExportedProductsFragment() {
 
@@ -48,24 +50,23 @@ public class ExportedProductsFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
-
         //adaptador
-        RecyclerViewAdapterExport adapter = new RecyclerViewAdapterExport(productosExportados);
+        adapter = new RecyclerViewAdapterExport(productosExportados);
         recyclerView.setAdapter(adapter);
 
-        //obtenemos clientes
-        Cursor c = DatabaseOperations.obtenerInstancia(getActivity()).obtenerExportado();
+        rellenar();
+    }
+
+    private void rellenar() {
+        //obtenemos pedidos exportados
+        String tipo = "C";
+        Cursor c = DatabaseOperations.obtenerInstancia(getActivity()).obtenerExportadoCabecera(tipo);
         if (c.moveToFirst()) {
             do {
-                String idRegistro = c.getString(1);
-                String tipo = c.getString(2);
-                String fecha = c.getString(3);
-                String caja = c.getString(4);
-                String cliente = c.getString(5);
-                String articulo = c.getString(6);
-                String unidades = c.getString(7);
-                String idCabecera = c.getString(8);
-                productosExportados.add(new Exportados(idRegistro, tipo, fecha, caja, cliente, articulo, unidades, idCabecera));
+                String fecha = c.getString(1);
+                String caja = c.getString(2);
+                String cliente = c.getString(3);
+                productosExportados.add(new PedidosHoraCreacion(fecha, caja, cliente, ""));
 
             } while (c.moveToNext());
         }

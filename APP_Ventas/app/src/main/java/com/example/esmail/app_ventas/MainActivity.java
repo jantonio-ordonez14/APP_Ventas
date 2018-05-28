@@ -58,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
                         switch (menuItem.getItemId()) {
                             case R.id.menu_start:
-
+                                fragment = new InitialFragment();
+                                fragmentTransaction = true;
+                                break;
                             case R.id.menu_customers:
                                 fragment = new CustomersFragment();
                                 fragmentTransaction = true;
