@@ -170,6 +170,9 @@ public class MainActivity extends AppCompatActivity {
             case "articulos":
                  fragment = new ProductsFragment();
                 break;
+            case "pedidos":
+                fragment=new OrdersFragment();
+                break;
         }
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 

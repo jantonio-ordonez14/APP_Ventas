@@ -139,6 +139,7 @@ public final class DatabaseOperations {
                 Sales.Pedidos.FK_ID_CLIENTE,
                 Sales.Pedidos.ARTICULO,
                 Sales.Pedidos.UNIDADES,
+                Sales.Pedidos.FK_ID_CABECERA
 
         };
 
@@ -220,6 +221,18 @@ public final class DatabaseOperations {
         }
 
         return false;
+    }
+
+    public boolean eliminarPedidoExportado(String idCabecera) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        String whereClause = String.format("%s=?", Sales.Pedidos.FK_ID_CABECERA);
+        String[] whereArgs = {idCabecera};
+
+        int resultado = db.delete(DataBasesSales.Tablas.PEDIDOS, whereClause, whereArgs);
+
+        return resultado > 0;
+
     }
 
     // [/OPERACIONES_PEDIDOS]

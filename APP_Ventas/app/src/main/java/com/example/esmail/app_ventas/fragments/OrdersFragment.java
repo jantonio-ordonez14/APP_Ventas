@@ -3,20 +3,25 @@ package com.example.esmail.app_ventas.fragments;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.esmail.app_ventas.Export;
+import com.example.esmail.app_ventas.MainActivity;
 import com.example.esmail.app_ventas.Pedidos;
 import com.example.esmail.app_ventas.PedidosHoraCreacion;
 import com.example.esmail.app_ventas.R;
 import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterOrders;
+import com.example.esmail.app_ventas.modelos.Exportados;
+import com.example.esmail.app_ventas.modelos.Pedido;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 import java.util.ArrayList;
@@ -28,6 +33,7 @@ public class OrdersFragment extends Fragment {
     private RecyclerView rv;
     private List<PedidosHoraCreacion> pedidosHoraCreacions;
     private RecyclerViewAdapterOrders adapter;
+    private String id="pedidos";
 
 
     public OrdersFragment() {
@@ -61,7 +67,6 @@ public class OrdersFragment extends Fragment {
         rellenar();
         //boton exportar
         Button exp = getView().findViewById(R.id.exportar);
-        final TextView mostrar = getView().findViewById(R.id.mostrar);
         exp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,10 +86,32 @@ public class OrdersFragment extends Fragment {
                     List<Pedidos> pd = obtenerPedido(idCabecera);
                     //exportar el pedido
                     new Export(pd, getActivity()).action();
+                    //insertar en la tabla exportados
+                    for (Pedidos al :
+                            pd) {
+                        System.out.println("idregistro -> " + al.getIdregistro() + "\ttipo -> " + al.getTipo() + "\tfecha -> " + al.getFecha() +
+                                "\tcaja -> " + al.getCaja() + "\tidcliente -> " + al.getCliente() + "\tArticulo -> " + al.getArticulo() +
+                                "\tunidades -> " + al.getUnidades() + "\tcabecera -> " + al.getFk_id_cabecera());
+                        DatabaseOperations.obtenerInstancia(getActivity()).insertarExportado(new Exportados(al.getIdregistro(), al.getTipo(),
+                                al.getFecha(), al.getCaja(), al.getCliente(), al.getArticulo(), al.getUnidades(), al.getFk_id_cabecera()));
+                    }
+                    //eliminar pedidos exportados
+                    for (String al : idCabecera) {
+                        if (DatabaseOperations.obtenerInstancia(getActivity()).eliminarPedidoExportado(al)){
+                            Log.i("OrdersFragment", "Pedido Eliminado");
+                            ((MainActivity)getActivity()).recargarFragment(id);
+                        }
+                    }
+
+
                 }
+
+
             }
+
         });
     }
+
 
     private ArrayList<String> obtenerIdCabecera(ArrayList<String> fechaHora) {
         ArrayList<String> idCabecera = new ArrayList<>();
@@ -121,8 +148,9 @@ public class OrdersFragment extends Fragment {
                     String cliente = c.getString(4);
                     String articulo = c.getString(5);
                     String unidades = c.getString(6);
+                    String fk_id_cabecera = c.getString(7);
 
-                    pedidos.add(new Pedidos(tipo, id, fecha, caja, cliente, articulo, unidades));
+                    pedidos.add(new Pedidos(tipo, id, fecha, caja, cliente, articulo, unidades, fk_id_cabecera));
                 } while (c.moveToNext());
             }
         }

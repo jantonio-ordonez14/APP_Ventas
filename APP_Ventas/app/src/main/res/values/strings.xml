@@ -23,6 +23,7 @@
     <string name="btn_cliente">AÑADIR</string>
     <string name="btn_importar">IMPORTAR</string>
     <string name="btn_eliminar">ELIMINAR</string>
+    <string name="btn_exportar">EXPORTAR</string>
 
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>

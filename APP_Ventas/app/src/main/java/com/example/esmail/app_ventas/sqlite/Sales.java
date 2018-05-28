@@ -9,7 +9,7 @@ public class Sales {
 
     interface ColumnasCabeceraPedido {
         String ID = "_id";
-        String TIPO="tipo";
+        String TIPO = "tipo";
         String FECHA = "fecha";
         String CAJA = "caja";
         String FK_ID_CLIENTE = "fk_id_cliente";
@@ -18,7 +18,7 @@ public class Sales {
     interface ColumnasDetallePedido {
         String ID = "_id";
         String TIPO = "tipo";
-        String ARTICULO="articulo";
+        String ARTICULO = "articulo";
         String UNIDADES = "unidades";
         String FK_ID_CABECERA = "fk_id_cabecera";
     }
@@ -39,27 +39,27 @@ public class Sales {
         String NOMBRE = "nombre";
     }
 
-    interface ColumnasPedido{
+    interface ColumnasPedido {
         String ID = "_id";
-        String TIPO="tipo";
+        String TIPO = "tipo";
         String FECHA = "fecha";
         String CAJA = "caja";
         String FK_ID_CLIENTE = "fk_id_cliente";
-        String ARTICULO="articulo";
+        String ARTICULO = "articulo";
         String UNIDADES = "unidades";
-        String FK_ID_CABECERA="fk_id_cabecera";
-        String FECHA_Y_HORA="fecha_y_hora";
+        String FK_ID_CABECERA = "fk_id_cabecera";
+        String FECHA_Y_HORA = "fecha_y_hora";
     }
 
-    interface ColumnasExportado{
-        String IDREGISTRO="id_registro";
-        String TIPO="tipo";
+    interface ColumnasExportado {
+        String IDREGISTRO = "id_registro";
+        String TIPO = "tipo";
         String FECHA = "fecha";
         String CAJA = "caja";
         String ID_CLIENTE = "id_cliente";
-        String ARTICULO="articulo";
+        String ARTICULO = "articulo";
         String UNIDADES = "unidades";
-        String FK_ID_CABECERA="fk_id_cabecera";
+        String FK_ID_CABECERA = "fk_id_cabecera";
 
     }
 
@@ -94,11 +94,12 @@ public class Sales {
         }
     }
 
-    public static class Exportado implements ColumnasExportado{
+    public static class Exportado implements ColumnasExportado {
         public static String generarIdExportados() {
             return "EXP-" + UUID.randomUUID().toString();
         }
     }
+
     private Sales() {
     }
 

@@ -18,14 +18,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Exportar" />
+                android:text="@string/btn_exportar" />
 
-            <TextView
-                android:id="@+id/mostrar"
+            <Button
+                android:id="@+id/eliminar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="TextView" />
+                android:text="@string/btn_eliminar" />
+
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
