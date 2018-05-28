@@ -53,7 +53,7 @@ public class ExportedProductsFragment extends Fragment {
         //adaptador
         adapter = new RecyclerViewAdapterExport(productosExportados);
         recyclerView.setAdapter(adapter);
-
+        //rellenamos el recyclerView
         rellenar();
     }
 

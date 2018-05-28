@@ -33,7 +33,8 @@ public class OrdersFragment extends Fragment {
     private RecyclerView rv;
     private List<PedidosHoraCreacion> pedidosHoraCreacions;
     private RecyclerViewAdapterOrders adapter;
-    private String id="pedidos";
+    private String id = "pedidos";
+    private Button btnExportar, btnEliminar;
 
 
     public OrdersFragment() {
@@ -45,7 +46,8 @@ public class OrdersFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_orders, container, false);
         //recyclerview
         rv = v.findViewById(R.id.rv_orders);
-
+        btnExportar = v.findViewById(R.id.exportar);
+        btnEliminar = v.findViewById(R.id.eliminar);
         pedidosHoraCreacions = new ArrayList<>();
 
         return v;
@@ -66,8 +68,7 @@ public class OrdersFragment extends Fragment {
         //rellenar recycleview
         rellenar();
         //boton exportar
-        Button exp = getView().findViewById(R.id.exportar);
-        exp.setOnClickListener(new View.OnClickListener() {
+        btnExportar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LinkedList<PedidosHoraCreacion> marcados = adapter.obtenerSeleccionados();
@@ -97,9 +98,9 @@ public class OrdersFragment extends Fragment {
                     }
                     //eliminar pedidos exportados
                     for (String al : idCabecera) {
-                        if (DatabaseOperations.obtenerInstancia(getActivity()).eliminarPedidoExportado(al)){
+                        if (DatabaseOperations.obtenerInstancia(getActivity()).eliminarPedidoExportado(al)) {
                             Log.i("OrdersFragment", "Pedido Eliminado");
-                            ((MainActivity)getActivity()).recargarFragment(id);
+                            ((MainActivity) getActivity()).recargarFragment(id);
                         }
                     }
 
@@ -110,6 +111,33 @@ public class OrdersFragment extends Fragment {
             }
 
         });
+        //boton eliminar
+        btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinkedList<PedidosHoraCreacion> marcados = adapter.obtenerSeleccionados();
+                ArrayList<String> contenidoMarcados = new ArrayList<>();
+                //obtener la fecha y hora de creacion
+                for (PedidosHoraCreacion os : marcados) {
+                    contenidoMarcados.add(os.getHora_creacion());
+                }
+                System.out.println(contenidoMarcados);
+                //obtener la id de la cabecera
+                ArrayList<String> idCabecera = obtenerIdCabecera(contenidoMarcados);
+                System.out.println("CAbecera -> " + idCabecera);
+
+                if (idCabecera != null) {
+                    //obtener el pedido con esa id
+                    for (String al :
+                            idCabecera) {
+                        DatabaseOperations.obtenerInstancia(getActivity()).eliminarPedidoExportado(al);
+                    }
+
+                }
+                ((MainActivity)getActivity()).recargarFragment(id);
+            }
+        });
+
     }
 
 

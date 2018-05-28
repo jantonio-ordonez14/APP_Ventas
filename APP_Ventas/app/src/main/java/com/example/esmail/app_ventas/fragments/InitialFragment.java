@@ -46,7 +46,7 @@ public class InitialFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.e("InitialFragment","onActivityCreated");
+        Log.v("InitialFragment","onActivityCreated");
         mostrarClientes();
         mostrarProductos();
     }
@@ -115,7 +115,7 @@ public class InitialFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Log.e("InitialFragment","onPause");
+        Log.v("InitialFragment","onPause");
 
 
     }
@@ -123,7 +123,7 @@ public class InitialFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("InitialFragment","onResume");
+        Log.v("InitialFragment","onResume");
         mostrarClientes();
         mostrarProductos();
     }

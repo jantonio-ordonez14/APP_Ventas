@@ -18,6 +18,7 @@ import com.example.esmail.app_ventas.adapters.RecyclerViewAdapterFilterCustomers
 import com.example.esmail.app_ventas.modelos.Cliente;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,7 +70,7 @@ public class MakeSaleFragmentHeader extends Fragment {
             public void onClick(View v) {
                 int position = rv.getChildAdapterPosition(v);
                 btnSiguiente.setEnabled(true);
-                clienteSelected=clientes.get(position).getCod_articulo();
+                clienteSelected = clientes.get(position).getCod_articulo();
             }
         });
         rv.setAdapter(adapter);
@@ -121,24 +122,31 @@ public class MakeSaleFragmentHeader extends Fragment {
             public void onClick(View v) {
                 //obtenemos la fecha
                 String fecha = etFecha.getText().toString();
-                //si se deja vacio, se coje la del hoy
-                if (fecha.isEmpty()) {
+                //si se deja vacio, coje la del hoy
+                if (fecha.isEmpty() || !validarFecha(fecha)) {
                     fecha = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
                 }
                 //obtenemos la caja
                 String caja = etCaja.getText().toString();
 
-
-                System.out.println("Fecha --> " + fecha);
-                System.out.println("Caja --> " +
-                        "" + caja);
-                System.out.println("Cliente --> " + clienteSelected);
                 //enviamos los parametros al activity para que se envien al fragment
                 ((MakeSale) getActivity()).setParametersToFragment(fecha, caja, clienteSelected);
 
             }
         });
         return v;
+    }
+
+    private boolean validarFecha(String fecha) {
+        SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
+        boolean result = true;
+        try {
+            sfd.parse(fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            result = false;
+        }
+        return result;
     }
 
 }

@@ -40,8 +40,8 @@ public class RecyclerViewAdapterExport
     public void onBindViewHolder(ListItemViewHolder viewHolder, int position) {
         PedidosHoraCreacion exportados = items.get(position);
         viewHolder.fecha.setText(exportados.getFecha());
-        viewHolder.caja.setText(exportados.getCaja());
-        viewHolder.cliente.setText(exportados.getCliente());
+        viewHolder.caja.setText("CAJA: "+exportados.getCaja());
+        viewHolder.cliente.setText("CLIENTE: "+exportados.getCliente());
         viewHolder.itemView.setActivated(selectedItems.get(position, false));
     }
 
