@@ -139,15 +139,15 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
-                //eliminar clientes
+            //eliminar clientes
             case R.id.deleteCustomers:
                 eliminarClientes();
                 return true;
-                //eliminar productos
+            //eliminar productos
             case R.id.deleteProducts:
                 eliminarProductos();
                 return true;
-                //visualizar productos exportados
+            //visualizar productos exportados
             case R.id.viewExport:
                 mostrarExportados();
                 return true;
