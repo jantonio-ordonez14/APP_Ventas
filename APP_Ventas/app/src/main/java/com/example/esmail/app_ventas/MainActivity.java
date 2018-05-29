@@ -98,6 +98,9 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Fecha atras
+     */
     @Override
     public void onBackPressed() {
         if (mFragmentManager.getBackStackEntryCount() > 1)
@@ -152,10 +155,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     private void eliminarClientes() {
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
         operations.eliminarClientes();
+        //recarga el activity
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
@@ -163,11 +166,16 @@ public class MainActivity extends AppCompatActivity {
     private void eliminarProductos() {
         DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
         operations.eliminarArticulos();
+        //recarga el activity
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
-
+    /**
+     * Metodo para recargar fragments
+     *
+     * @param id
+     */
     public void recargarFragment(String id) {
         switch (id) {
             case "clientes":

@@ -1,5 +1,6 @@
 package com.example.esmail.app_ventas.makesale;
 
+import android.app.DatePickerDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -235,7 +237,8 @@ public class MakeSale extends AppCompatActivity {
             pedido.add(new Pedido(cabecera.get(i).getTipo(), cabecera.get(i).getFecha(), cabecera.get(i).getCaja(),
                     cabecera.get(i).getFk_id_cliente(), "", "", idCabecera, creacion));
             for (int j = 0; j < detalle.size(); j++) {
-                pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "", detalle.get(j).getArticulo(), detalle.get(j).getUnidades(), idCabecera,""));
+                pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "",
+                        detalle.get(j).getArticulo(), detalle.get(j).getUnidades(), idCabecera,""));
             }
         }
 
@@ -245,7 +248,8 @@ public class MakeSale extends AppCompatActivity {
                     pd.getArticulo() + "\t" + pd.getUnidades() +"\t" + pd.getCreacion());
 
             DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
-            operations.insertarPedidos(new Pedido(pd.getTipo(), pd.getFecha(), pd.getCaja(), pd.getCliente(), pd.getArticulo(), pd.getUnidades(), pd.getFk_id_cabecera(), pd.getCreacion()));
+            operations.insertarPedidos(new Pedido(pd.getTipo(), pd.getFecha(), pd.getCaja(), pd.getCliente(),
+                    pd.getArticulo(), pd.getUnidades(), pd.getFk_id_cabecera(), pd.getCreacion()));
         }
 
 
@@ -305,4 +309,6 @@ public class MakeSale extends AppCompatActivity {
 
         return alDetalle;
     }
+
+
 }

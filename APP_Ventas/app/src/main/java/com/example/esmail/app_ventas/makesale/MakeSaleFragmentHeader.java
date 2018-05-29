@@ -1,5 +1,6 @@
 package com.example.esmail.app_ventas.makesale;
 
+import android.app.DatePickerDialog;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.esmail.app_ventas.R;
@@ -23,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MakeSaleFragmentHeader extends Fragment {
+public class MakeSaleFragmentHeader extends Fragment implements View.OnClickListener{
 
     private EditText etFecha, etCaja, etCliente, etSearch;
     private RecyclerView rv;
@@ -38,6 +40,7 @@ public class MakeSaleFragmentHeader extends Fragment {
         View v = inflater.inflate(R.layout.fragment_make_sale_header, container, false);
         //obtener instancias
         etFecha = v.findViewById(R.id.et_fecha);
+        etFecha.setOnClickListener((View.OnClickListener) this);
         etCaja = v.findViewById(R.id.et_caja);
         etCliente = v.findViewById(R.id.et_cliente);
         etSearch = v.findViewById(R.id.et_search);
@@ -123,7 +126,7 @@ public class MakeSaleFragmentHeader extends Fragment {
                 //obtenemos la fecha
                 String fecha = etFecha.getText().toString();
                 //si se deja vacio, coje la del hoy
-                if (fecha.isEmpty() || !validarFecha(fecha)) {
+                if (fecha.isEmpty()) {
                     fecha = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
                 }
                 //obtenemos la caja
@@ -137,16 +140,28 @@ public class MakeSaleFragmentHeader extends Fragment {
         return v;
     }
 
-    private boolean validarFecha(String fecha) {
-        SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
-        boolean result = true;
-        try {
-            sfd.parse(fecha);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            result = false;
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.et_fecha:
+                showDatePickerDialog();
+                break;
         }
-        return result;
     }
 
+    public void showDatePickerDialog() {
+        DatePickerFragment newFragment = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                // +1 because january is zero
+                final String selectedDate = twoDigits(day) + "/" + twoDigits((month+1)) + "/" + twoDigits(year);
+                etFecha.setText(selectedDate);
+            }
+        });
+        newFragment.show(getActivity().getFragmentManager().beginTransaction(), "datePicker");
+    }
+
+    private String twoDigits(int n) {
+        return (n<=9) ? ("0"+n) : String.valueOf(n);
+    }
 }

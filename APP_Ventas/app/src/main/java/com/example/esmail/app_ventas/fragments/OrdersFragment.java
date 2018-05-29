@@ -43,7 +43,7 @@ public class OrdersFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //menu
         setHasOptionsMenu(true);
 
     }
@@ -66,6 +66,9 @@ public class OrdersFragment extends Fragment {
         return false;
     }
 
+    /**
+     * Metodo que lanza un fragment
+     */
     private void mostrarExportados() {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         ExportedProductsFragment fragment = new ExportedProductsFragment();
@@ -77,10 +80,11 @@ public class OrdersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_orders, container, false);
-        //recyclerview
+        //instancias
         rv = v.findViewById(R.id.rv_orders);
         btnExportar = v.findViewById(R.id.exportar);
         btnEliminar = v.findViewById(R.id.eliminar);
+
         pedidosHoraCreacions = new ArrayList<>();
 
         return v;
@@ -136,11 +140,7 @@ public class OrdersFragment extends Fragment {
                             ((MainActivity) getActivity()).recargarFragment(id);
                         }
                     }
-
-
                 }
-
-
             }
 
         });

@@ -47,10 +47,15 @@ public class InitialFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.v("InitialFragment","onActivityCreated");
+        //muestra los clientes
         mostrarClientes();
+        //muestra los articulos
         mostrarProductos();
     }
 
+    /**
+     * Metodo para rellenar el recyclerView
+     */
     private void mostrarClientes() {
         ArrayList<Cliente> clientes = new ArrayList<>();
         //recycler view
@@ -82,7 +87,9 @@ public class InitialFragment extends Fragment {
 
 
     }
-
+    /**
+     * Metodo para rellenar el recyclerView
+     */
     private void mostrarProductos() {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
