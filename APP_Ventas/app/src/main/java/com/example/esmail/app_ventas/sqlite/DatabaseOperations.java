@@ -328,6 +328,61 @@ public final class DatabaseOperations {
         return idDetalle;
     }
 
+    public Boolean consultarDetalle(String codBarras) {
+        SQLiteDatabase db = baseDatos.getReadableDatabase();
+
+        // Columnas
+        String[] projection = {
+                Sales.DetallesPedido.ARTICULO
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = Sales.DetallesPedido.ARTICULO + " = ?";
+        String[] selectionArgs = {codBarras};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                Sales.Articulos.ID + " ASC";
+
+        Cursor c = db.query(
+                DataBasesSales.Tablas.DETALLE_PEDIDO,                            // tabla
+                projection,                                 // columnas
+                selection,                              // columnas para la clausula WHERE
+                selectionArgs,                           // valores para la clausula WHERE
+                null,
+                null,
+                sortOrder                                   // The sort order
+        );
+        String valor = "";
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+                valor = c.getString(0);
+
+            } while (c.moveToNext());
+        }
+        if (codBarras.length() == valor.length()) {
+            return true;
+        } else return false;
+    }
+
+    public boolean actualizarArticuloDetalles(DetallePedido detallePedido) {
+        SQLiteDatabase db = baseDatos.getWritableDatabase();
+
+        ContentValues valores = new ContentValues();
+        valores.put(Sales.DetallesPedido.TIPO, detallePedido.getTipo());
+        valores.put(Sales.DetallesPedido.ARTICULO, detallePedido.getArticulo());
+        valores.put(Sales.DetallesPedido.UNIDADES, detallePedido.getUnidades());
+        valores.put(Sales.DetallesPedido.FK_ID_CABECERA, detallePedido.getFk_id_cabecera());
+
+        String whereClause = String.format("%s=?", Sales.DetallesPedido.ARTICULO);
+        final String[] whereArgs = {detallePedido.getArticulo()};
+
+        int resultado = db.update(DataBasesSales.Tablas.DETALLE_PEDIDO, valores, whereClause, whereArgs);
+
+        return resultado > 0;
+    }
+
     public boolean eliminarDetalle() {
         try {
             SQLiteDatabase db = baseDatos.getWritableDatabase();

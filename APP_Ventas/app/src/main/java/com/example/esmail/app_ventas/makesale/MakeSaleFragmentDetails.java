@@ -97,8 +97,12 @@ public class MakeSaleFragmentDetails extends Fragment {
             System.out.println("Tipo -> " + tipo + "\tArticulo -> " + c_barras + "\tUnidades -> " + unidades + "\tId Cab -> " + idCabecera);
 
             DatabaseOperations operations = DatabaseOperations.obtenerInstancia(getActivity());
-            // insertar detalles
-            operations.insertarDetalles(new DetallePedido(tipo, c_barras, unidades, idCabecera));
+            if (operations.consultarDetalle(c_barras)) {
+                operations.actualizarArticuloDetalles(new DetallePedido(tipo, c_barras, unidades, idCabecera));
+            } else {
+                // insertar detalles
+                operations.insertarDetalles(new DetallePedido(tipo, c_barras, unidades, idCabecera));
+            }
             // iniciar arraylist
             al = new ArrayList<DetallePedido>();
             // recyclerview
