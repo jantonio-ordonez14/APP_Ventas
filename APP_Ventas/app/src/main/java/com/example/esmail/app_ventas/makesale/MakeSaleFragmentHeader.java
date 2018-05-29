@@ -164,4 +164,6 @@ public class MakeSaleFragmentHeader extends Fragment implements View.OnClickList
     private String twoDigits(int n) {
         return (n<=9) ? ("0"+n) : String.valueOf(n);
     }
+
+
 }

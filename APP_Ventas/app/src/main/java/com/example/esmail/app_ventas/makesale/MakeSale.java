@@ -1,26 +1,25 @@
 package com.example.esmail.app_ventas.makesale;
 
-import android.app.DatePickerDialog;
+import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.esmail.app_ventas.Export;
 import com.example.esmail.app_ventas.MainActivity;
 import com.example.esmail.app_ventas.R;
-import com.example.esmail.app_ventas.makesale.MakeSaleFragmentDetails;
-import com.example.esmail.app_ventas.makesale.MakeSaleFragmentHeader;
 import com.example.esmail.app_ventas.modelos.CabeceraPedido;
 import com.example.esmail.app_ventas.modelos.DetallePedido;
 import com.example.esmail.app_ventas.modelos.Pedido;
@@ -36,6 +35,9 @@ import java.util.Date;
 import static com.example.esmail.app_ventas.scanner.ScanActivity.EXTRA;
 
 public class MakeSale extends AppCompatActivity {
+    private static final int ZBAR_CAMERA_PERMISSION = 0;
+    private Class<?> mClss;
+
     private String unidades;
     private String TAG = "MakeSale";
     private String resultado = null;
@@ -191,6 +193,8 @@ public class MakeSale extends AppCompatActivity {
      */
     public void inicializeScan() {
         try {
+            //lanza los permisos
+            launchActivity(MakeSale.class);
             AlertDialog.Builder b = new AlertDialog.Builder(this);
             b.setTitle(getResources().getString(R.string.dialog_scanner));
 
@@ -228,7 +232,7 @@ public class MakeSale extends AppCompatActivity {
     private void hacerPedido(String idCabecera) {
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
-        String creacion=String.valueOf(hourdateFormat.format(date));
+        String creacion = String.valueOf(hourdateFormat.format(date));
         ArrayList<Pedido> pedido = new ArrayList<>();
         ArrayList<CabeceraPedido> cabecera = obtenerDetallesCabecera(idCabecera);
         ArrayList<DetallePedido> detalle = obtenerDetallesPedido(idCabecera);
@@ -238,14 +242,14 @@ public class MakeSale extends AppCompatActivity {
                     cabecera.get(i).getFk_id_cliente(), "", "", idCabecera, creacion));
             for (int j = 0; j < detalle.size(); j++) {
                 pedido.add(new Pedido(detalle.get(j).getTipo(), "", "", "",
-                        detalle.get(j).getArticulo(), detalle.get(j).getUnidades(), idCabecera,""));
+                        detalle.get(j).getArticulo(), detalle.get(j).getUnidades(), idCabecera, ""));
             }
         }
 
         for (Pedido pd :
                 pedido) {
             System.out.println(pd.getTipo() + "\t" + pd.getFecha() + "\t" + pd.getCaja() + "\t" + pd.getCliente() + "\t" +
-                    pd.getArticulo() + "\t" + pd.getUnidades() +"\t" + pd.getCreacion());
+                    pd.getArticulo() + "\t" + pd.getUnidades() + "\t" + pd.getCreacion());
 
             DatabaseOperations operations = DatabaseOperations.obtenerInstancia(this);
             operations.insertarPedidos(new Pedido(pd.getTipo(), pd.getFecha(), pd.getCaja(), pd.getCliente(),
@@ -310,5 +314,49 @@ public class MakeSale extends AppCompatActivity {
         return alDetalle;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mFragmentManager.getBackStackEntryCount() > 1)
+            mFragmentManager.popBackStack();
+        else {
+            finish();
+        }
+    }
 
+    /**
+     * Permisos
+     *
+     * @param clss
+     */
+
+    public void launchActivity(Class<?> clss) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            mClss = clss;
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA}, ZBAR_CAMERA_PERMISSION);
+        } else {
+        }
+    }
+
+    /**
+     * Permisos camara
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case ZBAR_CAMERA_PERMISSION:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (mClss != null) {
+                    }
+                } else {
+                    Toast.makeText(this, "No se han aceptado los permisos de la cámara", Toast.LENGTH_SHORT).show();
+                }
+                return;
+        }
+    }
 }

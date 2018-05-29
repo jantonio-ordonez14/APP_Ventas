@@ -1,11 +1,15 @@
 package com.example.esmail.app_ventas;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.esmail.app_ventas.fragments.CustomersFragment;
 import com.example.esmail.app_ventas.fragments.ExportedProductsFragment;
@@ -23,6 +28,8 @@ import com.example.esmail.app_ventas.makesale.MakeSale;
 import com.example.esmail.app_ventas.sqlite.DatabaseOperations;
 
 public class MainActivity extends AppCompatActivity {
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    private Class<?> mClss;
 
     private Toolbar appbar;
     private DrawerLayout drawerLayout;
@@ -35,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //lanza los permisos
+        launchActivity(MainActivity.class);
 
         mFragmentManager = getFragmentManager();
 
@@ -71,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.menu_make_sale:
                                 startActivity(new Intent(getApplicationContext(), MakeSale.class));
-                                finish();
                                 break;
                             case R.id.menu_orders:
                                 fragment = new OrdersFragment();
@@ -191,5 +200,40 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment);
         fragmentTransaction.commit();
+    }
+
+    /**
+     * Revisa los permisos
+     *
+     * @param clss
+     */
+    public void launchActivity(Class<?> clss) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            mClss = clss;
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        }
+    }
+
+    /**
+     * permiso de escritura
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (mClss != null) {
+                    }
+                } else {
+                    Toast.makeText(this,"No se han aceptado los permisos de escritura", Toast.LENGTH_SHORT).show();
+                }
+                return;
+        }
     }
 }

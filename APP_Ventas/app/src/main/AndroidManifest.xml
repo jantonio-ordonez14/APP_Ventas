@@ -27,7 +27,8 @@
         <activity
             android:name=".makesale.MakeSale"
             android:label="@string/title_activity_make_sale"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>
