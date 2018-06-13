@@ -37,7 +37,6 @@ public class MakeSaleFragmentDetails extends Fragment {
         View v = inflater.inflate(R.layout.fragment_make_sale_details, container, false);
         Log.e("Fragment", "onCreateView");
 
-
         return v;
     }
 
