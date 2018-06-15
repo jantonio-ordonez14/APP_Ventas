@@ -50,7 +50,7 @@ public class ProductsImport {
                     alAux.add(row[i]);
                 }
                 DatabaseOperations databaseOperations = DatabaseOperations.obtenerInstancia(context);
-                if (databaseOperations.consultarArticulo(alAux.get(1))){
+                    if (databaseOperations.consultarArticulo(alAux.get(1))){
                     databaseOperations.actualizarArticulo(alAux.get(2),alAux.get(3),alAux.get(4),alAux.get(5),alAux.get(1));
                 }else
                 databaseOperations.insertarArticulos(new Articulo(alAux.get(0), alAux.get(1),alAux.get(2),alAux.get(3),alAux.get(4),alAux.get(5)));
